@@ -1,8 +1,7 @@
 import {
-    Navigate,
-    RouterProvider,
-    createBrowserRouter,
-    createHashRouter,
+  Navigate,
+  RouterProvider,
+  createHashRouter,
 } from "react-router-dom";
 import PrivateRoute from "./components/privateRoute";
 import Dashboard from "./pages/dashboard";
@@ -38,12 +37,15 @@ import { isLoggedIn } from "./utils/helper";
 import { TOKEN_STORAGE } from "./utils/constants";
 import { LoginUserContext } from "./App";
 import Users from "./pages/dashboard/employees/users/Users";
+import Roles from "./pages/dashboard/employees/roles/Roles";
+import Vehicles from "./pages/dashboard/vehicles";
+
 // User data fetching and role determination
 interface User {
-    id?: number;
-    name?: string;
-    email?: string;
-    role_name?: string;
+  id?: number;
+  name?: string;
+  email?: string;
+  role_name?: string;
 }
 // const useRoleName = () => {
 //     const [getUser, { data, isSuccess }] = useGetUserMutation();
@@ -91,382 +93,389 @@ interface User {
 //     return roleName == permissions?.role_name || roleName == permissions?.role_collection? <DeliveryReports /> : <Reports />; // Conditionally render based on roleName
 // };
 
-
 let router = createHashRouter(
-    [
+  [
+    {
+      path: "",
+      element: <Navigate to="/login" />,
+    },
+    {
+      path: "",
+      element: (
+        <PublicRoute>
+          <LogoLayout />
+        </PublicRoute>
+      ),
+      children: [
         {
-            path: "",
-            element: <Navigate to="/login" />,
+          path: "login",
+          element: <Login />,
         },
         {
-            path: "",
-            element: (
-                <PublicRoute>
-                    <LogoLayout />
-                </PublicRoute>
-            ),
-            children: [
-                {
-                    path: "login",
-                    element: <Login />,
-                },
-                {
-                    path: "forgot-password",
-                    element: <Forgot />,
-                },
-                {
-                    path: "reset-password",
-                    element: <Reset />,
-                },
-            ],
+          path: "forgot-password",
+          element: <Forgot />,
         },
         {
-            path: "dashboard",
-            element: (
-                <PrivateRoute>
-                    <Dashboard />
-                </PrivateRoute>
-            ),
-            children: [
+          path: "reset-password",
+          element: <Reset />,
+        },
+      ],
+    },
+    {
+      path: "dashboard",
+      element: (
+        <PrivateRoute>
+          <Dashboard />
+        </PrivateRoute>
+      ),
+      children: [
+        {
+          path: "invoices",
+          // element: <Invoice />,
+          children: [
+            {
+              path: "",
+              element: <InvoicesList />,
+              children: [
                 {
-                    path: "invoices",
-                    // element: <Invoice />,
-                    children: [
-                        {
-                            path: "",
-                            element: <InvoicesList />,
-                            children: [
-                                {
-                                    path: "",
-                                    element: <Navigate to="/dashboard/invoices/deliveries" />,
-                                },
-                                {
-                                    path: "deliveries",
-                                    element: <InvoiceDeliveries />,
-                                },
-                                {
-                                    path: "collections",
-                                    element: <Collections />,
-                                },
-                                {
-                                    path: "completed",
-                                    element: <Completed />,
-                                },
-                            ],
-                        },
-                        {
-                            path: ":invoiceNo",
-                            element: <InvoiceDetails />,
-                        },
-                    ],
+                  path: "",
+                  element: <Navigate to="/dashboard/invoices/deliveries" />,
                 },
                 {
-                    path: "batch/:batchNo/:id",
-                    element: <BatchDetails />,
+                  path: "deliveries",
+                  element: <InvoiceDeliveries />,
                 },
                 {
-                    path: "batches",
-                    // element: <Invoice />,
-                    children: [
-                        {
-                            path: "",
-                            element: <BatchsList />,
-                            children: [
-                                {
-                                    path: "",
-                                    element: <Navigate to="/dashboard/batches/deliveries" />,
-                                },
-                                {
-                                    path: "deliveries",
-                                    element: <BatchDeliveries />,
-                                },
-                                {
-                                    path: "collections",
-                                    element: <BatchCollections />,
-                                },
-                                {
-                                    path: "completed",
-                                    element: <Completed />,
-                                },
-                            ],
-                        },
+                  path: "collections",
+                  element: <Collections />,
+                },
+                {
+                  path: "completed",
+                  element: <Completed />,
+                },
+              ],
+            },
+            {
+              path: ":invoiceNo",
+              element: <InvoiceDetails />,
+            },
+          ],
+        },
+        {
+          path: "batch/:batchNo/:id",
+          element: <BatchDetails />,
+        },
+        {
+          path: "batches",
+          // element: <Invoice />,
+          children: [
+            {
+              path: "",
+              element: <BatchsList />,
+              children: [
+                {
+                  path: "",
+                  element: <Navigate to="/dashboard/batches/deliveries" />,
+                },
+                {
+                  path: "deliveries",
+                  element: <BatchDeliveries />,
+                },
+                {
+                  path: "collections",
+                  element: <BatchCollections />,
+                },
+                {
+                  path: "completed",
+                  element: <Completed />,
+                },
+              ],
+            },
 
-                        {
-                            path: "collections/:batchNo/:id",
-                            element: <BatchDetails />,
-                        },
-                    ],
-                },
-                {
-                    path: "payments",
-                    // element: <Invoice />,
-                    children: [
-                        {
-                            path: "",
-                            element: <PaymentsList />,
-                            children: [
-                                {
-                                    path: "",
-                                    element: <Navigate to="/dashboard/payments/deliveries" />,
-                                },
-                                {
-                                    path: "deliveries",
-                                    element: <PaymentDeliveries />,
-                                },
-                                {
-                                    path: "collections",
-                                    element: <Collections />,
-                                },
-                                {
-                                    path: "completed",
-                                    element: <Completed />,
-                                },
-                            ],
-                        },
-                        {
-                            path: ":paymentNo",
-                            element: <PaymentDetails />,
-                        },
-                    ],
-                },
-                {
-                    path: "employees",
-                    children: [
-                        {
-                            path: "users",
-                            element: <Users />
-                        }
-                    ]
-                },
-                {
-                    path: "otp_hold/:invoice_id",
-                    element: <OTPHOLD />,
-                },
-                {
-                    path: "collection/otp_hold/:invoice_id",
-                    element: <OTPHOLD />,
-                },
-                {
-                    path: "payment_collection/:invoice_id",
-                    element: <PaymentCollection />,
-                },
-                {
-                    path: "collection/payment_collection/:invoice_id",
-                    element: <PaymentCollection />,
-                },
-                // {
-                //     path: "collection/upload_image/:id",
-                //     element: <UploadImage />,
-                // },
-                // {
-                //     path: "upload_image/:id",
-                //     element: <UploadImage />,
-                // },
-                {
-                    path: "batches/report/:batchNo/:id",
-                    element: <Reports />,
-                },
-                {
-                    path: "batches/collections/report/:batchNo/:id",
-                    element: <Reports />,
-                },
-                // {
-                //     path: "/dashboard/batches/deliveries_associate",
-                //     element: <DeliveryAssociate />,
-                // },
-                // {
-                //     path: "/dashboard/batches/collections_associate",
-                //     element: <DeliveryAssociate />,
-                // },
-                // {
-                //     path: "batches/collections/report_associate/:batchNo/:id",
-                //     element: <RoleBasedComponentReport />,
-                // },
-                // {
-                //     path: "batches/report_associate/:batchNo/:id",
-                //     element: <RoleBasedComponentReport />,
-                // },
-            ],
+            {
+              path: "collections/:batchNo/:id",
+              element: <BatchDetails />,
+            },
+          ],
         },
-    ]
-    // {
-    // basename: "/indeliv2/public",
-    // }
+        {
+          path: "payments",
+          // element: <Invoice />,
+          children: [
+            {
+              path: "",
+              element: <PaymentsList />,
+              children: [
+                {
+                  path: "",
+                  element: <Navigate to="/dashboard/payments/deliveries" />,
+                },
+                {
+                  path: "deliveries",
+                  element: <PaymentDeliveries />,
+                },
+                {
+                  path: "collections",
+                  element: <Collections />,
+                },
+                {
+                  path: "completed",
+                  element: <Completed />,
+                },
+              ],
+            },
+            {
+              path: ":paymentNo",
+              element: <PaymentDetails />,
+            },
+          ],
+        },
+        {
+          path: "employees",
+          children: [
+            {
+              path: "users",
+              element: <Users />,
+            },
+            {
+              path: "roles",
+              element: <Roles />,
+            },
+          ],
+        },
+        {
+          path: "vehicles",
+          element: <Vehicles />,
+        },
+        {
+          path: "otp_hold/:invoice_id",
+          element: <OTPHOLD />,
+        },
+        {
+          path: "collection/otp_hold/:invoice_id",
+          element: <OTPHOLD />,
+        },
+        {
+          path: "payment_collection/:invoice_id",
+          element: <PaymentCollection />,
+        },
+        {
+          path: "collection/payment_collection/:invoice_id",
+          element: <PaymentCollection />,
+        },
+        // {
+        //     path: "collection/upload_image/:id",
+        //     element: <UploadImage />,
+        // },
+        // {
+        //     path: "upload_image/:id",
+        //     element: <UploadImage />,
+        // },
+        {
+          path: "batches/report/:batchNo/:id",
+          element: <Reports />,
+        },
+        {
+          path: "batches/collections/report/:batchNo/:id",
+          element: <Reports />,
+        },
+        // {
+        //     path: "/dashboard/batches/deliveries_associate",
+        //     element: <DeliveryAssociate />,
+        // },
+        // {
+        //     path: "/dashboard/batches/collections_associate",
+        //     element: <DeliveryAssociate />,
+        // },
+        // {
+        //     path: "batches/collections/report_associate/:batchNo/:id",
+        //     element: <RoleBasedComponentReport />,
+        // },
+        // {
+        //     path: "batches/report_associate/:batchNo/:id",
+        //     element: <RoleBasedComponentReport />,
+        // },
+      ],
+    },
+  ]
+  // {
+  // basename: "/indeliv2/public",
+  // }
 );
-let routerDelivery = createHashRouter(
-    [
-        {
+let routerDelivery = createHashRouter([
+  {
+    path: "",
+    element: <Navigate to="/login" />,
+  },
+  {
+    path: "",
+    element: (
+      <PublicRoute>
+        <LogoLayout />
+      </PublicRoute>
+    ),
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "forgot-password",
+        element: <Forgot />,
+      },
+      {
+        path: "reset-password",
+        element: <Reset />,
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "batches",
+        // element: <DeliveryAssociate />, // This should be correct
+        children: [
+          {
             path: "",
-            element: <Navigate to="/login" />,
-        },
-        {
+            element: <Navigate to="/dashboard/batches/deliveries" />,
+          },
+          {
+            path: "deliveries",
+            element: <DeliveryAssociate />, // Make sure this component is correct
+          },
+        ],
+      },
+      {
+        path: "otp_hold/:invoice_id",
+        element: <OTPHOLD />,
+      },
+      {
+        path: "payment_collection/:invoice_id",
+        element: <PaymentCollection />,
+      },
+      {
+        path: "batches/report/:batchNo/:id",
+        element: <DeliveryReports />,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/dashboard" />,
+      },
+    ],
+  },
+]);
+let routercollection = createHashRouter([
+  {
+    path: "",
+    element: <Navigate to="/login" />,
+  },
+  {
+    path: "",
+    element: (
+      <PublicRoute>
+        <LogoLayout />
+      </PublicRoute>
+    ),
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "forgot-password",
+        element: <Forgot />,
+      },
+      {
+        path: "reset-password",
+        element: <Reset />,
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "batches",
+        // element: <DeliveryAssociate />, // This should be correct
+        children: [
+          {
             path: "",
-            element: (
-                <PublicRoute>
-                    <LogoLayout />
-                </PublicRoute>
-            ),
-            children: [
-                {
-                    path: "login",
-                    element: <Login />,
-                },
-                {
-                    path: "forgot-password",
-                    element: <Forgot />,
-                },
-                {
-                    path: "reset-password",
-                    element: <Reset />,
-                },
-            ],
-        },
-        {
-            path: "dashboard",
-            element: (
-                <PrivateRoute>
-                    <Dashboard />
-                </PrivateRoute>
-            ),
-            children: [
-                {
-                    path: "batches",
-                    // element: <DeliveryAssociate />, // This should be correct
-                    children: [
-                        {
-                            path: "",
-                            element: <Navigate to="/dashboard/batches/deliveries" />,
-                        },
-                        {
-                            path: "deliveries",
-                            element: <DeliveryAssociate />, // Make sure this component is correct
-                        },
-                    ],
-                },
-                {
-                    path: "otp_hold/:invoice_id",
-                    element: <OTPHOLD />,
-                },
-                {
-                    path: "payment_collection/:invoice_id",
-                    element: <PaymentCollection />,
-                },
-                {
-                    path: "batches/report/:batchNo/:id",
-                    element: <DeliveryReports />,
-                },
-                {
-                    path: "*",
-                    element: <Navigate to="/dashboard" />,
-                },
-            ],
-        },
-    ]
-);
-let routercollection = createHashRouter(
-    [
-        {
-            path: "",
-            element: <Navigate to="/login" />,
-        },
-        {
-            path: "",
-            element: (
-                <PublicRoute>
-                    <LogoLayout />
-                </PublicRoute>
-            ),
-            children: [
-                {
-                    path: "login",
-                    element: <Login />,
-                },
-                {
-                    path: "forgot-password",
-                    element: <Forgot />,
-                },
-                {
-                    path: "reset-password",
-                    element: <Reset />,
-                },
-            ],
-        },
-        {
-            path: "dashboard",
-            element: (
-                <PrivateRoute>
-                    <Dashboard />
-                </PrivateRoute>
-            ),
-            children: [
-                {
-                    path: "batches",
-                    // element: <DeliveryAssociate />, // This should be correct
-                    children: [
-                        {
-                            path: "",
-                            element: <Navigate to="/dashboard/batches/collections" />,
-                        },
-                        {
-                            path: "collections",
-                            element: <DeliveryAssociate />, // Make sure this component is correct
-                        },
-                    ],
-                },
-                {
-                    path: "collection/otp_hold/:invoice_id",
-                    element: <OTPHOLD />,
-                },
-                {
-                    path: "collection/payment_collection/:invoice_id",
-                    element: <PaymentCollection />,
-                },
-                {
-                    path: "batches/collections/report/:batchNo/:id",
-                    element: <DeliveryReports />,
-                },
-                {
-                    path: "*",
-                    element: <Navigate to="/dashboard" />,
-                },
-            ],
-        },
-    ]
-);
+            element: <Navigate to="/dashboard/batches/collections" />,
+          },
+          {
+            path: "collections",
+            element: <DeliveryAssociate />, // Make sure this component is correct
+          },
+        ],
+      },
+      {
+        path: "collection/otp_hold/:invoice_id",
+        element: <OTPHOLD />,
+      },
+      {
+        path: "collection/payment_collection/:invoice_id",
+        element: <PaymentCollection />,
+      },
+      {
+        path: "batches/collections/report/:batchNo/:id",
+        element: <DeliveryReports />,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/dashboard" />,
+      },
+    ],
+  },
+]);
 export default function MyRouter() {
-    const [getUser, { data, isSuccess }] = useGetUserMutation();
-    const context = useContext(LoginUserContext)
-    const [loggedIn, setLoggedIn] = useState<boolean>(isLoggedIn());
-    const [userData, setUserData] = useState<User>({});
-    const authToken = localStorage.getItem(TOKEN_STORAGE);
-    // useEffect(() => {
-    //     if (authToken) {
-    //         getUser();
-    //     }
-    // }, [authToken]);
-    // console.log(data, "0980980980890")
-    useEffect(() => {
-        // console.log("data changed", data);
-        // console.log(context?.loginUserData, 'auth')
-        if (context?.loginUserData && context?.loginUserData?.role_name) {
-            setUserData({ ...context?.loginUserData }); // Update state when data is available
-        }
-    }, [context]);
-    return (<>
-        {
-            // userData?.role_name ?
-            userData?.role_name?.includes(permissions?.role_name)
-                ? <RouterProvider router={routerDelivery} />
-                : userData?.role_name?.includes(permissions?.role_collection)
-                    ? <RouterProvider router={routercollection} />
-                    :<RouterProvider router={router} />
-            // < RouterProvider router={loginUserData?.role_name == permissions?.role_name ? routerDelivery : loginUserData?.role_name == permissions?.role_collection ? routercollection : router} />
-            // :
-            // <div style={{ height: "100vh" }} className="d-flex justify-content-center align-items-center">
-            //     <div>
-            //         <Loading className="loadingCircle" />
-            //     </div>
-            // </div>
-        }
-    </>)
+  const [getUser, { data, isSuccess }] = useGetUserMutation();
+  const context = useContext(LoginUserContext);
+  const [loggedIn, setLoggedIn] = useState<boolean>(isLoggedIn());
+  const [userData, setUserData] = useState<User>({});
+  const authToken = localStorage.getItem(TOKEN_STORAGE);
+  // useEffect(() => {
+  //     if (authToken) {
+  //         getUser();
+  //     }
+  // }, [authToken]);
+  // console.log(data, "0980980980890")
+  useEffect(() => {
+    // console.log("data changed", data);
+    // console.log(context?.loginUserData, 'auth')
+    if (context?.loginUserData && context?.loginUserData?.role_name) {
+      setUserData({ ...context?.loginUserData }); // Update state when data is available
+    }
+  }, [context]);
+  return (
+    <>
+      {
+        // userData?.role_name ?
+        userData?.role_name?.includes(permissions?.role_name) ? (
+          <RouterProvider router={routerDelivery} />
+        ) : userData?.role_name?.includes(permissions?.role_collection) ? (
+          <RouterProvider router={routercollection} />
+        ) : (
+          <RouterProvider router={router} />
+        )
+        // < RouterProvider router={loginUserData?.role_name == permissions?.role_name ? routerDelivery : loginUserData?.role_name == permissions?.role_collection ? routercollection : router} />
+        // :
+        // <div style={{ height: "100vh" }} className="d-flex justify-content-center align-items-center">
+        //     <div>
+        //         <Loading className="loadingCircle" />
+        //     </div>
+        // </div>
+      }
+    </>
+  );
 }
