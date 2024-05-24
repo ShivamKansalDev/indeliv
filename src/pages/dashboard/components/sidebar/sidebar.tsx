@@ -71,11 +71,13 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
       screens: [
         {
           id: "empScreen1",
-          name: "Users"
+          name: "Users",
+          link: "/dashboard/employees/users"
         },
         {
           id: "empScreen2",
-          name: "Roles"
+          name: "Roles",
+          link: "/dashboard/employees/roles"
         }
       ],
       link: "/dashboard/employees/users",
@@ -129,7 +131,7 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
       <div className="d-flex flex-column sidebar  menu-container flex-shrink-0  ">
         <ul className="nav nav-pills flex-column mb-auto">
           {menus?.map((menu: any, index: number) => (
-            <li key={index} className="nav-item" onClick={() => {
+            <li key={`${index}`} className="nav-item" onClick={() => {
               setOpenNav?.(false);
               if(menu?.name === "Employees"){
                 setSelectedEmployee(!selectedEmployee)
@@ -138,26 +140,49 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
               }
             }}>
               <div>
-                <Link className={`nav-link d-flex sidebar-link ${location.pathname.startsWith(menu?.link) ? 'active' : menu?.name == "Batches" ? location.pathname.startsWith('/dashboard/batch') ? 'active' : '' : ''}`} to={menu?.link}>
-                  <img
-                    src={menu?.icon(location.pathname.startsWith(menu.link) ? true : menu?.name == "Batches" ? location.pathname.startsWith('/dashboard/batch') ? true : false : false)}
-                    alt={menu?.name}
-                  />
-                  <span>{menu?.name}</span>
-                  {(menu?.name === "Employees") && (
-                    <img 
-                      src={menu?.rightIcon(location.pathname.startsWith(menu.link) ? true : menu?.name == "Employees" ?       location.pathname.startsWith('/dashboard/employees') ? true : false : false)}
-                      alt={menu.name}
+                {(menu?.name === "Employees")? (
+                  <Link className={`nav-link d-flex sidebar-link ${location.pathname.startsWith("/dashboard/employees") ? 'active' : menu?.name == "Employees" ? location.pathname.startsWith("/dashboard/employees") ? 'active' : '' : ''}`}
+                  to={menu?.link}>
+                    <img
+                      src={menu?.icon(location.pathname.startsWith(menu.link) ? true : menu?.name == "Batches" ? location.pathname.startsWith('/dashboard/batch') ? true : false : false)}
+                      alt={menu?.name}
                     />
-                  )}
-                </Link>
+                    <span>{menu?.name}</span>
+                    {(menu?.name === "Employees") && (
+                      <img
+                        style={{transform: (!selectedEmployee && !location.pathname.startsWith(menu.link)) ? 'rotate(0deg)' : (selectedEmployee && location.pathname.startsWith(menu.link))? 'rotate(0deg)' : 'rotate(180deg)' }} 
+                        src={menu?.rightIcon(location.pathname.startsWith(menu.link) ? true : menu?.name == "Employees" ?       location.pathname.startsWith('/dashboard/employees') ? true : false : false)}
+                        alt={menu.name}
+                      />
+                    )}
+                  </Link>
+                )
+                : 
+                (
+
+                  <Link className={`nav-link d-flex sidebar-link ${location.pathname.startsWith(menu?.link) ? 'active' : menu?.name == "Batches" ? location.pathname.startsWith('/dashboard/batch') ? 'active' : '' : ''}`}
+                  to={menu?.link}>
+                    <img
+                      src={menu?.icon(location.pathname.startsWith(menu.link) ? true : menu?.name == "Batches" ? location.pathname.startsWith('/dashboard/batch') ? true : false : false)}
+                      alt={menu?.name}
+                    />
+                    <span>{menu?.name}</span>
+                  </Link>
+                )}
               </div>
               {(selectedEmployee && (menu.name === "Employees")) && (
                 (Array.isArray(menu?.screens)) && menu?.screens?.map((screen: any) => {
                   return (
-                    <div key={screen?.id}>
-                      <span>{screen?.name}</span>
-                    </div>
+                    <Link to={screen?.link} style={{textDecoration: "none",}} onClick={(event) => {
+                      event.stopPropagation();
+                    }}>
+                      <div style={{marginTop: "10px"}} key={screen?.id}>
+                        <p style={{marginLeft: "47px" ,
+                        backgroundColor: location.pathname.includes(screen?.name?.toLowerCase()) ? "#ECF7FF" : '#FFFFFF', 
+                        color: location.pathname.includes(screen?.name?.toLowerCase()) ? "#0080FC" : "#767676",
+                        padding: "5px", borderRadius: "5px"}}>{screen?.name}</p>
+                      </div>
+                    </Link>
                   );
                 })
               )}
