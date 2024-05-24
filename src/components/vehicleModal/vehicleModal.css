@@ -1,0 +1,22 @@
+.custom-dropdown-toggle {
+    width: 100%;  
+    text-align: start !important;  
+    background-color: white !important;
+    color:black !important
+  }
+  
+  .custom-dropdown-menu {
+    width: 50%;  
+    /* color: black; */
+  }
+
+.res{
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.bor{
+  border: unset !important;
+}
+ 

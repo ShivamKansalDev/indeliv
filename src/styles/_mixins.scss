@@ -1,0 +1,69 @@
+// Mixin for media queries
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == "phone" {
+    @media (max-width: 600px) {
+      @content;
+    }
+  } @else if $breakpoint == "tablet-portrait" {
+    @media (max-width: 900px) {
+      @content;
+    }
+  } @else if $breakpoint == "tablet-landscape" {
+    @media (max-width: 900px) {
+      @content;
+    }
+  } @else if $breakpoint == "desktop" {
+    @media (max-width: 1800px) {
+      @content;
+    }
+  } @else if $breakpoint == "big-desktop" {
+    @media (min-width: 1801px) {
+      @content;
+    }
+  }
+}
+
+// Mixin for flex container
+@mixin flex-container(
+  $direction: row,
+  $justify: flex-start,
+  $align: stretch,
+  $wrap: nowrap
+) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+
+// Mixin for flex item
+@mixin flex-item($grow: 0, $shrink: 1, $basis: auto) {
+  flex-grow: $grow;
+  flex-shrink: $shrink;
+  flex-basis: $basis;
+}
+
+// Mixin for  transformation
+@mixin transform($properties) {
+  -webkit-transform: $properties;
+  -ms-transform: $properties;
+  transform: $properties;
+}
+
+// Mixin for transitions
+@mixin transition($properties: all 0.3s ease) {
+  -webkit-transition: $properties;
+  -moz-transition: $properties;
+  -o-transition: $properties;
+  transition: $properties;
+}
+
+@mixin square($l, $strict: false) {
+  width: $l;
+  height: $l;
+  @if ($strict) {
+    min-width: $l;
+    min-height: $l;
+  }
+}

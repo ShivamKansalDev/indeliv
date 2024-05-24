@@ -1,0 +1,35 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.history-line-component {
+  @include flex-container(row, flex-start, center);
+  min-height: 32px;
+  gap: 12px;
+  &:not(:last-child) {
+    margin-bottom: 12px;
+  }
+  .img-container {
+    background: rgba($primary5, 10%);
+    @include square(32px, true);
+    @include flex-container(row, center, center);
+    border-radius: 8px;
+  }
+  .val-container {
+    @include flex-container(column, center);
+    gap: 3px;
+  }
+  .text-14 {
+    line-height: 15.4px;
+    display: block;
+    color: $gray6;
+  }
+  .text-12 {
+    display: block;
+    color: $gray9;
+    font: {
+      size: 12px;
+      weight: 500;
+    }
+    line-height: 13.2px;
+  }
+}

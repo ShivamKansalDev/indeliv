@@ -1,0 +1,63 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.data-table-component {
+  width: 100%;
+  border: 1px solid $stock1 {
+    radius: 8px;
+    collapse: separate;
+    spacing: 0;
+  }
+  overflow: hidden;
+
+  %cell-props {
+    padding-left: 24px;
+  }
+
+  thead {
+    background: $gray2;
+    border-radius: 8px;
+    th {
+      @extend %cell-props;
+      --th-pad: 13px;
+      padding: {
+        top: var(--th-pad);
+        bottom: var(--th-pad);
+      }
+      color: $gray7;
+      font: {
+        size: 12px;
+        weight: 500;
+      }
+    }
+  }
+  tbody {
+    tr {
+      &:last-of-type {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+    td {
+      @extend %cell-props;
+      color: $base-black;
+      font-size: 14px;
+      border-bottom: 1px solid $stock1;
+      --td-pad: 26px;
+      padding: {
+        top: var(--td-pad);
+        bottom: var(--td-pad);
+      }
+      &.small-padding {
+        --td-pad: 12px;
+      }
+    }
+  }
+}
+@include respond-to("tablet-landscape") {
+  .data-table-component tbody td.price {
+    font-weight: 500;
+    color: #212121;
+  }
+}
