@@ -17,7 +17,7 @@ const ActiveDeactiveModal = (props: any) => {
     deactivateOpen = false,
     setDeactivateOpen = () => {},
     setSelectedUser = () => {}
-  } = props;
+  } = props; 
   const user: User = props.selectedUser;
   return (
     <Modal show={deactivateOpen} 
