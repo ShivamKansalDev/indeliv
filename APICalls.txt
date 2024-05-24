@@ -1,0 +1,51 @@
+
+Login:
+https://api.indelivtest.in/api/login
+subdomain=abc
+email=abc@mail.com
+password=test@123
+
+Change Password:
+https://api.indelivtest.in/api/change_password
+subdomain=abc
+api_token=Token Received From Login
+password=test@123
+password_confirmation=test@123
+
+Logout:
+https://api.indelivtest.in/api/logout
+subdomain=abc
+api_token=Token Received From Login
+
+Forgot Password:
+https://api.indelivtest.in/api/forgot_password
+subdomain=abc
+email=abc@mail.com
+
+Reset Password:
+https://api.indelivtest.in/api/reset_password
+subdomain=abc
+reset_token=Token Received From Forgot Password
+password=test@123
+password_confirmation=test@123
+
+Invoices:
+https://api.indelivtest.in/api/invoices
+subdomain=abc
+api_token=Token Received From Login
+
+Batches:
+https://api.indelivtest.in/api/batches
+subdomain=abc
+api_token=Token Received From Login
+
+Payments:
+https://api.indelivtest.in/api/payments
+subdomain=abc
+api_token=Token Received From Login
+
+LoggedIn User Detail:
+https://api.indelivtest.in/api/user
+subdomain=abc
+api_token=Token Received From Login
+

@@ -1,0 +1,190 @@
+.report_accordian_name {
+    font-size: 14px;
+    font-weight: 400;
+    color: #1D2939;
+}
+
+.report-cash-value-associate {
+    font-family: Graphik;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22.4px;
+    text-align: left;
+    padding: 8px 2px 8px 8px;
+    color: #12B76A;
+}
+
+.report-cash-value-associate-pending {
+    font-family: Graphik;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22.4px;
+    text-align: left;
+    padding: 8px 2px 8px 8px;
+    color: #fdb022 !important;
+}
+
+.accordion-button {
+    padding: 16px !important;
+}
+
+.invoice-completed .accordion-collapse.show {
+    border-top: 1px solid transparent !important;
+    border-left: 1px solid #12B76A26 !important;
+    border-right: 1px solid #12B76A26 !important;
+    border-bottom: 1px solid #12B76A26 !important;
+}
+
+.invoice-completed .accordion-button:not(.collapsed) {
+    border-bottom: 1px solid transparent !important;
+    border-left: 1px solid #12B76A26 !important;
+    border-right: 1px solid #12B76A26 !important;
+    border-top: 1px solid #12B76A26 !important;
+}
+
+.invoice-completed .accordion-button {
+    border: 1px solid #12B76A26 !important;
+}
+
+.invoice-pending .accordion-collapse {
+    border-top: 1px solid transparent !important;
+    border-left: 1px solid #f43f5e26 !important;
+    border-right: 1px solid #f43f5e26 !important;
+    border-bottom: 1px solid #f43f5e26 !important;
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+
+.invoice-pending .accordion-button:not(.collapsed) {
+    border-bottom: 1px solid transparent !important;
+    border-left: 1px solid #f43f5e26 !important;
+    border-right: 1px solid #f43f5e26 !important;
+    border-top: 1px solid #f43f5e26 !important;
+}
+
+.invoice-pending .accordion-button {
+    border: 1px solid #f43f5e26 !important;
+}
+
+.report-cash-value-total {
+    color: #9c9c9c;
+}
+
+.modal_main_viewImage {
+    .modal-dialog {
+        width: 60% !important;
+        max-width: 100% !important;
+        // height: 100% !important;
+
+        .modal-content {
+            // height: 100% !important;
+            width: 100% !important;
+        }
+
+    }
+}
+
+.no-border-bottom td {
+    border-bottom: none !important;
+}
+
+// .payment-list-container .accordion-item {
+//     // border: 1px solid red;
+// }
+
+.selectedItemReport {
+    background-color: #F2F4F7;
+    color: #212121;
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 400;
+    // margin-left: 6px;
+    display: flex;
+    height: 30px;
+    width: 30px;
+    align-items: center;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background: url("./../../../assets/svgs/arrow-up.svg") !important;
+    transform: var(--bs-accordion-btn-icon-transform) !important;
+}
+
+.accordion-button.collapsed::after {
+    background: url("./../../../assets/svgs/arrow-up.svg") !important;
+}
+.mobile-user-report{
+    height: 32px;
+    width: 32px;
+    border-radius: 6px;
+}
+/* ========media query================ */
+
+@media (max-width: 1399.98px) {}
+
+@media (max-width: 1199.98px) {}
+
+@media (max-width: 1024px) {
+    .modal_main_viewImage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .modal-dialog {
+            width: 70% !important;
+            max-width: 100% !important;
+            // height: 100% !important;
+            margin: auto;
+
+            .modal-content {
+                // height: 100% !important;
+                width: 100% !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 991.98px) {}
+
+@media (min-width: 767.98px) {}
+
+@media (max-width: 767.98px) {
+
+    .report-cash-value-associate,
+    .report-cash-value-associate-pending {
+        font-size: 14px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .modal_main_viewImage {
+        .modal-dialog {
+            width: 90% !important;
+            max-width: 100% !important;
+            // height: 100% !important;
+            margin: auto;
+
+            .modal-content {
+                // height: 100% !important;
+                width: 100% !important;
+            }
+        }
+    }
+}
+
+
+@media (max-width: 425px) {
+    .product_td_width {
+        width: 55px !important;
+    }
+
+    .product_td_width_qty {
+        width: 20px !important;
+    }
+
+    .selectedItemReport {
+        height: 20px;
+        width: 20px;
+    }
+}
