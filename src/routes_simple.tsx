@@ -1,11 +1,11 @@
 import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  RouterProvider,
-  Routes,
-  createBrowserRouter,
-  createHashRouter,
+    BrowserRouter,
+    Navigate,
+    Route,
+    RouterProvider,
+    Routes,
+    createBrowserRouter,
+    createHashRouter,
 } from "react-router-dom";
 import PrivateRoute from "./components/privateRoute";
 import Dashboard from "./pages/dashboard";

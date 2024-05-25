@@ -394,3 +394,52 @@
     color: #33AAFF;
   }
 }
+
+.deactivate-modal {
+  img {
+    border-radius: 100%;
+    width: 100px;
+  }
+}
+
+.delete-modal {
+  img {
+    border-radius: 100%;
+    width: 100px
+  }
+}
+
+.information-modal {
+  
+  .imp {
+    color: red
+  }
+
+  img {
+    border-radius: 100%;
+    width: 70px;
+  }
+
+  hr {
+    margin: 10px;
+  }
+
+  .custom-dropdown-toggle {
+    width: 100%;  
+    text-align: start !important;  
+    background-color: white !important;
+    color:black !important
+    
+  }
+  
+  .custom-dropdown-menu {
+    width: 50%;  
+  }
+
+.res{
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+}

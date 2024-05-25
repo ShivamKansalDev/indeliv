@@ -1,7 +1,6 @@
 import {
   Navigate,
   RouterProvider,
-  createBrowserRouter,
   createHashRouter,
 } from "react-router-dom";
 import PrivateRoute from "./components/privateRoute";

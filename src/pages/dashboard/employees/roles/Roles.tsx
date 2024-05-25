@@ -1,10 +1,11 @@
 import React from "react";
-import EmployeeHeader from "../users/EmployeeHeader";
+import RolesBody from "./RolesBody";
 
 const Roles: React.FC = () => {
   return (
     <div>
-      <EmployeeHeader />
+      {/* <EmployeeHeader /> */}
+      <RolesBody />
     </div> 
   );
 };

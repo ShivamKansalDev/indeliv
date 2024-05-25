@@ -139,7 +139,7 @@ export default function Dashboard() {
                         <Outlet context={{ setOpenNav } satisfies ContextType} />
                       </div>
                     </div> :
-                    <div className="invoice-component">
+                    <div className={`${location?.pathname?.includes("dashboard/employees/roles")? "invoice-component border-0 bg-transparent shadow-none" : "invoice-component"}`}>
                       <div className="content">
                         <Outlet context={{ setOpenNav } satisfies ContextType} />
                       </div>
