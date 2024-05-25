@@ -141,21 +141,37 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
             }}>
               <div>
                 {(menu?.name === "Employees")? (
-                  <Link className={`nav-link d-flex sidebar-link ${location.pathname.startsWith("/dashboard/employees") ? 'active' : menu?.name == "Employees" ? location.pathname.startsWith("/dashboard/employees") ? 'active' : '' : ''}`}
-                  to={menu?.link}>
-                    <img
-                      src={menu?.icon(location.pathname.startsWith(menu.link) ? true : menu?.name == "Batches" ? location.pathname.startsWith('/dashboard/batch') ? true : false : false)}
-                      alt={menu?.name}
-                    />
-                    <span>{menu?.name}</span>
-                    {(menu?.name === "Employees") && (
+                  <>
+                    <Link className={`nav-link d-flex sidebar-link ${location.pathname.startsWith("/dashboard/employees") ? 'active' : menu?.name == "Employees" ? location.pathname.startsWith("/dashboard/employees") ? 'active' : '' : ''}`}
+                    to={menu?.link}>
+                      <img
+                        src={menu?.icon(location.pathname.startsWith("/dashboard/employees") ? true : false)}
+                        alt={menu?.name}
+                      />
+                      <span>{menu?.name}</span>
                       <img
                         style={{transform: (!selectedEmployee && !location.pathname.startsWith(menu.link)) ? 'rotate(0deg)' : (selectedEmployee && location.pathname.startsWith(menu.link))? 'rotate(0deg)' : 'rotate(180deg)' }} 
                         src={menu?.rightIcon(location.pathname.startsWith(menu.link) ? true : menu?.name == "Employees" ?       location.pathname.startsWith('/dashboard/employees') ? true : false : false)}
                         alt={menu.name}
                       />
+                    </Link>
+                    {(selectedEmployee && (menu.name === "Employees")) && (
+                      (Array.isArray(menu?.screens)) && menu?.screens?.map((screen: any) => {
+                        return (
+                          <Link to={screen?.link} style={{textDecoration: "none",}} onClick={(event) => {
+                            event.stopPropagation();
+                          }}>
+                            <div style={{marginTop: "10px"}} key={screen?.id}>
+                              <p style={{marginLeft: "47px" ,
+                              backgroundColor: location.pathname.includes(screen?.name?.toLowerCase()) ? "#ECF7FF" : 'transparent', 
+                              color: location.pathname.includes(screen?.name?.toLowerCase()) ? "#0080FC" : "#767676",
+                              padding: "5px", borderRadius: "5px"}}>{screen?.name}</p>
+                            </div>
+                          </Link>
+                        );
+                      })
                     )}
-                  </Link>
+                  </>
                 )
                 : 
                 (
@@ -170,22 +186,6 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
                   </Link>
                 )}
               </div>
-              {(selectedEmployee && (menu.name === "Employees")) && (
-                (Array.isArray(menu?.screens)) && menu?.screens?.map((screen: any) => {
-                  return (
-                    <Link to={screen?.link} style={{textDecoration: "none",}} onClick={(event) => {
-                      event.stopPropagation();
-                    }}>
-                      <div style={{marginTop: "10px"}} key={screen?.id}>
-                        <p style={{marginLeft: "47px" ,
-                        backgroundColor: location.pathname.includes(screen?.name?.toLowerCase()) ? "#ECF7FF" : '#FFFFFF', 
-                        color: location.pathname.includes(screen?.name?.toLowerCase()) ? "#0080FC" : "#767676",
-                        padding: "5px", borderRadius: "5px"}}>{screen?.name}</p>
-                      </div>
-                    </Link>
-                  );
-                })
-              )}
             </li>
           ))}
         </ul>

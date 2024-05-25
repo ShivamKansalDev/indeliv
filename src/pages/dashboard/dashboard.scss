@@ -31,6 +31,29 @@
   border: 1px solid #e6e8ec;
 }
 
+.head-font{
+  font-size: 20px !important;
+}
+
+.title-font{
+  font-size: 16px !important;
+}
+
+.subTitle-font{
+  font-size: 12px !important;
+}
+
+.table>:not(caption)>*>* {
+  // padding: 8px 8px!important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border-color: #EFEFEF !important;
+}
+
+.border-radius{
+  border-radius: 16px;
+}
+
 @include respond-to("tablet-landscape") {
   .invoice-component {
     border: 0;
