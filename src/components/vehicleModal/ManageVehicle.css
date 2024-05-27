@@ -1,0 +1,40 @@
+.custom-top-10 {
+    top: 69px !important;
+    left: 240px !important;
+    color:#0080FC !important;
+    background-color: #ECF7FF !important;
+    border: none !important;
+    border-radius: 50px !important;
+    font-weight: 500 !important;
+  }
+  .line{
+    color: #0080FC !important;
+  }
+
+  .bg{
+    background-color: #F6F6F6 !important;
+    
+  }
+
+  .custom-top-20{
+    top: 182px !important;
+    left: 240px !important;
+    color:#0080FC !important;
+    background-color: #ECF7FF !important;
+    border: none !important;
+    border-radius: 50px !important;
+    font-weight: 500 !important; 
+  }
+  .custom-top-30{
+    top: 295px !important;
+    left: 240px !important;
+    color:#0080FC !important;
+    background-color: #ECF7FF !important;
+    border: none !important;
+    border-radius: 50px !important;
+    font-weight: 500 !important; 
+  }
+
+  .gapp{
+    gap: 14px !important;
+  }
