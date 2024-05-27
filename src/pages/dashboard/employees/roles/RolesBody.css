@@ -1,0 +1,16 @@
+.btn-link {
+    text-decoration:  none !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+ }
+
+ .form-control {
+    box-shadow: none !important;
+    border-color: #86b7fe !important;
+ 
+}
+ .form-control:focus-visible {
+    box-shadow: none !important;
+    border-color: #86b7fe !important;
+ 
+}
