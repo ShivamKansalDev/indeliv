@@ -1,123 +1,195 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import "../employees/users/employee-detail.scss";
 import VehicleModal from "@/components/vehicleModal/VehicleModal";
 import { Button } from "react-bootstrap";
 import ManageVehicleModal from "@/components/vehicleModal/ManageVehicleModal";
+import { API } from "@/api";
+import { listVehicles, updateVehicle, vehiclesTypes } from "@/api/vehicles";
+import VehicleHeader from "./VehicleHeader";
 
-interface User {
+interface Vehicle {
   id: number;
-  image: string;
   name: string;
-  mobile: string;
-  role: string;
-  isActive: boolean;
-  isSuspended: boolean;
+  vehicle_type_id: number;
+  created_at: string;
+  updated_at: string;
+  vehicle_type: string;
 }
 
-const arrayData: User[] = [
-  {
-    id: 1,
-    image: "/assets/image/truck.svg",
-    name: "Truck",
-    mobile: "+91 8708393253",
-    role: "admin",
-    isActive: true,
-    isSuspended: false,
-  },
-  {
-    id: 2,
-    image: "/assets/image/user.svg",
-    name: "Truck",
-    mobile: "+91 8708393253",
-    role: "admin",
-    isActive: true,
-    isSuspended: false,
-  },
-  {
-    id: 3,
-    image: "/assets/image/user.svg",
-    name: "Motor Bike",
-    mobile: "+91 8708393253",
-    role: "admin",
-    isActive: false,
-    isSuspended: true,
-  },
-  {
-    id: 4,
-    image: "/assets/image/user.svg",
-    name: "Truck",
-    mobile: "+91 8708393253",
-    role: "admin",
-    isActive: true,
-    isSuspended: false,
-  },
-  {
-    id: 5,
-    image: "/assets/image/user.svg",
-    name: "Motor Bike",
-    mobile: "+91 8708393253",
-    role: "admin",
-    isActive: true,
-    isSuspended: false,
-  },
-  {
-    id: 5,
-    image: "/assets/image/user.svg",
-    name: "Mini Truck",
-    mobile: "+91 8708393253",
-    role: "admin",
-    isActive: true,
-    isSuspended: false,
-  },
-];
+interface VehicleTypes{
+  id: number;
+  name: string;
+  icon: null;
+  category: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface NewVehicle {
+  type: string;
+  licensePlate: string;
+}
 
 const VehicleBody: React.FC = () => {
   const [addEditModal, setAddEditModal] = React.useState<boolean>(false);
   const [showManageModal, setShowManageModal] = React.useState<boolean>(false);
+  const [vehiclesList, setVehiclesList] = useState<Vehicle[]>([]);
+  const [addVehicle, setAddVehicle] = useState<boolean>(false);
+  const [newVehicleDetails, setNewVehicleDetails] = useState<Vehicle>();
+  const [currentSelection, setCurrentSelection] = useState<Vehicle | null>(null);
+  const [vehicleTypes, setVehicleTypes] = useState<VehicleTypes[]>();
+
+  useEffect(() => {
+    if(addVehicle){
+      setAddEditModal(!addEditModal);
+    }
+  }, [addVehicle]);
+
+  useEffect(() => {
+    if(currentSelection){
+      console.log(currentSelection);
+      setAddEditModal(!addEditModal);
+    }
+  }, [currentSelection])
+
+  useEffect(() => {
+    getVehiclesList();
+    getVehicleTypes();
+  }, []);
+
+  async function getVehiclesList(){
+    try {
+      const response = await listVehicles();
+      setVehiclesList(response.data);
+    } catch (error) {
+      console.log("!!! VEHICLES ERROR: ", error);
+    }
+  }
+
+  async function getVehicleTypes(){
+    try {
+      const response = await vehiclesTypes();
+      setVehicleTypes(response.data);
+    } catch (error) {
+      console.log("!!! VEHICLES ERROR: ", error);
+    }
+  }
+
+  async function vehicleUpdate(data: string){
+    try {
+      const response = await updateVehicle(data);
+      getVehiclesList();
+    } catch (error) {
+      console.log("!!! VEHICLES UPDATE ERROR: ", error);
+    }
+  }
+
   return (
-    <div className="employee-detail-page">
-      <div className="content">
-        {arrayData?.map((item: object, index: any): ReactNode => {
-          return (
-            <div key={`${index}userbody`} className="employee-card">
-              <div className="details">
-                <div className="d-flex gap-3">
-                  <img src="/assets/image/truck.svg" alt="user_image" />
-                  <div className="name">
-                    <span className="name_text">Truck</span>
-                    <div className="d-flex gap-2">
-                      License Plate: <span>UK07TA9307</span>
+    <>
+      <VehicleHeader 
+        setAddVehicle={() => setAddVehicle(true)}
+      />
+      <div className="employee-detail-page">
+        <div className="content">
+          {vehiclesList?.map((item: Vehicle, index: any): ReactNode => {
+            return (
+              <div key={`${item.id}userbody`} className="employee-card">
+                <div className="details">
+                  <div className="d-flex gap-3">
+                    {(item.vehicle_type.toLowerCase() === "car")&& (
+                      <img src="/assets/Icon/Car.svg" alt="user_image" />
+                    )}
+                    {(item.vehicle_type.toLowerCase() === "truck")&& (
+                      <img src="/assets/Icon/truck.svg" alt="user_image" />
+                    )}
+                    {(item.vehicle_type.toLowerCase() === "scooter")&& (
+                      <img src="/assets/Icon/Scooter.svg" alt="user_image" />
+                    )}
+                    {(item.vehicle_type.toLowerCase() === "motor bike")&& (
+                      <img src="/assets/Icon/Motor Bike.svg" alt="user_image" />
+                    )}
+                    {(item.vehicle_type.toLowerCase() === "three-wheeled")&& (
+                      <img src="/assets/Icon/Three-Wheeled.svg" alt="user_image" />
+                    )}
+                    {(item.vehicle_type.toLowerCase() === "refrigerated truck")&& (
+                      <img src="/assets/Icon/Refrigerated Truck.svg" alt="user_image" />
+                    )}
+                    {(item.vehicle_type.toLowerCase() === "refrigerated vans")&& (
+                      <img src="/assets/Icon/Refrigerated Truck.svg" alt="user_image" />
+                    )}
+                    {(item.vehicle_type.toLowerCase() === "mini truck")&& (
+                      <img src="/assets/Icon/Mini Truck.svg" alt="user_image" />
+                    )}
+                    {(item.vehicle_type.toLowerCase() === "pick-up trucks")&& (
+                      <img src="/assets/Icon/Pick-up trucks.svg" alt="user_image" />
+                    )}
+                    {(item.vehicle_type.toLowerCase() === "vans")&& (
+                      <img src="/assets/Icon/Vans.svg" alt="user_image" />
+                    )}
+                    <div className="name">
+                      <span className="name_text">{item.vehicle_type}</span>
+                      <div className="d-flex gap-2">
+                        License Plate: <span>{item.name}</span>
+                      </div>
                     </div>
                   </div>
+              
                 </div>
-             
-              </div>
-              <div className="options d-flex justify-content-end">
-                <div className="d-flex  gap-2">
-                  <button className="activate " style={{borderColor:"#EAECF0", color:"#1D2939",fontWeight:"600"}} onClick={() => setAddEditModal(!addEditModal)}>Edit</button>
-                  <button className="delete" style={{fontWeight:"600" ,backgroundColor:"#EE6A5F/8%"}}>Delete</button>
+                <div className="options d-flex justify-content-end">
+                  <div className="d-flex  gap-2">
+                    <button 
+                      className="activate " 
+                      style={{borderColor:"#EAECF0", color:"#1D2939",fontWeight:"600"}} 
+                      onClick={() => setCurrentSelection(item)}
+                    >
+                        Edit
+                    </button>
+                    <button className="delete" style={{fontWeight:"600" ,backgroundColor:"#EE6A5F/8%"}}>Delete</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
 
- 
-     
-      {/* <span>Hello world!</span> */}
-      <VehicleModal 
-        add={false}
-        addEditModal={addEditModal}
-        setAddEditModal={() => setAddEditModal(!addEditModal)}
-        showManageModal={showManageModal}
-        setShowManageModal={() => setShowManageModal(!showManageModal)}
-      />
-      <ManageVehicleModal 
-        showManageModal={showManageModal}
-        setShowManageModal={() => setShowManageModal(!showManageModal)}
-      />
-    </div>
+  
+      
+        {/* <span>Hello world!</span> */}
+        {(addEditModal && (addVehicle || !addVehicle)) && (
+          <VehicleModal 
+            add={addVehicle}
+            currentSelection={currentSelection}
+            vehicleTypes={vehicleTypes}
+            addEditModal={addEditModal}
+            setAddEditModal={() => {
+              setAddEditModal(!addEditModal);
+              setAddVehicle(false);
+            }}
+            showManageModal={showManageModal}
+            setShowManageModal={() => setShowManageModal(!showManageModal)}
+            setNewVehicleDetails={(value: Vehicle) => {
+              if(!addVehicle){
+                const data = `${value.id}?name=${value.name}&vehicle_type_id=${value.vehicle_type_id}`
+                vehicleUpdate(data)
+                // const updateVehiclesList = vehiclesList.map((item) => {
+                //   if(currentSelection?.id === item.id){
+                //     return value
+                //   }
+                //   return {
+                //     ...item
+                //   }
+                // })
+                // setVehiclesList(updateVehiclesList)
+              }
+            }} 
+          />
+        )}
+        <ManageVehicleModal 
+          showManageModal={showManageModal}
+          setShowManageModal={() => setShowManageModal(!showManageModal)}
+        />
+      </div>
+    </>
   );
 };
 
