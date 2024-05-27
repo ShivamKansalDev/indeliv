@@ -6,7 +6,6 @@ import VehicleHeader from "./VehicleHeader";
 const Vehicles: React.FC = () => {
   return (
     <div>
-      <VehicleHeader />
       <VehicleBody />
       {/* <span>Shivam Kansal</span> */}
     </div>

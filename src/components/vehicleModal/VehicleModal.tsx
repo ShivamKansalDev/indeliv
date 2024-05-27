@@ -1,22 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Dropdown, Form, Modal } from "react-bootstrap";
 import "./vehicleModal.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const VehicleModal = ({
-  add = true,
-  addEditModal = false,
-  setAddEditModal = () => {},
-  showManageModal = false,
-  setShowManageModal = () => {}
-}) => {
+interface Vehicle {
+  id: number;
+  name: string;
+  vehicle_type_id: number;
+  created_at: string;
+  updated_at: string;
+  vehicle_type: string;
+}
+
+interface VehicleTypes{
+  id: number;
+  name: string;
+  icon: null;
+  category: string;
+  created_at: string;
+  updated_at: string;
+}
+interface NewVehicle {
+  type: string;
+  licensePlate: string;
+}
+
+const VehicleModal = (props : any) => {
+  const {
+    add = true,
+    addEditModal = false,
+    setAddEditModal = () => {},
+    showManageModal = false,
+    setShowManageModal = () => {},
+    setNewVehicleDetails = (vehicle: Vehicle) => {},
+  } = props;
+  const currentSelection: Vehicle = props.currentSelection;
+  const vehicleTypes: VehicleTypes[] = props.vehicleTypes;
   const [selectedOption, setSelectedOption] = useState("Select Vehicle");
+  const [licensePlate, setLicensePlate] = useState<string>();
 
   const handleSelect = (eventKey: any) => {
     setSelectedOption(eventKey);
   };
 
-  const handleClose = () => setAddEditModal();
+  const handleClose = () => {
+    setAddEditModal();
+    const findVehicle = vehicleTypes.find((item) => item.name === selectedOption);
+    setNewVehicleDetails({
+      ...currentSelection,
+      name: licensePlate,
+      vehicle_type_id: findVehicle?.id,
+      vehicle_type: findVehicle?.name
+    })
+  };
+
+  useEffect(() => {
+    if(!add){
+      const selection = vehicleTypes.find((item) => {
+        // console.log(item.name.toLowerCase() , currentSelection.vehicle_type.toLowerCase());
+        return item.name.toLowerCase() === currentSelection.vehicle_type.toLowerCase()
+      });
+      // console.log("@@@ EDIT: ", selection);
+      if(selection){
+        setSelectedOption(selection.name);
+        setLicensePlate(currentSelection.name);
+      }
+    }
+  }, [addEditModal])
 
   return (
     <Modal show={addEditModal}  onHide={handleClose} centered>
@@ -32,7 +82,7 @@ const VehicleModal = ({
         </div> */}
 
 
-<Modal.Header closeButton>
+        <Modal.Header closeButton>
           <Modal.Title>{add? 'Add Vehicle' : 'Edit Vehicle'}</Modal.Title>
         </Modal.Header>
         <div className=" d-flex justify-content-between">
@@ -52,11 +102,11 @@ const VehicleModal = ({
           </Dropdown.Toggle>
 
           <Dropdown.Menu className="custom-dropdown-menu">
-            <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>
-            <Dropdown.Item eventKey="Motor Bike">Motor Bike</Dropdown.Item>
-            <Dropdown.Item eventKey="Car">Car</Dropdown.Item>
-            <Dropdown.Item eventKey="Refrigerated Van">Refrigerated Van</Dropdown.Item>
-            <Dropdown.Item eventKey="Refrigerated Truck">Refrigerated Truck</Dropdown.Item>
+            {vehicleTypes.map((vehicle) => {
+              return (
+                <Dropdown.Item eventKey={vehicle.name}>{vehicle.name}</Dropdown.Item>
+              );
+            })}
           </Dropdown.Menu>
         </Dropdown>
 
@@ -72,9 +122,14 @@ const VehicleModal = ({
 
 {/* <Form.Label>Email address</Form.Label> */}
               <Form.Control
-                type="email"
+                type="text"
+                value={licensePlate}
                 placeholder="XXXXXXXXX"
                 autoFocus
+                onChange={(e) => {
+                  const regex = /[^A-Z0-9]/g;
+                  setLicensePlate(e.target.value.replace(regex, ''));
+                }}
               />
                <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
