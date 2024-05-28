@@ -4,7 +4,7 @@ import VehicleModal from "@/components/vehicleModal/VehicleModal";
 import { Button } from "react-bootstrap";
 import ManageVehicleModal from "@/components/vehicleModal/ManageVehicleModal";
 import { API } from "@/api";
-import { createVehicle, listVehicles, updateVehicle, vehiclesTypes } from "@/api/vehicles";
+import { createVehicle, deleteVehicle, listVehicles, updateVehicle, vehiclesTypes } from "@/api/vehicles";
 import VehicleHeader from "./VehicleHeader";
 import DeleteVehicleModal from "@/components/vehicleModal/deleteVehicleModal";
 
@@ -47,6 +47,7 @@ const VehicleBody: React.FC = () => {
   const [addVehicle, setAddVehicle] = useState<boolean>(false);
   const [newVehicleDetails, setNewVehicleDetails] = useState<Vehicle>();
   const [currentSelection, setCurrentSelection] = useState<Vehicle | null>(null);
+  const [deleteSelection, setDeleteSelection] = useState<Vehicle | null>(null);
   const [vehicleTypes, setVehicleTypes] = useState<VehicleTypes[]>([]);
   const [selectedVehiclesList, setSelectedVehiclesList] = useState<SelectedVehicle[]>([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -89,6 +90,12 @@ const VehicleBody: React.FC = () => {
   }, [currentSelection])
 
   useEffect(() => {
+    if(deleteSelection){
+      setDeleteModalOpen(!deleteModalOpen)
+    }
+  }, [deleteSelection])
+
+  useEffect(() => {
     getVehiclesList();
     getVehicleTypes();
   }, []);
@@ -129,6 +136,17 @@ const VehicleBody: React.FC = () => {
     }
   }
 
+  async function deleteVehicleItem(){
+    try {
+      if(deleteSelection?.id){
+        const response = await deleteVehicle(deleteSelection?.id);
+        getVehiclesList();
+      }
+    } catch (error) {
+      console.log("!!! VEHICLES DELETE ERROR: ", error);
+    }
+  }
+
   return (
     <>
       <VehicleHeader 
@@ -138,7 +156,8 @@ const VehicleBody: React.FC = () => {
         <DeleteVehicleModal
           deleteModalOpen={deleteModalOpen}
           setDeleteModalOpen={setDeleteModalOpen}
-          role = {arrayData[0]}
+          deleteSelection={deleteSelection}
+          deleteVehicleItem={deleteVehicleItem}
         />
         <div className="content">
           {vehiclesList?.map((item: Vehicle, index: any): ReactNode => {
@@ -198,7 +217,7 @@ const VehicleBody: React.FC = () => {
                       className="delete"
                       style={{ fontWeight: "600", backgroundColor: "#EE6A5F/8%" }}
                       onClick={()=>{
-                        setDeleteModalOpen(!deleteModalOpen)
+                        setDeleteSelection(item);
                       }}
                      >
                       Delete
