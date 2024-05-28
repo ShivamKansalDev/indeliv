@@ -169,7 +169,7 @@ const VehicleBody: React.FC = () => {
                       <img src="/assets/Icon/Car.svg" alt="user_image" />
                     )}
                     {(item.vehicle_type.toLowerCase() === "truck")&& (
-                      <img src="/assets/Icon/truck.svg" alt="user_image" />
+                      <img src="/assets/Icon/Truck.svg" alt="user_image" />
                     )}
                     {(item.vehicle_type.toLowerCase() === "scooter")&& (
                       <img src="/assets/Icon/Scooter.svg" alt="user_image" />
@@ -178,7 +178,7 @@ const VehicleBody: React.FC = () => {
                       <img src="/assets/Icon/Motor Bike.svg" alt="user_image" />
                     )}
                     {(item.vehicle_type.toLowerCase() === "three-wheeled")&& (
-                      <img src="/assets/Icon/Three-Wheeled.svg" alt="user_image" />
+                      <img src="/assets/Icon/Three-wheeled.svg" alt="user_image" />
                     )}
                     {(item.vehicle_type.toLowerCase() === "refrigerated truck")&& (
                       <img src="/assets/Icon/Refrigerated Truck.svg" alt="user_image" />
