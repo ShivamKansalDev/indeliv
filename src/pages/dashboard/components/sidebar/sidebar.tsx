@@ -155,12 +155,15 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
                         alt={menu.name}
                       />
                     </Link>
+
                     {(selectedEmployee && (menu.name === "Employees")) && (
                       (Array.isArray(menu?.screens)) && menu?.screens?.map((screen: any) => {
                         return (
                           <Link to={screen?.link} style={{textDecoration: "none",}} onClick={(event) => {
                             event.stopPropagation();
                           }}>
+                      {/* <img  src='/assets/Icon/Union.svg' alt='union'/>  */}
+
                             <div style={{marginTop: "10px"}} key={screen?.id}>
                               <p style={{marginLeft: "47px" ,
                               backgroundColor: location.pathname.includes(screen?.name?.toLowerCase()) ? "#ECF7FF" : 'transparent', 

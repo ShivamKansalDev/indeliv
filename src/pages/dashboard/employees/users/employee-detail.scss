@@ -313,7 +313,8 @@
 }
 
 .employee-card {
-  width: 49%;
+  // width: 49%;
+  width: 48%;
   // margin: 1%;
   background-color: white;
   display: flex;
@@ -393,6 +394,13 @@
     border: 1.5px solid #33AAFF;
     color: #33AAFF;
   }
+
+ // Media query for mobile devices
+ @media (max-width: 767px) {
+  width: 100%; // Full width on mobile devices
+}
+
+
 }
 
 .deactivate-modal {
