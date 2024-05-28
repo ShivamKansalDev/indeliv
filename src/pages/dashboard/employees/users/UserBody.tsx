@@ -113,7 +113,7 @@ const UserBody: React.FC = () => {
                     <span className="name_text">Satish Singh</span>
                     <div className="d-flex gap-2"> 
                       <img src="/assets/Icon/Phone Number.svg" alt="phone number" />
-                      <span>(+91) 8329472932</span>
+                      <span >(+91) 8329472932</span>
                     </div>
                     <div className="d-flex gap-2"> 
                       <img src="/assets/Icon/Manager.svg" alt="role" />

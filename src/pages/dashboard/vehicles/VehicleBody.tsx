@@ -1,8 +1,9 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import "../employees/users/employee-detail.scss";
 import VehicleModal from "@/components/vehicleModal/VehicleModal";
 import { Button } from "react-bootstrap";
 import ManageVehicleModal from "@/components/vehicleModal/ManageVehicleModal";
+import DeleteVehicleModal from "@/components/vehicleModal/deleteVehicleModal";
 
 interface User {
   id: number;
@@ -74,8 +75,14 @@ const arrayData: User[] = [
 const VehicleBody: React.FC = () => {
   const [addEditModal, setAddEditModal] = React.useState<boolean>(false);
   const [showManageModal, setShowManageModal] = React.useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   return (
     <div className="employee-detail-page">
+      <DeleteVehicleModal
+        deleteModalOpen={deleteModalOpen}
+        setDeleteModalOpen={setDeleteModalOpen}
+        role = {arrayData[0]}
+      />
       <div className="content">
         {arrayData?.map((item: object, index: any): ReactNode => {
           return (
@@ -90,12 +97,29 @@ const VehicleBody: React.FC = () => {
                     </div>
                   </div>
                 </div>
-             
               </div>
               <div className="options d-flex justify-content-end">
                 <div className="d-flex  gap-2">
-                  <button className="activate " style={{borderColor:"#EAECF0", color:"#1D2939",fontWeight:"600"}} onClick={() => setAddEditModal(!addEditModal)}>Edit</button>
-                  <button className="delete" style={{fontWeight:"600" ,backgroundColor:"#EE6A5F/8%"}}>Delete</button>
+                  <button
+                    className="activate "
+                    style={{
+                      borderColor: "#EAECF0",
+                      color: "#1D2939",
+                      fontWeight: "600",
+                    }}
+                    onClick={() => setAddEditModal(!addEditModal)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="delete"
+                    style={{ fontWeight: "600", backgroundColor: "#EE6A5F/8%" }}
+                    onClick={()=>{
+                      setDeleteModalOpen(!deleteModalOpen)
+                    }}
+                 >
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
@@ -103,17 +127,15 @@ const VehicleBody: React.FC = () => {
         })}
       </div>
 
- 
-     
       {/* <span>Hello world!</span> */}
-      <VehicleModal 
+      <VehicleModal
         add={false}
         addEditModal={addEditModal}
         setAddEditModal={() => setAddEditModal(!addEditModal)}
         showManageModal={showManageModal}
         setShowManageModal={() => setShowManageModal(!showManageModal)}
       />
-      <ManageVehicleModal 
+      <ManageVehicleModal
         showManageModal={showManageModal}
         setShowManageModal={() => setShowManageModal(!showManageModal)}
       />

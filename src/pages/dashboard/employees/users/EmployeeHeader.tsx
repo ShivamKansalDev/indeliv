@@ -67,7 +67,7 @@ export default function EmployeeHeader() {
             </div>
             <button className="employee-create-batch" disabled={loading}>
                 <img src={"/assets/Icon/Add.svg"} alt="User Avatar" />
-                <span onClick={handleSubmit}>{
+                <span onClick={handleSubmit} >{
                 "Add Employee"
                 }</span>
             </button>
