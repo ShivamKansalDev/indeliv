@@ -12,7 +12,10 @@ import { useSetOpenNav } from "../index";
 import VehicleModal from "@/components/vehicleModal/VehicleModal";
 import ManageVehicleModal from "@/components/vehicleModal/ManageVehicleModal";
 
-export default function VehicleHeader() {
+export default function VehicleHeader({
+  setAddVehicle = () => {},
+  setNewVehicleDetails = () => {}
+}) {
   const location = useLocation();
   const [searchTxt, setSearchTxt] = useState("");
   const [addEditModal, setAddEditModal] = useState<boolean>(false);
@@ -21,7 +24,7 @@ export default function VehicleHeader() {
   const { setOpenNav } = useSetOpenNav();
   const navigate = useNavigate();
   const handleSubmit = async () => {
-    setAddEditModal(!addEditModal)
+    setAddVehicle();
   };
 
   useEffect(() => {
@@ -68,14 +71,6 @@ export default function VehicleHeader() {
           }}
         />
       </div> */}
-      <VehicleModal 
-        addEditModal={addEditModal}
-        setAddEditModal={() => setAddEditModal(!addEditModal)}
-      />
-      <ManageVehicleModal 
-        showManageModal={showManageModal}
-        setShowManageModal={() => setShowManageModal(!showManageModal)}
-      />
     </div>
   );
 }
