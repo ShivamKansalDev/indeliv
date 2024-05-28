@@ -6,6 +6,7 @@ import ManageVehicleModal from "@/components/vehicleModal/ManageVehicleModal";
 import { API } from "@/api";
 import { createVehicle, listVehicles, updateVehicle, vehiclesTypes } from "@/api/vehicles";
 import VehicleHeader from "./VehicleHeader";
+import DeleteVehicleModal from "@/components/vehicleModal/deleteVehicleModal";
 
 interface Vehicle {
   id: number;
@@ -48,6 +49,7 @@ const VehicleBody: React.FC = () => {
   const [currentSelection, setCurrentSelection] = useState<Vehicle | null>(null);
   const [vehicleTypes, setVehicleTypes] = useState<VehicleTypes[]>([]);
   const [selectedVehiclesList, setSelectedVehiclesList] = useState<SelectedVehicle[]>([]);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     if(addEditModal){
@@ -133,6 +135,11 @@ const VehicleBody: React.FC = () => {
         setAddVehicle={() => setAddVehicle(true)}
       />
       <div className="employee-detail-page">
+        <DeleteVehicleModal
+          deleteModalOpen={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          role = {arrayData[0]}
+        />
         <div className="content">
           {vehiclesList?.map((item: Vehicle, index: any): ReactNode => {
             return (
@@ -187,15 +194,21 @@ const VehicleBody: React.FC = () => {
                     >
                         Edit
                     </button>
-                    <button className="delete" style={{fontWeight:"600" ,backgroundColor:"#EE6A5F/8%"}}>Delete</button>
+                    <button
+                      className="delete"
+                      style={{ fontWeight: "600", backgroundColor: "#EE6A5F/8%" }}
+                      onClick={()=>{
+                        setDeleteModalOpen(!deleteModalOpen)
+                      }}
+                     >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>
             );
           })}
         </div>
-
-  
       
         {/* <span>Hello world!</span> */}
         {(addEditModal && (addVehicle || !addVehicle)) && (
