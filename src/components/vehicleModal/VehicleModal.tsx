@@ -12,6 +12,16 @@ interface Vehicle {
   vehicle_type: string;
 }
 
+interface SelectedVehicle {
+  id: number;
+  name: string;
+  vehicle_type_id: number;
+  created_at: string;
+  updated_at: string;
+  vehicle_type: string;
+  checked: boolean;
+}
+
 interface VehicleTypes{
   id: number;
   name: string;
@@ -19,6 +29,7 @@ interface VehicleTypes{
   category: string;
   created_at: string;
   updated_at: string;
+  checked: boolean;
 }
 interface NewVehicle {
   type: string;
@@ -32,12 +43,15 @@ const VehicleModal = (props : any) => {
     setAddEditModal = () => {},
     showManageModal = false,
     setShowManageModal = () => {},
-    setNewVehicleDetails = (vehicle: Vehicle) => {},
+    setNewVehicleDetails = (vehicle: Vehicle) => {}
   } = props;
   const currentSelection: Vehicle = props.currentSelection;
   const vehicleTypes: VehicleTypes[] = props.vehicleTypes;
+  const vehiclesList: Vehicle[] = props.vehiclesList;
+  const selectedVehiclesList: VehicleTypes[] = props.selectedVehiclesList;
   const [selectedOption, setSelectedOption] = useState("Select Vehicle");
   const [licensePlate, setLicensePlate] = useState<string>();
+  const [uniqueVehiclesList, setUniqueVehiclesList] = useState<Vehicle[]>([]);
 
   const handleSelect = (eventKey: any) => {
     setSelectedOption(eventKey);
@@ -45,13 +59,6 @@ const VehicleModal = (props : any) => {
 
   const handleClose = () => {
     setAddEditModal();
-    const findVehicle = vehicleTypes.find((item) => item.name === selectedOption);
-    setNewVehicleDetails({
-      ...currentSelection,
-      name: licensePlate,
-      vehicle_type_id: findVehicle?.id,
-      vehicle_type: findVehicle?.name
-    })
   };
 
   useEffect(() => {
@@ -102,9 +109,12 @@ const VehicleModal = (props : any) => {
           </Dropdown.Toggle>
 
           <Dropdown.Menu className="custom-dropdown-menu">
-            {vehicleTypes.map((vehicle) => {
+            {selectedVehiclesList?.map((vehicle) => {
+              if(!vehicle.checked){
+                return null;
+              }
               return (
-                <Dropdown.Item eventKey={vehicle.name}>{vehicle.name}</Dropdown.Item>
+                <Dropdown.Item key={`type${vehicle.id}`} eventKey={vehicle.name}>{vehicle.name}</Dropdown.Item>
               );
             })}
           </Dropdown.Menu>
@@ -135,7 +145,19 @@ const VehicleModal = (props : any) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={() => {
+            if(!selectedOption || !licensePlate){
+              return;
+            }
+            const findVehicle = vehicleTypes.find((item) => item.name === selectedOption);
+            setNewVehicleDetails({
+              ...currentSelection,
+              name: licensePlate,
+              vehicle_type_id: findVehicle?.id,
+              vehicle_type: findVehicle?.name
+            })
+            handleClose();
+          }}>
             {(add)? 'Save Changes' : "Apply Changes"}
           </Button>
         </Modal.Footer>

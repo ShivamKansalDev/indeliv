@@ -4,7 +4,7 @@ import VehicleModal from "@/components/vehicleModal/VehicleModal";
 import { Button } from "react-bootstrap";
 import ManageVehicleModal from "@/components/vehicleModal/ManageVehicleModal";
 import { API } from "@/api";
-import { listVehicles, updateVehicle, vehiclesTypes } from "@/api/vehicles";
+import { createVehicle, listVehicles, updateVehicle, vehiclesTypes } from "@/api/vehicles";
 import VehicleHeader from "./VehicleHeader";
 
 interface Vehicle {
@@ -29,6 +29,15 @@ interface NewVehicle {
   type: string;
   licensePlate: string;
 }
+interface SelectedVehicle{
+  id: number;
+  name: string;
+  icon: null;
+  category: string;
+  created_at: string;
+  updated_at: string;
+  checked: boolean;
+}
 
 const VehicleBody: React.FC = () => {
   const [addEditModal, setAddEditModal] = React.useState<boolean>(false);
@@ -37,7 +46,32 @@ const VehicleBody: React.FC = () => {
   const [addVehicle, setAddVehicle] = useState<boolean>(false);
   const [newVehicleDetails, setNewVehicleDetails] = useState<Vehicle>();
   const [currentSelection, setCurrentSelection] = useState<Vehicle | null>(null);
-  const [vehicleTypes, setVehicleTypes] = useState<VehicleTypes[]>();
+  const [vehicleTypes, setVehicleTypes] = useState<VehicleTypes[]>([]);
+  const [selectedVehiclesList, setSelectedVehiclesList] = useState<SelectedVehicle[]>([]);
+
+  useEffect(() => {
+    if(addEditModal){
+      const uniqueNames = new Set();
+      let filteredArray = vehiclesList.filter(obj => {
+        if (!uniqueNames.has(obj.vehicle_type)) {
+          uniqueNames.add(obj.vehicle_type);
+          return true;
+        }
+        return false;
+      });
+      // setUniqueVehiclesList(filteredArray);
+      const selectedList = vehicleTypes.map((item) => {
+        const findIndex = filteredArray.findIndex((subItem) => subItem.vehicle_type.toLowerCase() === item.name.toLowerCase());
+        return {
+          ...item,
+          checked: (findIndex > -1)? true : false
+        }
+      }).filter((item) => {
+        return item.checked === true
+      })
+      setSelectedVehiclesList(selectedList);
+    }
+  }, [addEditModal]);
 
   useEffect(() => {
     if(addVehicle){
@@ -84,6 +118,15 @@ const VehicleBody: React.FC = () => {
     }
   }
 
+  async function addNewVehicle(data: string){
+    try {
+      const response = await createVehicle(data);
+      getVehiclesList();
+    } catch (error) {
+      console.log("!!! VEHICLES UPDATE ERROR: ", error);
+    }
+  }
+
   return (
     <>
       <VehicleHeader 
@@ -120,7 +163,7 @@ const VehicleBody: React.FC = () => {
                     {(item.vehicle_type.toLowerCase() === "mini truck")&& (
                       <img src="/assets/Icon/Mini Truck.svg" alt="user_image" />
                     )}
-                    {(item.vehicle_type.toLowerCase() === "pick-up trucks")&& (
+                    {(item.vehicle_type.toLowerCase() === "pick-up truck")&& (
                       <img src="/assets/Icon/Pick-up trucks.svg" alt="user_image" />
                     )}
                     {(item.vehicle_type.toLowerCase() === "vans")&& (
@@ -158,8 +201,10 @@ const VehicleBody: React.FC = () => {
         {(addEditModal && (addVehicle || !addVehicle)) && (
           <VehicleModal 
             add={addVehicle}
+            selectedVehiclesList={selectedVehiclesList}
             currentSelection={currentSelection}
             vehicleTypes={vehicleTypes}
+            vehiclesList={vehiclesList}
             addEditModal={addEditModal}
             setAddEditModal={() => {
               setAddEditModal(!addEditModal);
@@ -170,16 +215,10 @@ const VehicleBody: React.FC = () => {
             setNewVehicleDetails={(value: Vehicle) => {
               if(!addVehicle){
                 const data = `${value.id}?name=${value.name}&vehicle_type_id=${value.vehicle_type_id}`
-                vehicleUpdate(data)
-                // const updateVehiclesList = vehiclesList.map((item) => {
-                //   if(currentSelection?.id === item.id){
-                //     return value
-                //   }
-                //   return {
-                //     ...item
-                //   }
-                // })
-                // setVehiclesList(updateVehiclesList)
+                vehicleUpdate(data);
+              }else{
+                const data = `name=${value.name}&vehicle_type_id=${value.vehicle_type_id}`;
+                addNewVehicle(data);
               }
             }} 
           />
@@ -187,6 +226,9 @@ const VehicleBody: React.FC = () => {
         <ManageVehicleModal 
           showManageModal={showManageModal}
           setShowManageModal={() => setShowManageModal(!showManageModal)}
+          selectedVehiclesList={selectedVehiclesList}
+          setSelectedVehiclesList={setSelectedVehiclesList}
+          vehicleTypes={vehicleTypes}
         />
       </div>
     </>
