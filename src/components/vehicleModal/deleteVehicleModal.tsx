@@ -1,21 +1,21 @@
 import { Button, Modal } from "react-bootstrap";
  
 
-interface User {
-    id: number;
-    image: string;
-    name: string;
-    mobile: string;
-    role: string;
-    isActive: boolean;
-    isSuspended: boolean;
-  }
+interface Vehicle {
+  id: number;
+  name: string;
+  vehicle_type_id: number;
+  created_at: string;
+  updated_at: string;
+  vehicle_type: string;
+}
 const DeleteVehicleModal = (props: any) => {
   const {
     deleteModalOpen = false,
-    setDeleteModalOpen = () => {}
+    setDeleteModalOpen = () => {},
+    deleteVehicleItem = () => {}
   } = props;
-  const user: User = props.role;
+  const deleteSelection: Vehicle = props.deleteSelection;
   return (
     <Modal show={deleteModalOpen} 
     className="deactivate-modal" centered
@@ -29,12 +29,15 @@ const DeleteVehicleModal = (props: any) => {
         </div>
 
         <div className="flex d-flex justify-content-center my-3">
-          <h6>Are you sure you wish to delete {user?.name} ?</h6>
+          <h6>Are you sure you wish to delete {deleteSelection?.vehicle_type} ?</h6>
         </div>
 
         <div className="d-flex justify-content-end">
           <Button className="me-2" variant="light" onClick={()=>{setDeleteModalOpen(false)}}>No</Button>
-          <Button variant="primary">Yes</Button>
+          <Button variant="primary" onClick={() => {
+            setDeleteModalOpen(false);
+            deleteVehicleItem();
+          }}>Yes</Button>
         </div>
       </div>
     </Modal>
