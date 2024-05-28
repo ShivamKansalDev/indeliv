@@ -1,5 +1,5 @@
+import { useRef, useState } from "react";
 import { Button, Dropdown, Form, Modal } from "react-bootstrap";
-import './InformationModal.css'
 
 interface User{
   id: number;
@@ -19,24 +19,60 @@ const InformationModal = (props: any) => {
         selectedOption
     } = props;
     const user: User = props.selectedUser;
+    const initialProfilePicture: string = "/assets/image/user.png";
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [passwordToggle, setPasswordToggle] = useState(false);
+    const [pic, setPic] = useState<string>(initialProfilePicture)
+    const handleImageClick = () => {
+        fileInputRef!.current!.click();
+    };
+    
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            console.log("Selected file:", file);
+            setPic(URL.createObjectURL(file));
+        }
+    };
+
+    const handleCloseModal = () => {
+        setInformationOpen(false);
+        setPasswordToggle(false);
+        setPic(initialProfilePicture);
+    }
+
   return (
     <Modal show={informationOpen} centered dialogClassName="modal-90w" className="information-modal"
-    onHide={()=> {
-        setInformationOpen(!informationOpen)
-    }}
+
     >
       <div className="p-3" >
-        <p className="mb-0 ms-2">Employee's Information</p>
-        <hr />
+        <div className="modal-header mx-2 px-0 pt-0 pb-2 mb-2">
+            <p className="mb-0 fw-semibold mx-0">Employees Information</p>
+        </div>
         <div className="container">
             <div className="flex d-flex">
                 <div className="me-3">
-                    <img src="/assets/image/user.png" alt="Rajat" className=""/>
+                    <img
+                        src={pic}
+                        className="profile"
+                        alt="Upload"
+                        onClick={handleImageClick}
+                    />
                 </div>
-                <div className="d-flex flex-column justify-content-center">
+                <div className="d-flex flex-column pt-2" onClick={handleImageClick} style={{ cursor: 'pointer' }}>
                     <p className="text-primary mb-0" style={{fontWeight:"600"}}>Upload Your Profile</p>
                     <p className="text-secondary" style={{fontSize: "0.8rem"}}>Max. 800x400px</p>
                 </div>
+                <Form.Group controlId="formFile" className="mb-3">
+                <Form.Control
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
+                />
+
+                </Form.Group>
+
             </div>
             <div className="mt-2">
                 <Form.Label>Role <span className="imp">*</span></Form.Label>
@@ -60,7 +96,7 @@ const InformationModal = (props: any) => {
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
-            <div className="flex d-flex justify-content-between">
+            <div className="flex d-flex justify-content-between mt-3">
                 <div>
                 <Form.Label>First Name <span className="imp">*</span></Form.Label>
                 <Form.Control
@@ -97,18 +133,22 @@ const InformationModal = (props: any) => {
                 </div>
             </div>
             <Form.Label>Set Password <span className="imp">*</span></Form.Label>
-            <Form.Control
-                type="password"
-                placeholder="********"
-                autoFocus
-            />
+            <div className="flex d-flex">
+                <Form.Control
+                    type={passwordToggle ? "text" : "password"}
+                    placeholder="********"
+                    autoFocus
+                />
+                <img
+                src={`/assets/Icon/Eye ${passwordToggle ?  'Show' : 'Off'} Pass.svg`}
+                onClick={()=>{setPasswordToggle(!passwordToggle)}} className="eye"/>
+            </div>
 
-
-            <div className="d-flex justify-content-end mt-3">
-                <Button className="me-2" variant="light" onClick={()=>{setInformationOpen(false)}}>
+            <div className="d-flex justify-content-end mt-3 modal-footer pb-0 pe-0">
+                <Button className="me-2 fw-semibold lh-1" variant="light" onClick={()=>{ handleCloseModal() }}>
                     Cancel
                 </Button>
-                <Button variant="primary">Apply Changes</Button>
+                <Button variant="primary fs-6 lh-sm">Apply Changes</Button>
             </div>
         </div>
       </div>

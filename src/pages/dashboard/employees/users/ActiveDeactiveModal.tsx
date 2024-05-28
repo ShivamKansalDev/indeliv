@@ -29,6 +29,7 @@ const ActiveDeactiveModal = (props: any) => {
   return (
     <Modal show={deactivateOpen} 
     className="deactivate-modal" centered
+    
     onHide={()=> {
       setDeactivateOpen(!deactivateOpen)
       setSelectedUser()
