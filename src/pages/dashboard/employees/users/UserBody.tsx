@@ -4,6 +4,7 @@ import ActiveDeactiveModal from "./ActiveDeactiveModal";
 import InformationModal from "./InformationModal";
 import DeleteModal from "./DeleteModal";
 import { API } from "@/api";
+import { deleteEmployee, updateEmployeeStatus } from "@/api/users";
 interface User{
   id: number,
   first_name: string,
@@ -21,55 +22,6 @@ interface User{
   image_path: string
 }
 
-
-// const arrayData: User[] = [
-//   {
-//     id: 1,
-//     image: "/assets/image/user.svg",
-//     name: "John Doe 1",
-//     mobile: "+91 8708393253",
-//     role: "admin",
-//     isActive: true,
-//     isSuspended: false,
-//   },
-//   {
-//     id: 2,
-//     image: "/assets/image/user.svg",
-//     name: "John Doe 2",
-//     mobile: "+91 8708393253",
-//     role: "admin",
-//     isActive: true,
-//     isSuspended: false,
-//   },
-//   {
-//     id: 3,
-//     image: "/assets/image/user.svg",
-//     name: "John Doe 3",
-//     mobile: "+91 8708393253",
-//     role: "admin",
-//     isActive: false,
-//     isSuspended: true,
-//   },
-//   {
-//     id: 4,
-//     image: "/assets/image/user.svg",
-//     name: "John Doe 4",
-//     mobile: "+91 8708393253",
-//     role: "admin",
-//     isActive: true,
-//     isSuspended: false,
-//   },
-//   {
-//     id: 5,
-//     image: "/assets/image/user.svg",
-//     name: "John Doe 5",
-//     mobile: "+91 8708393253",
-//     role: "admin",
-//     isActive: true,
-//     isSuspended: false,
-//   },
-// ]
-
 const UserBody: React.FC = () => {
   const [deactivateOpen, setDeactivateOpen] = useState(false);
   const [informationOpen, setInformationOpen] = useState(false);
@@ -85,7 +37,16 @@ const UserBody: React.FC = () => {
 
   useEffect(()=>{
     getUsersList();
-  }, [])
+  }, []);
+
+  async function deleteUser(id: number){
+    try {
+      const response = await deleteEmployee(id);
+      getUsersList();
+    } catch (error) {
+      console.log("!!! DELETE USER ERROR: ", error);
+    }
+  }
 
   async function getUsersList(){
     try {
@@ -93,6 +54,15 @@ const UserBody: React.FC = () => {
       setUsersList(response.data);
     } catch (error) {
       console.log("!!! USERS ERROR: ", error);
+    }
+  }
+
+  async function updateUserStatus(data: string){
+    try {
+      const response = await updateEmployeeStatus(data);
+      getUsersList();
+    } catch (error) {
+      console.log("!!! UPDATE USER STATUS ERROR: ", error);
     }
   }
   
@@ -103,6 +73,10 @@ const UserBody: React.FC = () => {
         deactivateOpen={deactivateOpen}
         setDeactivateOpen={() => setDeactivateOpen(!deactivateOpen)}
         setSelectedUser={() => setSelectedUser(null)}
+        updateUserStatus={() => {
+          const data = `id=${selectedUser?.id}&status=${!selectedUser?.is_active}`;
+          updateUserStatus(data);
+        }}
       />
       <InformationModal
         selectedUser={selectedUser}
@@ -116,6 +90,12 @@ const UserBody: React.FC = () => {
         deleteOpen={deleteOpen}
         setDeleteOpen={() => setDeleteOpen(!deleteOpen)}
         setSelectedUser={() => setSelectedUser(null)}
+        deleteUser={() => {
+          if(selectedUser?.id){
+            deleteUser(selectedUser?.id);
+            setDeleteOpen(!deleteOpen);
+          }
+        }}
       />
       <div className="content">
           {usersList?.map((item: User, index: any): ReactNode => {

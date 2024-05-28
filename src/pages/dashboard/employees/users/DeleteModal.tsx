@@ -16,7 +16,8 @@ const DeleteModal = (props: any) => {
   const {
     deleteOpen = false,
     setDeleteOpen = () => {},
-    setSelectedUser = () => {}
+    setSelectedUser = () => {},
+    deleteUser = () => {}
   } = props;
   const user: User = props.selectedUser;
   return (
@@ -39,7 +40,7 @@ const DeleteModal = (props: any) => {
 
         <div className="d-flex justify-content-end">
           <Button className="me-2" variant="light" onClick={()=>{setDeleteOpen(false)}}>No</Button>
-          <Button variant="danger">Delete</Button>
+          <Button variant="danger" onClick={deleteUser}>Delete</Button>
         </div>
       </div>
     </Modal>
