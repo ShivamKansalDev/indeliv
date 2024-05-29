@@ -200,11 +200,10 @@
 
 
 
-//  @media (max-width: 767px) {
-//   .employees-list-component .search-bar-input, .employees-list-component .search-bar-input > input{
-
-//     width: 78%; // Full width on mobile devices
-//   }
-// }
+ @media (max-width: 768px) {
+  .employees-list-component .employee-create-batch {
+    width: 226px; // Full width on mobile devices
+  }
+}
 
 }
