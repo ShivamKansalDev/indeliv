@@ -169,7 +169,9 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
                             event.stopPropagation();
                           }}>
 
-                            <div style={{marginTop: "10px"}} key={screen?.id}>
+                            <div style={{ 
+                                marginTop: screen.name === 'Roles' ? '-7px' : '10px' 
+                              }}  key={screen?.id} >
                               <p style={{ 
                               backgroundColor: location.pathname.includes(screen?.name?.toLowerCase()) ? "#ECF7FF" : 'transparent', 
                               color: location.pathname.includes(screen?.name?.toLowerCase()) ? "#0080FC" : "#767676",
