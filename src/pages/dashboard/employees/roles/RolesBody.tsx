@@ -4,7 +4,7 @@ import Input from "@/pages/(auth)/components/Input";
 import "./RolesBody.css";
 import DeleteRoleModal from "./DeleteRoleModel";
 import { API } from "@/api";
-import { createRole } from "@/api/roles";
+import { createRole, permissionList, updateRole, viewRole } from "@/api/roles";
 
 interface Role {
   id: number;
@@ -66,6 +66,24 @@ const screens = [
   },
 ];
 
+interface RoleData{
+  id: number;
+  name: string;
+  users: number;
+  permissions: [];
+}
+
+interface PermissionsList{
+  id: number;
+  name: string;
+}
+
+interface EachScreen{
+  id: number;
+  name: string;
+  permissions: number[];
+}
+
 const RolesBody = () => {
   const [selectedRole, setSelectedRole] = useState<number | null>(null);
   const [roles2, setRoles2] = useState(roles);
@@ -76,6 +94,9 @@ const RolesBody = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [rolesList, setRolesList] = useState<Role[]>([]);
   const [screenList, setScreenList] = useState<Permission[]>([]);
+  const [roleData, setRoleData] = useState<RoleData | null>();
+  const [permissions, setPermissions] = useState<PermissionsList[]>([]);
+  const [rolesScreen, setRolesScreen] = useState([]);
 
   const handleButtonClick = () => {
     setShowInput(!showInput);
@@ -115,8 +136,63 @@ const RolesBody = () => {
   };
 
   useEffect(() => {
+    getPermissions();
     getRolesList();
   }, []);
+
+  useEffect(() => {
+    if(permissions.length > 0){
+      let newData: EachScreen[] = [];
+      for (let index: number = 0; index < permissions.length; index++) {
+        if((index+1) % 4 === 0){
+          console.log("### INDEX: ", index + 1);
+          const splitArray: string[] = permissions[index]['name'].split("_");
+          // const splitArray: string[] = "invoice_view".split("_");
+          if(splitArray.length === 2){
+            const screenName = splitArray[0];
+            let permissionIDs: number[] = [];
+            const startIndex: number = (index + 1) - 4;
+            for(let i: number = startIndex; i < (index + 1); i++){
+              const id: number = permissions[i]['id'];
+              permissionIDs.push(id)
+            }
+            const eachScreen: EachScreen = {
+              id: startIndex + 1,
+              name: screenName,
+              permissions: permissionIDs
+            }
+            newData.push(eachScreen)
+          }else if(splitArray.length > 2){
+            splitArray.pop();
+            const screenName = splitArray.join("-");
+            let permissionIDs: number[] = [];
+            const startIndex: number = (index + 1) - 4;
+            for(let i: number = startIndex; i < (index + 1); i++){
+              const id: number = permissions[i]['id'];
+              permissionIDs.push(id)
+            }
+            const eachScreen: EachScreen = {
+              id: startIndex + 1,
+              name: screenName,
+              permissions: permissionIDs
+            }
+            newData.push(eachScreen)
+          }
+        }
+      }
+      console.log("@@@ PERMISSIONS SCREEN: ", newData);
+    }
+  }, [permissions]);
+
+  async function getPermissions() {
+    try {
+      const response = await permissionList();
+      const data = response.data;
+      setPermissions(data);
+    } catch (error) {
+      console.log("!!! PERMISSIONS ERROR: ", error);
+    }
+  }
 
   async function getRolesList() {
     try {
@@ -126,15 +202,6 @@ const RolesBody = () => {
       console.log("!!! USERS ERROR: ", error);
     }
   }
-  async function getPermissionList() {
-    try {
-      const response = await API.post("permissions", null);
-      setScreenList(response.data);
-    } catch (error) {
-      console.log("!!! USERS ERROR: ", error);
-    }
-  }
-
 
   async function createNewRole(newRole: string){
     try {
@@ -144,6 +211,28 @@ const RolesBody = () => {
       getRolesList();
     } catch (error) {
       console.log("!!! USERS ERROR: ", error);
+    }
+  }
+
+  async function updateRoleAPI(newRole: string){
+    try {
+      const response = await updateRole(newRole);
+      // setRolesList(response.data);
+      console.log(response)
+      getRolesList();
+    } catch (error) {
+      console.log("!!! UPDATE ROLE ERROR: ", error);
+    }
+  }
+
+  async function viewRoleAPI(id: number){
+    try {
+      const response = await viewRole(id);
+      // setRolesList(response.data);
+      setRoleData(response.data);
+      console.log("@@@ VIEW ROLE: ", response.data);
+    } catch (error) {
+      console.log("!!! VIEW ROLE ERROR: ", error);
     }
   }
 
@@ -170,7 +259,7 @@ const RolesBody = () => {
               {rolesList.length>0 && rolesList.map((role, index) => {
                 if (selectedRole === index) {
                   return (
-                    <div>
+                    <div key={`userRole${index}`}>
                       {showEditInput && (
                         <>
                           <div
@@ -220,7 +309,8 @@ const RolesBody = () => {
                         <div>
                           <ul className="list-unstyled lh-lg d-flex gap-2 m-0">
                             <li
-                              onClick={() => {
+                              onClick={(e) => {
+                                // e.stopPropagation();
                                 handleEditClick();
                               }}
                             >
@@ -231,7 +321,8 @@ const RolesBody = () => {
                               />
                             </li>
                             <li
-                              onClick={() => {
+                              onClick={(e) => {
+                                // e.stopPropagation();
                                 setDeleteModalOpen(!deleteModalOpen);
                               }}
                             >
@@ -247,14 +338,14 @@ const RolesBody = () => {
                   );
                 }
                 return (
-                  <div
+                  <div key={`userRole${index}`}
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       setSelectedRole(index);
                       setShowEditInput(false);
+                      viewRoleAPI(role.id)
                     }}
                     className="d-flex gap-3 justify-content-between align-items-center px-2 py-1"
-                    key={`role${role.id}`}
                   >
                     <div className="py-2 lh-1" key={`role${role.id}`}>
                       <p className="m-0 title-font">{role.name}</p>
