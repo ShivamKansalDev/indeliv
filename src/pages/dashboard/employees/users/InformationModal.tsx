@@ -1,14 +1,21 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Dropdown, Form, Modal } from "react-bootstrap";
-
+import { UserDetails, UserRole } from "./UserBody";
 interface User{
-  id: number;
-  image: string;
-  name: string;
-  mobile: string;
-  role: string;
-  isActive: boolean;
-  isSuspended: boolean;
+    id: number,
+    first_name: string,
+    last_name: string,
+    phone: string,
+    email: string,
+    email_verified_at: null | string,
+    role_id: number,
+    image: null | string,
+    is_active: boolean,
+    created_at: string,
+    updated_at: string,
+    name: string,
+    role_name: string,
+    image_path: string
 }
 
 const InformationModal = (props: any) => {
@@ -16,30 +23,83 @@ const InformationModal = (props: any) => {
         informationOpen = false,
         setInformationOpen = () => {},
         handleSelect,
-        selectedOption
+        selectedOption,
+        setUserDetails = () => {},
+        createUpdateUserAPI = () => {}
     } = props;
     const user: User = props.selectedUser;
-    const initialProfilePicture: string = "/assets/image/user.png";
+    const userRoles: UserRole[] = props.userRoles;
+    const userDetails: UserDetails = props.userDetails; 
+    const initialProfilePicture: string = "/assets/Icon/User.svg";
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [passwordToggle, setPasswordToggle] = useState(false);
-    const [pic, setPic] = useState<string>(initialProfilePicture)
+    const [selectRole, setSelectRole] = useState<string>();
+    const [pic, setPic] = useState<string>(initialProfilePicture);
+    const [emptyFields, setEmptyFields] = useState<string[]>([]);
     const handleImageClick = () => {
         fileInputRef!.current!.click();
+        
     };
     
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
             console.log("Selected file:", file);
-            setPic(URL.createObjectURL(file));
+            setUserDetails({
+                ...userDetails,
+                image: URL.createObjectURL(file)
+            })
         }
     };
 
     const handleCloseModal = () => {
         setInformationOpen(false);
         setPasswordToggle(false);
-        setPic(initialProfilePicture);
     }
+
+    useEffect(() => {
+        if(informationOpen && user){
+            const findRole = userRoles.find((item) => item.id === user.role_id);
+            if(findRole){
+                setSelectRole(findRole.name);
+            }
+        }
+    }, [informationOpen])
+
+    useEffect(() => {
+        if(userDetails?.role_id){
+            const findRole = userRoles.find((item) => item.id === userDetails.role_id);
+            if(findRole){
+                setSelectRole(findRole.name);
+            }
+        }
+    }, [userDetails])
+
+    useEffect(() => {
+        const keyItems: string[] = Object.keys(userDetails).filter((item) => {
+            if(item === "last_name"){
+                return false;
+            }else if(user && (item === "email")){
+                return false;
+            }else if((item === "emailError")){
+                return false;
+            }
+            return true
+        });
+        const filterEmpty = keyItems.filter((item) => {
+            const details: any = Object.assign({}, userDetails)
+            if((typeof details[item] === "number") && (item === "role_id")){
+                return false;
+            }else if((details[item] && (item === "email") && !userDetails?.emailError)){
+                return false
+            }else if (details[item] && (item !== "emailError") && (item !== "email")){
+                return false;
+            }
+            return true
+        })
+        console.log("@@@ FIND EMPTY: ", filterEmpty);
+        setEmptyFields(filterEmpty);
+    }, [userDetails]);
 
   return (
     <Modal show={informationOpen} centered dialogClassName="modal-90w" className="information-modal"
@@ -47,13 +107,13 @@ const InformationModal = (props: any) => {
     >
       <div className="p-3" >
         <div className="modal-header mx-2 px-0 pt-0 pb-2 mb-2">
-            <p className="mb-0 fw-semibold mx-0">Employees Information</p>
+            <p className="mb-0 fw-semibold mx-0">{(user)? "Employees Information" : "Add Employee"}</p>
         </div>
         <div className="container">
             <div className="flex d-flex">
                 <div className="me-3">
                     <img
-                        src={pic}
+                        src={userDetails?.image || pic}
                         className="profile"
                         alt="Upload"
                         onClick={handleImageClick}
@@ -85,14 +145,11 @@ const InformationModal = (props: any) => {
                         id="dropdown-basic"
                         className="custom-dropdown-toggle res"
                     >
-                        {selectedOption}
+                        {selectRole || "Select role"}
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className="custom-dropdown-menu">
-                        <Dropdown.Item eventKey="Admin">Admin</Dropdown.Item>
-                        <Dropdown.Item eventKey="Manager">Manager</Dropdown.Item>
-                        <Dropdown.Item eventKey="Delivery Associates">Delivery Associates</Dropdown.Item>
-                        <Dropdown.Item eventKey="Sales Associates">Sales Associates</Dropdown.Item>
+                        {userRoles.map((role) => <Dropdown.Item key={`role${role.id}`} eventKey={role.name}>{role.name}</Dropdown.Item>)}
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
@@ -103,6 +160,14 @@ const InformationModal = (props: any) => {
                     type="text"
                     placeholder="Enter first name"
                     autoFocus
+                    value={userDetails?.first_name}
+                    onChange={(e) => {
+                        const regex = /[^A-Za-z]/g;
+                        setUserDetails({
+                            ...userDetails,
+                            first_name: e.target.value.replace(regex, '')
+                        });
+                    }}
                 />
                 </div>
                 <div>
@@ -111,6 +176,14 @@ const InformationModal = (props: any) => {
                         type="text"
                         placeholder="Enter last name"
                         autoFocus
+                        value={userDetails?.last_name}
+                        onChange={(e) => {
+                            const regex = /[^A-Za-z]/g;
+                            setUserDetails({
+                                ...userDetails,
+                                last_name: e.target.value.replace(regex, '')
+                            });
+                        }}
                     />
                 </div>
             </div>
@@ -118,17 +191,45 @@ const InformationModal = (props: any) => {
                 <div>
                     <Form.Label>Email</Form.Label>
                     <Form.Control
-                        type="text"
+                        type="email"
                         placeholder="Enter email address"
                         autoFocus
+                        disabled={user? true : false}
+                        value={user?.email || userDetails?.email}
+                        onChange={(e) => {
+                            const text = e.target.value;
+                            const check = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                            if(check.test(String(text).toLowerCase())){
+                                setUserDetails({
+                                    ...userDetails,
+                                    email: text,
+                                    emailError: false
+                                })
+                            }else{
+                                setUserDetails({
+                                    ...userDetails,
+                                    email: text,
+                                    emailError: true
+                                })
+                            }
+                        }}
                     />
                 </div>
                 <div>
                     <Form.Label>Phone Number <span className="imp">*</span></Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="9265821****"
+                        placeholder="Phone"
                         autoFocus
+                        maxLength={10}
+                        value={userDetails.phone}
+                        onChange={(e) => {
+                            const regex = /[^0-9]/g;
+                            setUserDetails({
+                                ...userDetails,
+                                phone: e.target.value.replace(regex, '')
+                            });
+                        }}
                     />
                 </div>
             </div>
@@ -136,19 +237,38 @@ const InformationModal = (props: any) => {
             <div className="flex d-flex">
                 <Form.Control
                     type={passwordToggle ? "text" : "password"}
-                    placeholder="********"
+                    placeholder="Password"
                     autoFocus
+                    value={userDetails.password}
+                    onChange={(e) => setUserDetails({
+                        ...userDetails,
+                        password: e.target.value
+                    })}
                 />
-                <img
+                {/* <img
                 src={`/assets/Icon/Eye ${passwordToggle ?  'Show' : 'Off'} Pass.svg`}
-                onClick={()=>{setPasswordToggle(!passwordToggle)}} className="eye"/>
+                onClick={()=>{setPasswordToggle(!passwordToggle)}} className="eye"/> */}
             </div>
 
             <div className="d-flex justify-content-end mt-3 modal-footer pb-0 pe-0">
                 <Button className="me-2 fw-semibold lh-1" variant="light" onClick={()=>{ handleCloseModal() }}>
                     Cancel
                 </Button>
-                <Button variant="primary fs-6 lh-sm">Apply Changes</Button>
+                <Button variant="primary fs-6 lh-sm"
+                    onClick={() => {
+                        if(emptyFields?.length > 0){
+                            let message = "";
+                            emptyFields.forEach((item, index) => {
+                                message += `${index + 1}. ${item.replace(/^\w/, (c) => c.toUpperCase())} is required.\n`
+                            })
+                            alert(message);
+                        }else{
+                            createUpdateUserAPI();
+                        }
+                    }}
+                >
+                    {(user)? "Apply Changes" : "Add"}
+                </Button>
             </div>
         </div>
       </div>
