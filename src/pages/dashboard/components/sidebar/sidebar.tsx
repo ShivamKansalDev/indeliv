@@ -3,6 +3,7 @@ import "./sidebar.scss";
 import { NavLink, useLocation } from "react-router-dom";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { LoginUserContext } from "@/App";
+import './sidebar.css'
 
 
 
@@ -128,7 +129,7 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
           ))}
         </ul>
       </div> */}
-      <div className="d-flex flex-column sidebar  menu-container flex-shrink-0  ">
+      <div className="d-flex flex-column sidebar  menu-container flex-shrink-0  " >
         <ul className="nav nav-pills flex-column mb-auto">
           {menus?.map((menu: any, index: number) => (
             <li key={`${index}`} className="nav-item" onClick={() => {
@@ -156,16 +157,22 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
                       />
                     </Link>
 
+                  <div className="d-flex align-items-start justify-content-end" style={{gap:"12px"}} >
+                  
+
+                  {(selectedEmployee && (menu.name === "Employees")) && (<img  src='/assets/Icon/Union.svg' alt='union'/> )}
+                <div style={{width:"70%"}}>
                     {(selectedEmployee && (menu.name === "Employees")) && (
                       (Array.isArray(menu?.screens)) && menu?.screens?.map((screen: any) => {
                         return (
                           <Link to={screen?.link} style={{textDecoration: "none",}} onClick={(event) => {
                             event.stopPropagation();
                           }}>
-                      {/* <img  src='/assets/Icon/Union.svg' alt='union'/>  */}
 
-                            <div style={{marginTop: "10px"}} key={screen?.id}>
-                              <p style={{marginLeft: "47px" ,
+                            <div style={{ 
+                                marginTop: screen.name === 'Roles' ? '-7px' : '10px' 
+                              }}  key={screen?.id} >
+                              <p style={{ 
                               backgroundColor: location.pathname.includes(screen?.name?.toLowerCase()) ? "#ECF7FF" : 'transparent', 
                               color: location.pathname.includes(screen?.name?.toLowerCase()) ? "#0080FC" : "#767676",
                               padding: "5px", borderRadius: "5px"}}>{screen?.name}</p>
@@ -174,6 +181,8 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
                         );
                       })
                     )}
+                    </div>
+                      </div>
                   </>
                 )
                 : 
