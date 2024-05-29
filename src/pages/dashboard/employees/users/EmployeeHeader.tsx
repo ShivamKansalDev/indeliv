@@ -10,39 +10,16 @@ import {
 import { useSetOpenNav } from "../../index";
 import { ReactComponent as BurgerSvg } from "@/assets/svgs/burger.svg";
 
-export default function EmployeeHeader() {
+export default function EmployeeHeader({
+  setInformationOpen = () => {}
+}) {
   const location = useLocation();
   const [searchTxt, setSearchTxt] = useState("");
   const [loading, setLoading] = useState(false);
   const { setOpenNav } = useSetOpenNav();
   const navigate = useNavigate();
   const handleSubmit = async () => {
-
-    // if (selectedInvoiceIds.length === 0) {
-    //   // Perhaps show an error or message indicating no invoices are selected
-    //   // // console.log("No invoices selected.");
-    //   return;
-    // }
-    // setLoading(true);
-    // try {
-    //   const res = await createBatch({ invoices: selectedInvoiceIds, batch_type: batchType }).unwrap();
-    //   //  // console.log(res);
-    //   // navigate(`/dashboard/batch/${res.batch_number}/${res.batch.id}`);
-    //   navigate(location?.pathname?.includes("collections") ? `/dashboard/batches/collections/${res.batch_number}/${res.batch.id}`
-    //     : `/dashboard/batch/${res.batch_number}/${res.batch.id}`);
-    //   //// console.log("Batch created successfully:", batchData);
-    //   // Optionally, reset selected invoice IDs and selected count here
-    //   setSelectedInvoiceIds([]);
-    //   setSelectedCount(0);
-    //   setLoading(false);
-    // } catch (err: any) {
-    //   console.error("Failed to create batch:", err);
-
-    //   alert(err?.data?.message)
-    //   // Handle error here
-
-    //   setLoading(false);
-    // }
+    setInformationOpen();
   };
 
   return (
@@ -65,9 +42,9 @@ export default function EmployeeHeader() {
                 placeholder="Search By Name or Invoice Number"
                 />
             </div>
-            <button className="employee-create-batch" disabled={loading}>
+            <button onClick={handleSubmit} className="employee-create-batch">
                 <img src={"/assets/Icon/Add.svg"} alt="User Avatar" />
-                <span onClick={handleSubmit} >{
+                <span>{
                 "Add Employee"
                 }</span>
             </button>
