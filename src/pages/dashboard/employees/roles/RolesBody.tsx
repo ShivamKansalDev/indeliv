@@ -528,6 +528,13 @@ const RolesBody = () => {
                             const checked = roleData?.permissions.find((subId) => {
                               return subId.id === checkbox;
                             })
+                            if((screen.name.toLowerCase() === "invoices") && (checkbox === 2) || (checkbox === 3) || (checkbox === 4)){
+                              return (
+                                <td key={`${screen.name}${checkbox}`} className="text-center">
+                                  <div className="py-1" style={{ marginTop: "12px" }}/>
+                                </td>
+                              );
+                            }
                             return(
                               <td key={`${screen.name}${checkbox}`} className="text-center">
                                 <input
