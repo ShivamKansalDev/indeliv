@@ -194,9 +194,10 @@ const RolesBody = () => {
   async function getRolesList(id: number | null = null) {
     try {
       const response = await API.post("roles", null);
-      const data: Role[] = response.data;
+      let data: Role[] = response.data;
       setRolesList(data);
       if(Array.isArray(data) && data?.length > 0){
+        data = data.sort((a, b) => a.id - b.id);
         if(id){
           const findRole = data.find((item) => item.id === id)
           if(findRole && findRole?.id){
@@ -229,7 +230,8 @@ const RolesBody = () => {
       const response = await updateRole(newRole);
       // setRolesList(response.data);
       console.log(response)
-      getRolesList();
+      getRolesList(selectedRole?.id);
+      alert("Saved");
     } catch (error) {
       console.log("!!! UPDATE ROLE ERROR: ", error);
     }
@@ -285,7 +287,7 @@ const RolesBody = () => {
             <h5 className="head-font">Roles</h5>
             <div
               className="overflow-y-scroll"
-              style={{ minHeight: "510px" }}
+              style={{ minHeight: "550px", maxHeight: "550px" }}
             >
               {rolesList.length>0 && rolesList.map((role, index) => {
                 if ((selectedRole) && selectedRole.id === role.id) {
@@ -338,33 +340,39 @@ const RolesBody = () => {
                             ({role.users}) Users
                           </small>
                         </div>
-                        <div>
-                          <ul className="list-unstyled lh-lg d-flex gap-2 m-0">
-                            <li
-                              onClick={(e) => {
-                                // e.stopPropagation();
-                                handleEditClick();
-                              }}
-                            >
-                              <img
-                                src="/assets/Icon/Edit-White.svg"
-                                className="text-white"
-                                alt="edit"
-                              />
-                            </li>
-                            <li
-                              onClick={(e) => {
-                                // e.stopPropagation();
-                                setDeleteModalOpen(!deleteModalOpen);
-                              }}
-                            >
-                              <img
-                                src="/assets/Icon/trash-white.svg"
-                                alt="trash"
-                              />
-                            </li>
-                          </ul>
-                        </div>
+                        {((role?.id === 1) || (role?.id === 2) || (role?.id === 3) || (role?.id === 4)) ? (
+                          null
+                        )
+                        :
+                        (
+                          <div>
+                            <ul className="list-unstyled lh-lg d-flex gap-2 m-0">
+                              <li
+                                onClick={(e) => {
+                                  // e.stopPropagation();
+                                  handleEditClick();
+                                }}
+                              >
+                                <img
+                                  src="/assets/Icon/Edit-White.svg"
+                                  className="text-white"
+                                  alt="edit"
+                                />
+                              </li>
+                              <li
+                                onClick={(e) => {
+                                  // e.stopPropagation();
+                                  setDeleteModalOpen(!deleteModalOpen);
+                                }}
+                              >
+                                <img
+                                  src="/assets/Icon/trash-white.svg"
+                                  alt="trash"
+                                />
+                              </li>
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
@@ -385,6 +393,11 @@ const RolesBody = () => {
                         ({role.users}) Users
                       </small>
                     </div>
+                    {((role?.id === 1) || (role?.id === 2) || (role?.id === 3) || (role?.id === 4)) ? (
+                      null
+                    )
+                    :
+                    (
                     <div>
                       <ul className="list-unstyled lh-lg d-flex gap-2 m-0">
                         <li
@@ -405,6 +418,7 @@ const RolesBody = () => {
                         </li>
                       </ul>
                     </div>
+                    )}
                   </div>
                 );
               })}
@@ -464,9 +478,10 @@ const RolesBody = () => {
             </div>
             <div
               className="overflow-y-scroll p-3"
-              style={{ minHeight: "575px" }}
             >
-              <div className="table-responsive">
+              <div className="table-responsive"
+                style={{ minHeight: "535px", maxHeight: "535px"}}
+              >
                 <table className="table  border">
                   <thead style={{ backgroundColor: "#F9FAFB" }}>
                     <tr>
@@ -548,9 +563,20 @@ const RolesBody = () => {
                                 </td>
                               );
                             }
+                            let disabled = false;
+                            if(selectedRole?.id === 1){
+                              disabled = true;
+                            }else if(selectedRole?.id === 2){
+                              disabled = true;
+                            }else if(selectedRole?.id === 3){
+                              disabled = true;
+                            }else if(selectedRole?.id === 4){
+                              disabled = true;
+                            }
                             return(
                               <td key={`${screen.name}${checkbox}`} className="text-center">
                                 <input
+                                  disabled={disabled}
                                   style={{ marginTop: "12px" }}
                                   className="py-1"
                                   type="checkbox"
@@ -589,26 +615,32 @@ const RolesBody = () => {
                     })}
                   </tbody>
                 </table>
-                <div className="d-flex justify-content-end g-6">
-                  <Button variant="light" className="fs-6 lh-lg px-5 border " onClick={() => getRolesList(selectedRole?.id)}>Cancel</Button>
-                  <Button className="primary fs-6 lh-lg px-5" variant="primary"
-                    onClick={() => {
-                      let permissionString = "";
-                      roleData?.permissions.forEach((item, index) => {
-                        permissionString += `${item.id}${(index < (roleData.permissions.length - 1))? ',' : ''}`
-                      })
-                      const createNewData = {
-                        name: roleData?.name,
-                        permissions: permissionString
-                      }
-                      console.log("@@@ PERMISSION: ", createNewData);
-                      const url = `${roleData?.id}?name=${createNewData.name}&permissions=${createNewData.permissions}`;
-                      updateRoleAPI(url);
-                    }}
-                  >
-                    Save
-                  </Button>
-                </div>
+              </div>
+              <div className="d-flex justify-content-end g-6">
+                <Button variant="light" className="fs-6 lh-lg px-5 border " 
+                  onClick={() => getRolesList(selectedRole?.id)}
+                  disabled={(selectedRole?.id === 1)|| (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4)}
+                >
+                  Cancel
+                </Button>
+                <Button className="primary fs-6 lh-lg px-5" variant="primary"
+                  disabled={(selectedRole?.id === 1)|| (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4)}
+                  onClick={() => {
+                    let permissionString = "";
+                    roleData?.permissions.forEach((item, index) => {
+                      permissionString += `${item.id}${(index < (roleData.permissions.length - 1))? ',' : ''}`
+                    })
+                    const createNewData = {
+                      name: roleData?.name,
+                      permissions: permissionString
+                    }
+                    console.log("@@@ PERMISSION: ", createNewData);
+                    const url = `${roleData?.id}?name=${createNewData.name}&permissions=${createNewData.permissions}`;
+                    updateRoleAPI(url);
+                  }}
+                >
+                  Save
+                </Button>
               </div>
             </div>
           </div>
