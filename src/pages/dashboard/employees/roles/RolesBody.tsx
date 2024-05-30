@@ -5,6 +5,7 @@ import "./RolesBody.css";
 import DeleteRoleModal from "./DeleteRoleModel";
 import { API } from "@/api";
 import { createRole, permissionList, updateRole, viewRole } from "@/api/roles";
+import { string } from "yup";
 
 interface Role {
   id: number;
@@ -39,38 +40,14 @@ const roles = [
   },
 ];
 
-const screens = [
-  {
-    id: "table1",
-    name: "Invoices",
-  },
-  {
-    id: "table2",
-    name: "Batches",
-  },
-  {
-    id: "table3",
-    name: "Payments",
-  },
-  {
-    id: "table4",
-    name: "Employees-Users",
-  },
-  {
-    id: "table5",
-    name: "Employees-Roles",
-  },
-  {
-    id: "table6",
-    name: "Vehicles",
-  },
-];
-
 interface RoleData{
   id: number;
   name: string;
   users: number;
-  permissions: [];
+  permissions: [{
+    id: number;
+    name: string
+  }];
 }
 
 interface PermissionsList{
@@ -85,18 +62,18 @@ interface EachScreen{
 }
 
 const RolesBody = () => {
-  const [selectedRole, setSelectedRole] = useState<number | null>(null);
+  const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [roles2, setRoles2] = useState(roles);
   const [inputValue, setInputValue] = useState("");
   const [showInput, setShowInput] = useState<boolean | null>(false);
-  const [showEditInput, setShowEditInput] = useState<boolean | null>(false);
+  const [showEditInput, setShowEditInput] = useState<boolean>(false);
   const [editValue, setEditValue] = useState("");
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [rolesList, setRolesList] = useState<Role[]>([]);
   const [screenList, setScreenList] = useState<Permission[]>([]);
   const [roleData, setRoleData] = useState<RoleData | null>();
   const [permissions, setPermissions] = useState<PermissionsList[]>([]);
-  const [rolesScreen, setRolesScreen] = useState([]);
+  const [rolesScreen, setRolesScreen] = useState<EachScreen[]>([]);
 
   const handleButtonClick = () => {
     setShowInput(!showInput);
@@ -105,7 +82,6 @@ const RolesBody = () => {
   const handleInputChange = (event: any) => {
     setInputValue(event.target.value);
     event.preventDefault();
-    console.log(inputValue);
     setEditValue(event.target.value);
   };
 
@@ -115,7 +91,7 @@ const RolesBody = () => {
       return;
     }
 
-    const newRole = `name=${inputValue}&permissions=1`  // api permissions check
+    const newRole = `name=${inputValue}`  // api permissions check
     
     createNewRole(newRole);
     setShowInput(false);
@@ -123,13 +99,26 @@ const RolesBody = () => {
   };
 
   const handleEditClick = () => {
-    setShowEditInput(!showEditInput);
-    setEditValue(rolesList[selectedRole!].name);
+    setShowEditInput(true);
+    const find = rolesList.find((item) => item.id === selectedRole?.id) 
+    if(find){
+      setEditValue(find.name);
+    }
   };
 
   const editRole = (index: number) => {
-    let new_roles = rolesList;
+    let new_roles = Array.from(rolesList);
     new_roles[index].name = editValue;
+    const editRoleData = Object.assign({}, roleData);
+    const editSelectedRole = Object.assign({}, selectedRole);
+    setRoleData({
+      ...editRoleData,
+      name: editValue
+    })
+    setSelectedRole({
+      ...editSelectedRole,
+      name: editValue
+    })
     setRolesList(new_roles);
     setEditValue("");
     setShowEditInput(false);
@@ -145,11 +134,10 @@ const RolesBody = () => {
       let newData: EachScreen[] = [];
       for (let index: number = 0; index < permissions.length; index++) {
         if((index+1) % 4 === 0){
-          console.log("### INDEX: ", index + 1);
+          // console.log("### INDEX: ", index + 1);
           const splitArray: string[] = permissions[index]['name'].split("_");
-          // const splitArray: string[] = "invoice_view".split("_");
           if(splitArray.length === 2){
-            const screenName = splitArray[0];
+            const screenName = splitArray[0].replace(/^\w/, (c) => c.toUpperCase());
             let permissionIDs: number[] = [];
             const startIndex: number = (index + 1) - 4;
             for(let i: number = startIndex; i < (index + 1); i++){
@@ -164,7 +152,8 @@ const RolesBody = () => {
             newData.push(eachScreen)
           }else if(splitArray.length > 2){
             splitArray.pop();
-            const screenName = splitArray.join("-");
+            const nameUpdate: string[] = splitArray.map((itemName) => itemName.replace(/^\w/, (c) => c.toUpperCase()))
+            const screenName = nameUpdate.join("-");
             let permissionIDs: number[] = [];
             const startIndex: number = (index + 1) - 4;
             for(let i: number = startIndex; i < (index + 1); i++){
@@ -181,6 +170,7 @@ const RolesBody = () => {
         }
       }
       console.log("@@@ PERMISSIONS SCREEN: ", newData);
+      setRolesScreen(newData)
     }
   }, [permissions]);
 
@@ -197,7 +187,12 @@ const RolesBody = () => {
   async function getRolesList() {
     try {
       const response = await API.post("roles", null);
-      setRolesList(response.data);
+      const data: Role[] = response.data;
+      setRolesList(data);
+      if(Array.isArray(data) && data?.length > 0){
+        setSelectedRole(data[0]);
+        viewRoleAPI(data[0]['id'])
+      }
     } catch (error) {
       console.log("!!! USERS ERROR: ", error);
     }
@@ -240,11 +235,11 @@ const RolesBody = () => {
 
   return (
     <div className="container-fluid px-0">
-      <DeleteRoleModal
+      {/* <DeleteRoleModal
         deleteModalOpen={deleteModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         role={roles2[selectedRole!]}
-      />
+      /> */}
       <div className="row">
         <div className="col-md-3">
           <div
@@ -254,13 +249,13 @@ const RolesBody = () => {
             <h5 className="head-font">Roles</h5>
             <div
               className="overflow-y-scroll"
-              style={{ maxHeight: "510px", minHeight: "510px" }}
+              style={{ minHeight: "510px" }}
             >
               {rolesList.length>0 && rolesList.map((role, index) => {
-                if (selectedRole === index) {
+                if ((selectedRole) && selectedRole.id === role.id) {
                   return (
                     <div key={`userRole${index}`}>
-                      {showEditInput && (
+                      {(showEditInput) && (
                         <>
                           <div
                             className="position-relative "
@@ -282,6 +277,7 @@ const RolesBody = () => {
                               onClick={() => {
                                 editRole(index);
                               }}
+                              disabled={!editValue.trimStart()}
                               style={{ right: "15px" }}
                             >
                               <span className="text-primary ">Save</span>
@@ -341,7 +337,7 @@ const RolesBody = () => {
                   <div key={`userRole${index}`}
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                      setSelectedRole(index);
+                      setSelectedRole(role);
                       setShowEditInput(false);
                       viewRoleAPI(role.id)
                     }}
@@ -355,10 +351,20 @@ const RolesBody = () => {
                     </div>
                     <div>
                       <ul className="list-unstyled lh-lg d-flex gap-2 m-0">
-                        <li>
+                        <li
+                          onClick={(e) => {
+                            // e.stopPropagation();
+                            handleEditClick();
+                          }}
+                        >
                           <img src="/assets/Icon/Edit.svg" alt="edit" />
                         </li>
-                        <li>
+                        <li
+                          onClick={(e) => {
+                            // e.stopPropagation();
+                            setDeleteModalOpen(!deleteModalOpen);
+                          }}
+                        >
                           <img src="/assets/Icon/trash.svg" alt="trash" />
                         </li>
                       </ul>
@@ -418,11 +424,11 @@ const RolesBody = () => {
               className="p-3 pb-1 border-bottom"
               style={{ backgroundColor: "#F9FAFB" }}
             >
-              <h5 className="head-font">Manager</h5>
+              <h5 className="head-font">{selectedRole?.name || "--"}</h5>
             </div>
             <div
               className="overflow-y-scroll p-3"
-              style={{ maxHeight: "575px", minHeight: "575px" }}
+              style={{ minHeight: "575px" }}
             >
               <div className="table-responsive">
                 <table className="table  border">
@@ -487,7 +493,7 @@ const RolesBody = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {screens.map((screen) => {
+                    {rolesScreen.map((screen) => {
                       return (
                         <tr key={screen.id} className="">
                           <td className="" scope="row">
@@ -495,47 +501,72 @@ const RolesBody = () => {
                               {screen?.name}
                             </p>
                           </td>
-                          <td className="text-center">
-                            <input
-                              style={{ marginTop: "12px" }}
-                              className="py-1"
-                              type="checkbox"
-                              name=""
-                              id=""
-                            />
-                          </td>
-                          <td className="text-center">
-                            <input
-                              style={{ marginTop: "12px" }}
-                              className="py-1"
-                              type="checkbox"
-                              name=""
-                              id=""
-                            />
-                          </td>
-                          <td className="text-center">
-                            <input
-                              style={{ marginTop: "12px" }}
-                              className="py-1"
-                              type="checkbox"
-                              name=""
-                              id=""
-                            />
-                          </td>
-                          <td className="text-center">
-                            <input
-                              style={{ marginTop: "12px" }}
-                              className="py-1"
-                              type="checkbox"
-                              name=""
-                              id=""
-                            />
-                          </td>
+                          {screen.permissions.map((checkbox) => {
+                            const checked = roleData?.permissions.find((subId) => {
+                              return subId.id === checkbox;
+                            })
+                            return(
+                              <td className="text-center">
+                                <input
+                                  key={`${screen.name}${checkbox}`}
+                                  style={{ marginTop: "12px" }}
+                                  className="py-1"
+                                  type="checkbox"
+                                  // disabled={!showEditInput}
+                                  name=""
+                                  onChange={() => {
+                                    const findPermission = permissions.find((item) => {
+                                      return item.id === checkbox
+                                    })
+                                    console.log("@@@ CLICKED: ", findPermission);
+                                    if(findPermission){
+                                      let editRoleData: RoleData = Object.assign({}, roleData);
+                                      const findRoleDataPermission = editRoleData.permissions.find((findId) => {
+                                        return findId.id === findPermission.id
+                                      })
+                                      if(!findRoleDataPermission){
+                                        editRoleData.permissions.push(findPermission)
+                                      }else{
+                                        const findPermissionIndex = editRoleData.permissions.findIndex((findId) => {
+                                          return findId.id === findPermission.id
+                                        })
+                                        if(findPermissionIndex > -1){
+                                          editRoleData.permissions.splice(findPermissionIndex, 1)
+                                        }
+                                      }
+                                      setRoleData(editRoleData);
+                                    }
+                                  }}
+                                  checked={(checked?.id === checkbox)}
+                                  id={`${checkbox}`}
+                                />
+                              </td>
+                            )
+                          })}
                         </tr>
                       );
                     })}
                   </tbody>
                 </table>
+                <div>
+                  <button
+                    onClick={() => {
+                      let permissionString = "";
+                      roleData?.permissions.forEach((item, index) => {
+                        permissionString += `${item.id}${(index < (roleData.permissions.length - 1))? ',' : ''}`
+                      })
+                      const createNewData = {
+                        name: roleData?.name,
+                        permissions: permissionString
+                      }
+                      console.log("@@@ PERMISSION: ", createNewData);
+                      const url = `${roleData?.id}?name=${createNewData.name}&permissions=${createNewData.permissions}`;
+                      updateRoleAPI(url);
+                    }}
+                  >
+                    Save
+                  </button>
+                </div>
               </div>
             </div>
           </div>
