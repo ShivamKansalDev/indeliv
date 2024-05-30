@@ -73,6 +73,8 @@ const VehicleBody: React.FC = () => {
         return item.checked === true
       })
       setSelectedVehiclesList(selectedList);
+    }else{
+      setCurrentSelection(null)
     }
   }, [addEditModal]);
 
@@ -234,6 +236,7 @@ const VehicleBody: React.FC = () => {
           <VehicleModal 
             add={addVehicle}
             selectedVehiclesList={selectedVehiclesList}
+            setSelectedVehiclesList={setSelectedVehiclesList}
             currentSelection={currentSelection}
             vehicleTypes={vehicleTypes}
             vehiclesList={vehiclesList}
