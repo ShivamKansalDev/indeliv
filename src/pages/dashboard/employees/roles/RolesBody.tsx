@@ -97,7 +97,7 @@ const RolesBody = () => {
       return;
     }
 
-    const newRole = `name=${inputValue}&permissions=1`  // api permissions check
+    const newRole = `name=${inputValue}`  // api permissions check
     
     createNewRole(newRole);
     setShowInput(false);
