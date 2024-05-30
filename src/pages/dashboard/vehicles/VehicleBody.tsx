@@ -249,10 +249,10 @@ const VehicleBody: React.FC = () => {
             setShowManageModal={() => setShowManageModal(!showManageModal)}
             setNewVehicleDetails={(value: Vehicle) => {
               if(!addVehicle){
-                const data = `${value.id}?name=${value.name}&vehicle_type_id=${value.vehicle_type_id}`
+                const data = `${value.id}?name=${value.name.toUpperCase()}&vehicle_type_id=${value.vehicle_type_id}`
                 vehicleUpdate(data);
               }else{
-                const data = `name=${value.name}&vehicle_type_id=${value.vehicle_type_id}`;
+                const data = `name=${value.name.toUpperCase()}&vehicle_type_id=${value.vehicle_type_id}`;
                 addNewVehicle(data);
               }
             }} 

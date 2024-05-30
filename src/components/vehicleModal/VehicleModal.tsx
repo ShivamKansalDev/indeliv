@@ -159,7 +159,7 @@ const VehicleModal = (props : any) => {
                 placeholder="XXXXXXXXX"
                 autoFocus
                 onChange={(e) => {
-                  const regex = /[^A-Z0-9]/g;
+                  const regex = /[^a-zA-Z0-9]/g;
                   setLicensePlate(e.target.value.replace(regex, ''));
                 }}
               />

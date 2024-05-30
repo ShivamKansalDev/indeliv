@@ -83,6 +83,8 @@ const InformationModal = (props: any) => {
                 return false;
             }else if((item === "emailError")){
                 return false;
+            }else if(user && (item === "password")){
+                return false;
             }
             return true
         });
@@ -233,7 +235,7 @@ const InformationModal = (props: any) => {
                     />
                 </div>
             </div>
-            <Form.Label>Set Password <span className="imp">*</span></Form.Label>
+            <Form.Label>Set Password <span className="imp">{(user)? "" : "*"}</span></Form.Label>
             <div className="flex d-flex">
                 <Form.Control
                     type={passwordToggle ? "text" : "password"}
