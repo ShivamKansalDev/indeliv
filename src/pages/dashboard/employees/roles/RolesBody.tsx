@@ -76,19 +76,24 @@ const RolesBody = () => {
   const [permissions, setPermissions] = useState<PermissionsList[]>([]);
   const [rolesScreen, setRolesScreen] = useState<EachScreen[]>([]);
 
+  useEffect(() => {
+    
+  }, []);
+
   const handleButtonClick = () => {
     setShowInput(!showInput);
+    setShowEditInput(false)
   };
 
   const handleInputChange = (event: any) => {
     setInputValue(event.target.value);
     event.preventDefault();
-    setEditValue(event.target.value);
   };
 
   const handleAddRole = () => {
     if (inputValue.trim() === "") {
       setShowInput(false);
+      setShowEditInput(false);
       return;
     }
 
@@ -96,11 +101,12 @@ const RolesBody = () => {
     
     createNewRole(newRole);
     setShowInput(false);
+    setShowEditInput(false);
     setInputValue("");
   };
 
   const handleEditClick = () => {
-    setShowEditInput(true);
+    setShowEditInput(!showEditInput);
     const find = rolesList.find((item) => item.id === selectedRole?.id) 
     if(find){
       setEditValue(find.name);
@@ -256,7 +262,14 @@ const RolesBody = () => {
   // console.log(rolesList)
 
   return (
-    <div className="container-fluid px-0">
+    <div 
+      className="container-fluid px-0" 
+      onClick={() => {
+        if(showEditInput){
+          setShowEditInput(false)
+        }
+      }}
+    >
       <DeleteRoleModal
         deleteModalOpen={deleteModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
