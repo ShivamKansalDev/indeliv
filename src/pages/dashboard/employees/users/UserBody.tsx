@@ -6,7 +6,9 @@ import DeleteModal from "./DeleteModal";
 import { API } from "@/api";
 import { createUpdateUser, deleteEmployee, getRoles, updateEmployeeStatus } from "@/api/users";
 import EmployeeHeader from "./EmployeeHeader";
-interface User{
+import useDebounce from "@/utils/hooks/debounce";
+import { userSearchFilter } from "@/search/users";
+export interface User{
   id: number,
   first_name: string,
   last_name: string,
@@ -18,6 +20,7 @@ interface User{
   is_active: boolean,
   created_at: string,
   updated_at: string,
+  is_deleted: boolean;
   name: string,
   role_name: string,
   image_path: string
@@ -62,6 +65,18 @@ const UserBody: React.FC = () => {
 
   const [selectedOption, setSelectedOption] = useState("Select Role");
   const [userDetails, setUserDetails] = useState<UserDetails | null>();
+  const [searchText, setSearchText] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<User[]>([]);
+
+  const debouncedSearch = useDebounce(searchText, 1000);
+
+  useEffect(() => {
+    if(debouncedSearch){
+      const result = userSearchFilter(debouncedSearch, usersList)
+      setSearchResults(result);
+      // console.log("#### SEARCH RESULTS: ", result);
+    }
+  }, [debouncedSearch])
 
   const handleSelect = (eventKey: string) => {
     const findRole = userRoles.find((item) => item.name === eventKey)
@@ -97,6 +112,7 @@ const UserBody: React.FC = () => {
   async function deleteUser(id: number){
     try {
       const response = await deleteEmployee(id);
+      alert("Deleted");
       getUsersList();
     } catch (error) {
       console.log("!!! DELETE USER ERROR: ", error);
@@ -146,10 +162,70 @@ const UserBody: React.FC = () => {
       console.log("!!! UPDATE USER ERROR: ", error);
     }
   }
+
+  function renderItem(item: User){
+    if(item?.is_deleted){
+      return null;
+    }
+    return (
+      <div key={`${item?.id}userbody`} className="employee-card">
+        <div className="details">
+          <div className="d-flex gap-3">
+            <img src="/assets/image/user.png" alt="user_image" />
+            <div className="name">
+              <span className="name_text">{item.name}</span>
+              <div className="d-flex gap-2"> 
+                <img src="/assets/Icon/Phone Number.svg" alt="phone number" />
+                <span>(+91) {item.phone}</span>
+              </div>
+              <div className="d-flex gap-2"> 
+                <img src="/assets/Icon/Manager.svg" alt="role" />
+                <span>{item.role_name}</span>
+              </div>
+            </div>
+          </div>
+          {/* <span className="suspended">Suspended</span> */}
+          <span className={(item?.is_active)? "active" : "suspended"}>{(item?.is_active)? "Active" : "Suspended"}</span>
+        </div>
+        <div className="options">
+          <button className="edit" onClick={()=>{
+            setEditSelectedUser(item); 
+            setUserDetails({
+              role_id: item.role_id,
+              first_name: item.first_name,
+              last_name: item.last_name,
+              phone: item.phone,
+              password: "",
+              image: item.image_path,
+              email: item.email,
+              emailError: false
+            })
+          }}>
+              Edit
+          </button>
+          <div className="d-flex gap-2">
+            <button className="delete" onClick={()=>{setSelectedUser(item); setDeleteOpen(!deleteOpen)}}>
+              Delete
+            </button>
+            <button className="activate" onClick={()=>{setSelectedUser(item); setDeactivateOpen(!deactivateOpen)
+            
+            }}>
+              {(item?.is_active)? "Deactivate" : "Activate"}
+            </button>
+          </div>
+        </div>
+
+      </div>
+    );
+  }
   
   return (
     <>
-      <EmployeeHeader setInformationOpen={() => setInformationOpen(!informationOpen)} />
+      <EmployeeHeader 
+        setInformationOpen={() => setInformationOpen(!informationOpen)} 
+        searchText={searchText}
+        setSearchText={(text: string) => setSearchText(text)}
+      />
       <div className="employee-detail-page">
         <ActiveDeactiveModal 
           selectedUser={selectedUser}
@@ -190,59 +266,14 @@ const UserBody: React.FC = () => {
           }}
         />
         <div className="content">
-            {usersList?.map((item: User, index: any): ReactNode => {
-              return (
-              <div key={`${item?.id}userbody`} className="employee-card">
-                <div className="details">
-                  <div className="d-flex gap-3">
-                    <img src="/assets/image/user.png" alt="user_image" />
-                    <div className="name">
-                      <span className="name_text">{item.name}</span>
-                      <div className="d-flex gap-2"> 
-                        <img src="/assets/Icon/Phone Number.svg" alt="phone number" />
-                        <span>(+91) {item.phone}</span>
-                      </div>
-                      <div className="d-flex gap-2"> 
-                        <img src="/assets/Icon/Manager.svg" alt="role" />
-                        <span>{item.role_name}</span>
-                      </div>
-                    </div>
-                  </div>
-                  {/* <span className="suspended">Suspended</span> */}
-                  <span className={(item?.is_active)? "active" : "suspended"}>{(item?.is_active)? "Active" : "Suspended"}</span>
-                </div>
-                <div className="options">
-                  <button className="edit" onClick={()=>{
-                    setEditSelectedUser(item); 
-                    setUserDetails({
-                      role_id: item.role_id,
-                      first_name: item.first_name,
-                      last_name: item.last_name,
-                      phone: item.phone,
-                      password: "",
-                      image: item.image_path,
-                      email: item.email,
-                      emailError: false
-                    })
-                  }}>
-                      Edit
-                  </button>
-                  <div className="d-flex gap-2">
-                    <button className="delete" onClick={()=>{setSelectedUser(item); setDeleteOpen(!deleteOpen)}}>
-                      Delete
-                    </button>
-                    <button className="activate" onClick={()=>{setSelectedUser(item); setDeactivateOpen(!deactivateOpen)
-                    
-                    }}>
-                      {(item?.is_active)? "Deactivate" : "Activate"}
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-              );
-            })}
-          </div>
+          {(!debouncedSearch)? (
+            usersList?.map((item: User): ReactNode => renderItem(item))
+          )
+          :
+          (
+            searchResults?.map((item: User): ReactNode => renderItem(item))
+          )}
+        </div>
           
           {/* <span>Hello world!</span> */}
       </div>

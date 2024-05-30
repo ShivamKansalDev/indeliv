@@ -1,22 +1,7 @@
 import { Button, Modal } from "react-bootstrap";
+import { User } from "./UserBody";
 
 type Props = {}
-interface User{
-  id: number,
-  first_name: string,
-  last_name: string,
-  phone: string,
-  email: string,
-  email_verified_at: null | string,
-  role_id: number,
-  image: null | string,
-  is_active: boolean,
-  created_at: string,
-  updated_at: string,
-  name: string,
-  role_name: string,
-  image_path: string
-}
 
 const ActiveDeactiveModal = (props: any) => {
   const {

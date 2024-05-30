@@ -1,16 +1,7 @@
 import { Button, Modal } from "react-bootstrap";
+import { User } from "./UserBody";
 
 type Props = {}
-
-interface User{
-  id: number;
-  image: string;
-  name: string;
-  mobile: string;
-  role: string;
-  isActive: boolean;
-  isSuspended: boolean;
-}
 
 const DeleteModal = (props: any) => {
   const {
