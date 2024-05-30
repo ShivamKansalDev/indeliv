@@ -136,7 +136,7 @@ const VehicleModal = (props : any) => {
                 return null;
               }
               return (
-                <Dropdown.Item key={`type${vehicle.id}`} eventKey={vehicle.name}>{vehicle.name}</Dropdown.Item>
+                <Dropdown.Item key={`type${vehicle.id}`} className={vehicle.name === selectedOption ? "bgClass" : ""} eventKey={vehicle.name}>{vehicle.name}</Dropdown.Item>
               );
             })}
           </Dropdown.Menu>
