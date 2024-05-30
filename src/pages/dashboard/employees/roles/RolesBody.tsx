@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Input from "@/pages/(auth)/components/Input";
 import "./RolesBody.css";
-import DeleteRoleModal from "./DeleteRoleModel";
+import DeleteRoleModal from "./DeleteRoleModal";
 import { API } from "@/api";
-import { createRole, permissionList, updateRole, viewRole } from "@/api/roles";
+import { createRole, deleteRole, permissionList, updateRole, viewRole } from "@/api/roles";
 import { string } from "yup";
+import { Button } from "react-bootstrap";
 
 interface Role {
   id: number;
@@ -91,7 +92,7 @@ const RolesBody = () => {
       return;
     }
 
-    const newRole = `name=${inputValue}`  // api permissions check
+    const newRole = `name=${inputValue}&permissions=1`  // api permissions check
     
     createNewRole(newRole);
     setShowInput(false);
@@ -184,14 +185,22 @@ const RolesBody = () => {
     }
   }
 
-  async function getRolesList() {
+  async function getRolesList(id: number | null = null) {
     try {
       const response = await API.post("roles", null);
       const data: Role[] = response.data;
       setRolesList(data);
       if(Array.isArray(data) && data?.length > 0){
-        setSelectedRole(data[0]);
-        viewRoleAPI(data[0]['id'])
+        if(id){
+          const findRole = data.find((item) => item.id === id)
+          if(findRole && findRole?.id){
+            setSelectedRole(findRole);
+            viewRoleAPI(findRole.id)
+          }
+        }else{
+          setSelectedRole(data[0]);
+          viewRoleAPI(data[0]['id'])
+        }
       }
     } catch (error) {
       console.log("!!! USERS ERROR: ", error);
@@ -231,15 +240,29 @@ const RolesBody = () => {
     }
   }
 
+  const deleteRoleHandler = async()=>{
+    try{
+      if(selectedRole?.id){
+        setDeleteModalOpen(!deleteModalOpen);
+        const response = await deleteRole(selectedRole?.id);
+        setSelectedRole(null);
+        getRolesList();
+      }
+    } catch {
+      console.log("Delete role error")
+    }
+  }
+
   // console.log(rolesList)
 
   return (
     <div className="container-fluid px-0">
-      {/* <DeleteRoleModal
+      <DeleteRoleModal
         deleteModalOpen={deleteModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
-        role={roles2[selectedRole!]}
-      /> */}
+        role={selectedRole}
+        deleteRoleHandler={deleteRoleHandler}
+      />
       <div className="row">
         <div className="col-md-3">
           <div
@@ -495,7 +518,7 @@ const RolesBody = () => {
                   <tbody>
                     {rolesScreen.map((screen) => {
                       return (
-                        <tr key={screen.id} className="">
+                        <tr key={`${screen.id}`} className="">
                           <td className="" scope="row">
                             <p style={{}} className="my-1 py-1">
                               {screen?.name}
@@ -506,13 +529,11 @@ const RolesBody = () => {
                               return subId.id === checkbox;
                             })
                             return(
-                              <td className="text-center">
+                              <td key={`${screen.name}${checkbox}`} className="text-center">
                                 <input
-                                  key={`${screen.name}${checkbox}`}
                                   style={{ marginTop: "12px" }}
                                   className="py-1"
                                   type="checkbox"
-                                  // disabled={!showEditInput}
                                   name=""
                                   onChange={() => {
                                     const findPermission = permissions.find((item) => {
@@ -548,8 +569,9 @@ const RolesBody = () => {
                     })}
                   </tbody>
                 </table>
-                <div>
-                  <button
+                <div className="d-flex justify-content-end g-6">
+                  <Button variant="light" className="fs-6 lh-lg px-5 border " onClick={() => getRolesList(selectedRole?.id)}>Cancel</Button>
+                  <Button className="primary fs-6 lh-lg px-5" variant="primary"
                     onClick={() => {
                       let permissionString = "";
                       roleData?.permissions.forEach((item, index) => {
@@ -565,7 +587,7 @@ const RolesBody = () => {
                     }}
                   >
                     Save
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>

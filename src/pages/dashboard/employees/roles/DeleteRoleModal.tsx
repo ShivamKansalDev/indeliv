@@ -2,15 +2,16 @@ import { Button, Modal } from "react-bootstrap";
  
 
 interface Role {
-    index: string
-    title: string
-    subTitle: string
+  id: number;
+  name: string;
+  users: number;
 }
 
 const DeleteRoleModal = (props: any) => {
   const {
     deleteModalOpen = false,
-    setDeleteModalOpen = () => {}
+    setDeleteModalOpen = () => {},
+    deleteRoleHandler = () => {}
   } = props;
   const role: Role = props.role;
   return (
@@ -26,12 +27,12 @@ const DeleteRoleModal = (props: any) => {
         </div>
 
         <div className="flex d-flex justify-content-center my-3">
-          <h6>Are you sure you want to delete {role?.title}?</h6>
+          <h6>Are you sure you want to delete {role?.name}?</h6>
         </div>
 
         <div className="d-flex justify-content-end">
           <Button className="me-2" variant="light" onClick={()=>{setDeleteModalOpen(false)}}>No</Button>
-          <Button variant="primary">Yes</Button>
+          <Button variant="primary" onClick={deleteRoleHandler}>Yes</Button>
         </div>
       </div>
     </Modal>
