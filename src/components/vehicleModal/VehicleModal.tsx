@@ -43,7 +43,8 @@ const VehicleModal = (props : any) => {
     setAddEditModal = () => {},
     showManageModal = false,
     setShowManageModal = () => {},
-    setNewVehicleDetails = (vehicle: Vehicle) => {}
+    setNewVehicleDetails = (vehicle: Vehicle) => {},
+    setSelectedVehiclesList = () => {}
   } = props;
   const currentSelection: Vehicle = props.currentSelection;
   const vehicleTypes: VehicleTypes[] = props.vehicleTypes;
@@ -57,9 +58,30 @@ const VehicleModal = (props : any) => {
     setSelectedOption(eventKey);
   };
 
+  function rearrangeSelectedVehiclesList() {
+    console.log("^^^^^^^ findVehicleIndex: ", selectedVehiclesList);
+    const findVehicleIndex = selectedVehiclesList.findIndex((item) => {
+      return (item.name === selectedOption)
+      
+    });
+    if(findVehicleIndex > -1){
+      const newData = Array.from(selectedVehiclesList)
+      const initialIndexData = newData[0];
+      newData[0] = newData[findVehicleIndex];
+      newData[findVehicleIndex] = initialIndexData;
+      setSelectedVehiclesList(newData);
+    }
+  }
+
   const handleClose = () => {
     setAddEditModal();
   };
+
+  useEffect(() => {
+    if(selectedOption){
+      rearrangeSelectedVehiclesList();
+    }
+  }, [selectedOption])
 
   useEffect(() => {
     if(!add){
@@ -67,7 +89,7 @@ const VehicleModal = (props : any) => {
         // console.log(item.name.toLowerCase() , currentSelection.vehicle_type.toLowerCase());
         return item.name.toLowerCase() === currentSelection.vehicle_type.toLowerCase()
       });
-      // console.log("@@@ EDIT: ", selection);
+      console.log("@@@ EDIT: ", selection?.name);
       if(selection){
         setSelectedOption(selection.name);
         setLicensePlate(currentSelection.name);
@@ -146,7 +168,7 @@ const VehicleModal = (props : any) => {
             Close
           </Button>
           <Button variant="primary" onClick={() => {
-            if(!selectedOption || !licensePlate){
+            if((selectedOption === "Select Vehicle") || !licensePlate){
               return;
             }
             const findVehicle = vehicleTypes.find((item) => item.name === selectedOption);
