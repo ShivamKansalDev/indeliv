@@ -10,11 +10,12 @@ import {
 import { useSetOpenNav } from "../../index";
 import { ReactComponent as BurgerSvg } from "@/assets/svgs/burger.svg";
 
-export default function EmployeeHeader({
-  setInformationOpen = () => {}
-}) {
-  const location = useLocation();
-  const [searchTxt, setSearchTxt] = useState("");
+export default function EmployeeHeader(props: any) {
+  const {
+    setInformationOpen = () => {},
+    setSearchText = (text: string) => {}
+  } = props;
+  const searchText: string = props.searchText; 
   const [loading, setLoading] = useState(false);
   const { setOpenNav } = useSetOpenNav();
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function EmployeeHeader({
     <div className="employees-list-component">
       <div className="nav-header">
         <div
-          onClick={() => setSearchTxt("")}
+          onClick={() => setSearchText("")}
           className="nav-links d-flex justify-content-between align-items-center w-md-100 g-0  m-0 text-12"
         >
             <span className="navbar-link">Employees</span>
@@ -36,8 +37,8 @@ export default function EmployeeHeader({
                 <BurgerSvg className="burger" onClick={() => setOpenNav(true)} />
                 <img src={"/assets/Icon/Search.svg"} alt="User Avatar" />
                 <input
-                value={searchTxt}
-                onChange={(e) => setSearchTxt(e.target.value)}
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
                 type="search"
                 placeholder="Search By Name or Invoice Number"
                 />

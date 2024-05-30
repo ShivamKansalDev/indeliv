@@ -12,12 +12,14 @@ import { useSetOpenNav } from "../index";
 import VehicleModal from "@/components/vehicleModal/VehicleModal";
 import ManageVehicleModal from "@/components/vehicleModal/ManageVehicleModal";
 
-export default function VehicleHeader({
-  setAddVehicle = () => {},
-  setNewVehicleDetails = () => {}
-}) {
+export default function VehicleHeader(props: any) {
+  const {
+    setAddVehicle = () => {},
+    setNewVehicleDetails = () => {},
+    setSearchText = (text: string) => {}
+  } = props;
+  const searchText: string = props.searchText; 
   const location = useLocation();
-  const [searchTxt, setSearchTxt] = useState("");
   const [addEditModal, setAddEditModal] = useState<boolean>(false);
   const [showManageModal, setShowManageModal] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
@@ -35,7 +37,7 @@ export default function VehicleHeader({
     <div className="employees-list-component">
       <div className="nav-header">
         <div
-          onClick={() => setSearchTxt("")}
+          onClick={() => setSearchText("")}
           className="nav-links d-flex justify-content-between align-items-center w-md-100 g-0  m-0 text-12"
         >
             <span className="navbar-link">Vehicles</span>
@@ -45,8 +47,8 @@ export default function VehicleHeader({
                 <BurgerSvg className="burger" onClick={() => setOpenNav(true)} />
                 <img src={"/assets/Icon/Search.svg"} alt="User Avatar" />
                 <input
-                value={searchTxt}
-                onChange={(e) => setSearchTxt(e.target.value)}
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
                 type="search"
                 placeholder="Search Vehicles"
                 />

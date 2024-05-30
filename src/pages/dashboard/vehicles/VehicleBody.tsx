@@ -7,8 +7,10 @@ import { API } from "@/api";
 import { createVehicle, deleteVehicle, listVehicles, updateVehicle, vehiclesTypes } from "@/api/vehicles";
 import VehicleHeader from "./VehicleHeader";
 import DeleteVehicleModal from "@/components/vehicleModal/deleteVehicleModal";
+import useDebounce from "@/utils/hooks/debounce";
+import { vehicleSearchFilter } from "@/search/vehicle";
 
-interface Vehicle {
+export interface Vehicle {
   id: number;
   name: string;
   vehicle_type_id: number;
@@ -51,6 +53,18 @@ const VehicleBody: React.FC = () => {
   const [vehicleTypes, setVehicleTypes] = useState<VehicleTypes[]>([]);
   const [selectedVehiclesList, setSelectedVehiclesList] = useState<SelectedVehicle[]>([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [searchText, setSearchText] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<Vehicle[]>([]);
+
+  const debouncedSearch = useDebounce(searchText, 1000);
+
+  useEffect(() => {
+    if(debouncedSearch){
+      const result = vehicleSearchFilter(debouncedSearch, vehiclesList)
+      setSearchResults(result);
+      // console.log("#### SEARCH RESULTS: ", result);
+    }
+  }, [debouncedSearch])
 
   useEffect(() => {
     if(addEditModal){
@@ -149,10 +163,80 @@ const VehicleBody: React.FC = () => {
     }
   }
 
+  function renderItem(item: Vehicle){
+    return (
+      <div key={`${item.id}userbody`} className="employee-card">
+        <div className="details">
+          <div className="d-flex gap-3">
+            {(item.vehicle_type.toLowerCase() === "car")&& (
+              <img src="/assets/Icon/Car.svg" alt="user_image" />
+            )}
+            {(item.vehicle_type.toLowerCase() === "truck")&& (
+              <img src="/assets/Icon/Truck.svg" alt="user_image" />
+            )}
+            {(item.vehicle_type.toLowerCase() === "scooter")&& (
+              <img src="/assets/Icon/Scooter.svg" alt="user_image" />
+            )}
+            {(item.vehicle_type.toLowerCase() === "motor bike")&& (
+              <img src="/assets/Icon/Motor Bike.svg" alt="user_image" />
+            )}
+            {(item.vehicle_type.toLowerCase() === "three-wheeled")&& (
+              <img src="/assets/Icon/Three-wheeled.svg" alt="user_image" />
+            )}
+            {(item.vehicle_type.toLowerCase() === "refrigerated truck")&& (
+              <img src="/assets/Icon/Refrigerated Truck.svg" alt="user_image" />
+            )}
+            {(item.vehicle_type.toLowerCase() === "refrigerated vans")&& (
+              <img src="/assets/Icon/Refrigerated Truck.svg" alt="user_image" />
+            )}
+            {(item.vehicle_type.toLowerCase() === "mini truck")&& (
+              <img src="/assets/Icon/Mini Truck.svg" alt="user_image" />
+            )}
+            {(item.vehicle_type.toLowerCase() === "pick-up truck")&& (
+              <img src="/assets/Icon/Pick-up trucks.svg" alt="user_image" />
+            )}
+            {(item.vehicle_type.toLowerCase() === "vans")&& (
+              <img src="/assets/Icon/Vans.svg" alt="user_image" />
+            )}
+            <div className="name">
+              <span className="name_text">{item.vehicle_type}</span>
+              <div className="d-flex gap-2">
+                License Plate: <span>{item.name}</span>
+              </div>
+            </div>
+          </div>
+      
+        </div>
+        <div className="options d-flex justify-content-end">
+          <div className="d-flex  gap-2">
+            <button 
+              className="activate " 
+              style={{borderColor:"#EAECF0", color:"#1D2939",fontWeight:"600"}} 
+              onClick={() => setCurrentSelection(item)}
+            >
+                Edit
+            </button>
+            <button
+              className="delete"
+              style={{ fontWeight: "600", backgroundColor: "#EE6A5F/8%" }}
+              onClick={()=>{
+                setDeleteSelection(item);
+              }}
+             >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <VehicleHeader 
         setAddVehicle={() => setAddVehicle(true)}
+        searchText={searchText}
+        setSearchText={(text: string) => setSearchText(text)}
       />
       <div className="employee-detail-page">
         <DeleteVehicleModal
@@ -162,73 +246,11 @@ const VehicleBody: React.FC = () => {
           deleteVehicleItem={deleteVehicleItem}
         />
         <div className="content">
-          {vehiclesList?.map((item: Vehicle, index: any): ReactNode => {
-            return (
-              <div key={`${item.id}userbody`} className="employee-card">
-                <div className="details">
-                  <div className="d-flex gap-3">
-                    {(item.vehicle_type.toLowerCase() === "car")&& (
-                      <img src="/assets/Icon/Car.svg" alt="user_image" />
-                    )}
-                    {(item.vehicle_type.toLowerCase() === "truck")&& (
-                      <img src="/assets/Icon/Truck.svg" alt="user_image" />
-                    )}
-                    {(item.vehicle_type.toLowerCase() === "scooter")&& (
-                      <img src="/assets/Icon/Scooter.svg" alt="user_image" />
-                    )}
-                    {(item.vehicle_type.toLowerCase() === "motor bike")&& (
-                      <img src="/assets/Icon/Motor Bike.svg" alt="user_image" />
-                    )}
-                    {(item.vehicle_type.toLowerCase() === "three-wheeled")&& (
-                      <img src="/assets/Icon/Three-wheeled.svg" alt="user_image" />
-                    )}
-                    {(item.vehicle_type.toLowerCase() === "refrigerated truck")&& (
-                      <img src="/assets/Icon/Refrigerated Truck.svg" alt="user_image" />
-                    )}
-                    {(item.vehicle_type.toLowerCase() === "refrigerated vans")&& (
-                      <img src="/assets/Icon/Refrigerated Truck.svg" alt="user_image" />
-                    )}
-                    {(item.vehicle_type.toLowerCase() === "mini truck")&& (
-                      <img src="/assets/Icon/Mini Truck.svg" alt="user_image" />
-                    )}
-                    {(item.vehicle_type.toLowerCase() === "pick-up truck")&& (
-                      <img src="/assets/Icon/Pick-up trucks.svg" alt="user_image" />
-                    )}
-                    {(item.vehicle_type.toLowerCase() === "vans")&& (
-                      <img src="/assets/Icon/Vans.svg" alt="user_image" />
-                    )}
-                    <div className="name">
-                      <span className="name_text">{item.vehicle_type}</span>
-                      <div className="d-flex gap-2">
-                        License Plate: <span>{item.name}</span>
-                      </div>
-                    </div>
-                  </div>
-              
-                </div>
-                <div className="options d-flex justify-content-end">
-                  <div className="d-flex  gap-2">
-                    <button 
-                      className="activate " 
-                      style={{borderColor:"#EAECF0", color:"#1D2939",fontWeight:"600"}} 
-                      onClick={() => setCurrentSelection(item)}
-                    >
-                        Edit
-                    </button>
-                    <button
-                      className="delete"
-                      style={{ fontWeight: "600", backgroundColor: "#EE6A5F/8%" }}
-                      onClick={()=>{
-                        setDeleteSelection(item);
-                      }}
-                     >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {!(debouncedSearch)? (vehiclesList?.map((item: Vehicle): ReactNode => renderItem(item)))
+          :
+          (
+            searchResults?.map((item: Vehicle): ReactNode => renderItem(item))
+          )}
         </div>
       
         {/* <span>Hello world!</span> */}

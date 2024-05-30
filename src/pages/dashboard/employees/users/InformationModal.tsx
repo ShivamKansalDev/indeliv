@@ -1,22 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Dropdown, Form, Modal } from "react-bootstrap";
-import { UserDetails, UserRole } from "./UserBody";
-interface User{
-    id: number,
-    first_name: string,
-    last_name: string,
-    phone: string,
-    email: string,
-    email_verified_at: null | string,
-    role_id: number,
-    image: null | string,
-    is_active: boolean,
-    created_at: string,
-    updated_at: string,
-    name: string,
-    role_name: string,
-    image_path: string
-}
+import { User, UserDetails, UserRole } from "./UserBody";
 
 const InformationModal = (props: any) => {
     const {
