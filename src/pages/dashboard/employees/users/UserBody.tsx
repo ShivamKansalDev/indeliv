@@ -8,6 +8,7 @@ import { createUpdateUser, deleteEmployee, getRoles, updateEmployeeStatus } from
 import EmployeeHeader from "./EmployeeHeader";
 import useDebounce from "@/utils/hooks/debounce";
 import { userSearchFilter } from "@/search/users";
+import { Role } from "../roles/RolesBody";
 export interface User{
   id: number,
   first_name: string,
@@ -140,7 +141,9 @@ const UserBody: React.FC = () => {
   async function fetchRoles(){
     try {
       const response = await getRoles();
-      setUserRoles(response.data);
+      let data: Role[] = response.data;
+      data = data.sort((a, b) => a.id - b.id);
+      setUserRoles(data);
     } catch (error) {
       console.log("!!! FETCH ROLES ERROR: ", error);
     }

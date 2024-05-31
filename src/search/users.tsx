@@ -3,7 +3,7 @@ import { User } from "@/pages/dashboard/employees/users/UserBody";
 export const userSearchFilter = (searchText: string = "", data: User[]) => {
     return data.filter((item: User) => {
         const keys = Object.keys(item).filter((subItem) => {
-            if((subItem === "first_name") || (subItem === "last_name") || (subItem === "name") || (subItem === "role_name") || (subItem === "phone")){
+            if((subItem === "first_name") || (subItem === "last_name") || (subItem === "name") || (subItem === "role_name") || (subItem === "phone") || (subItem === "email")){
                 return true
             }
             return false;
