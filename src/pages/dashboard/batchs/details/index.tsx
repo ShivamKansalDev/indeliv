@@ -672,25 +672,26 @@ export default function BatchDetail() {
               onHide={handleCloseAssignModal}
               centered
             >
-              <Modal.Header closeButton style={{ margin: 16, padding: 0 }}>
+              <Modal.Header closeButton style={{ margin: 16, padding: 0,  marginBottom: "0px" }}>
                 <Modal.Title
                   style={{
                     fontSize: "20px",
                     fontWeight: 600,
-                    color: "#1D2939",
+                    color: "#1D2939"
+                  
                   }}
                 >
                   Assign
                 </Modal.Title>
               </Modal.Header>
-              <hr
+              {/* <hr
                 style={{
                   height: "1px",
                   margin: "0px 16px",
                   borderColor: "#EAECF0",
                   opacity: "1",
                 }}
-              />
+              /> */}
               <Modal.Body style={{ paddingTop: "20px" }}>
                 <Form>
                   <Form.Group className="mb-3" controlId="assignAssociate">
