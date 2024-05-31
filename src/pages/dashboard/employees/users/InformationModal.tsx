@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Dropdown, Form, Modal } from "react-bootstrap";
 import { User, UserDetails, UserRole } from "./UserBody";
+import './InformationModal.css'
 
 const InformationModal = (props: any) => {
     const {
@@ -20,6 +21,22 @@ const InformationModal = (props: any) => {
     const [selectRole, setSelectRole] = useState<string>();
     const [pic, setPic] = useState<string>(initialProfilePicture);
     const [emptyFields, setEmptyFields] = useState<string[]>([]);
+    const [selectedUserRole, setSelectedUserRole] = useState<UserRole[]>([]);
+
+    function rearrangeUserRoles() {
+        console.log("^^^^^^^ findUserIndex: ", userRoles);
+        const findUserIndex = userRoles.findIndex((item) => {
+          return (item.name === selectRole);    
+        });
+        if(findUserIndex > -1){
+          const newData = Array.from(userRoles)
+          const initialIndexData = newData[0];
+          newData[0] = newData[findUserIndex];
+          newData[findUserIndex] = initialIndexData;
+          setSelectedUserRole(newData);
+        }
+      }
+
     const handleImageClick = () => {
         fileInputRef!.current!.click();
         
@@ -129,13 +146,24 @@ const InformationModal = (props: any) => {
                     <Dropdown.Toggle
                         variant="secondary"
                         id="dropdown-basic"
-                        className="custom-dropdown-toggle res"
+                        className="custom-dropdown-toggle res "
+                       
                     >
                         {selectRole || "Select role"}
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className="custom-dropdown-menu">
-                        {userRoles.map((role) => <Dropdown.Item key={`role${role.id}`} eventKey={role.name}>{role.name}</Dropdown.Item>)}
+                        {(selectRole) && (
+                            <Dropdown.Item key={'selectRole1'} className={"bgClass"} eventKey={selectRole}>{selectRole}</Dropdown.Item>
+                        )}
+                        {userRoles.map((role) => {
+                            if(role.name === selectRole){
+                                return null;
+                            }
+                            return (
+                                <Dropdown.Item key={`role${role.id}`} eventKey={role.name}>{role.name}</Dropdown.Item>
+                            )
+                        })}
                     </Dropdown.Menu>
                 </Dropdown>
             </div>

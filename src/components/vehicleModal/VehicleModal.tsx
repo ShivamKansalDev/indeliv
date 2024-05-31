@@ -61,8 +61,7 @@ const VehicleModal = (props : any) => {
   function rearrangeSelectedVehiclesList() {
     console.log("^^^^^^^ findVehicleIndex: ", selectedVehiclesList);
     const findVehicleIndex = selectedVehiclesList.findIndex((item) => {
-      return (item.name === selectedOption)
-      
+      return (item.name === selectedOption)    
     });
     if(findVehicleIndex > -1){
       const newData = Array.from(selectedVehiclesList)
@@ -79,7 +78,7 @@ const VehicleModal = (props : any) => {
 
   useEffect(() => {
     if(selectedOption){
-      rearrangeSelectedVehiclesList();
+      // rearrangeSelectedVehiclesList();
     }
   }, [selectedOption])
 
@@ -131,12 +130,18 @@ const VehicleModal = (props : any) => {
           </Dropdown.Toggle>
 
           <Dropdown.Menu className="custom-dropdown-menu">
+            {(selectedOption) && (
+                <Dropdown.Item key={'selectRole1'} className={"bgClass"} eventKey={selectedOption}>{selectedOption}</Dropdown.Item>
+            )}
             {selectedVehiclesList?.map((vehicle) => {
               if(!vehicle.checked){
                 return null;
               }
+              if(vehicle.name === selectedOption){
+                return null;
+              }
               return (
-                <Dropdown.Item key={`type${vehicle.id}`} className={vehicle.name === selectedOption ? "bgClass" : ""} eventKey={vehicle.name}>{vehicle.name}</Dropdown.Item>
+                <Dropdown.Item key={`type${vehicle.id}`} eventKey={vehicle.name}>{vehicle.name}</Dropdown.Item>
               );
             })}
           </Dropdown.Menu>

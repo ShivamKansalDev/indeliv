@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import _ from "lodash";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Input from "@/pages/(auth)/components/Input";
 import "./RolesBody.css";
 import DeleteRoleModal from "./DeleteRoleModal";
 import { API } from "@/api";
 import { createRole, deleteRole, permissionList, updateRole, viewRole } from "@/api/roles";
-import { string } from "yup";
-import { Button } from "react-bootstrap";
+import { getRoles } from "@/api/users";
 
-interface Role {
+export interface Role {
   id: number;
   name: string;
   users: number;
@@ -73,12 +74,26 @@ const RolesBody = () => {
   const [rolesList, setRolesList] = useState<Role[]>([]);
   const [screenList, setScreenList] = useState<Permission[]>([]);
   const [roleData, setRoleData] = useState<RoleData | null>();
+  const [reserveRoleData, setReserveRoleData] = useState<RoleData | null>();
   const [permissions, setPermissions] = useState<PermissionsList[]>([]);
   const [rolesScreen, setRolesScreen] = useState<EachScreen[]>([]);
+  const [changeDetected, setChangeDetected] = useState<boolean>(false);
+  const [saveTitle, setSaveTitle] = useState<string>("Save");
 
   useEffect(() => {
-    
-  }, []);
+    if(roleData && reserveRoleData){
+      lookForChanges();
+    }
+  }, [roleData, reserveRoleData]);
+  
+  const lookForChanges = () => {
+    // console.log("PREV DATA: ", reserveRoleData, "\n\nCURRENT DATA: ", roleData);
+    if(!_.isEqual(reserveRoleData, roleData)){
+      console.log("@@@ CHANGE DETECTED ");
+      setChangeDetected(true);
+      setSaveTitle("Save");
+    }
+  }
 
   const handleButtonClick = () => {
     setShowInput(!showInput);
@@ -176,7 +191,7 @@ const RolesBody = () => {
           }
         }
       }
-      console.log("@@@ PERMISSIONS SCREEN: ", newData);
+      // console.log("@@@ PERMISSIONS SCREEN: ", newData);
       setRolesScreen(newData)
     }
   }, [permissions]);
@@ -193,7 +208,7 @@ const RolesBody = () => {
 
   async function getRolesList(id: number | null = null) {
     try {
-      const response = await API.post("roles", null);
+      const response = await getRoles();
       let data: Role[] = response.data;
       setRolesList(data);
       if(Array.isArray(data) && data?.length > 0){
@@ -230,8 +245,10 @@ const RolesBody = () => {
       const response = await updateRole(newRole);
       // setRolesList(response.data);
       console.log(response)
+      setSaveTitle("Saved");
       getRolesList(selectedRole?.id);
-      alert("Saved");
+      setChangeDetected(false);
+      setSaveTitle("Saved");
     } catch (error) {
       console.log("!!! UPDATE ROLE ERROR: ", error);
     }
@@ -241,8 +258,11 @@ const RolesBody = () => {
     try {
       const response = await viewRole(id);
       // setRolesList(response.data);
-      setRoleData(response.data);
-      console.log("@@@ VIEW ROLE: ", response.data);
+      const data: RoleData = response.data;
+      const newData = JSON.stringify(data);
+      setRoleData(data);
+      setReserveRoleData(JSON.parse(newData));
+      // console.log("@@@ VIEW ROLE: ", response.data);
     } catch (error) {
       console.log("!!! VIEW ROLE ERROR: ", error);
     }
@@ -268,7 +288,7 @@ const RolesBody = () => {
       className="container-fluid px-0" 
       onClick={() => {
         if(showEditInput){
-          setShowEditInput(false)
+          // setShowEditInput(false)
         }
       }}
     >
@@ -308,7 +328,7 @@ const RolesBody = () => {
                               type="text"
                               placeholder={role?.name}
                               value={editValue}
-                              onChange={handleInputChange}
+                              onChange={(e) => setEditValue(e.target.value)}
                             />
                             <button
                               className="position-absolute top-50  translate-middle-y btn btn-link p-0 m-0"
@@ -331,6 +351,10 @@ const RolesBody = () => {
                         }}
                         className="d-flex gap-3 justify-content-between align-items-center px-2 rounded py-1 "
                         key={`role${role.id}`}
+                        onClick={() => {
+                          setShowInput(false);
+                          setShowEditInput(!showEditInput);
+                        }}
                       >
                         <div className="py-2 lh-1" key={`role${role.id}`}>
                           <p className="m-0 title-font text-white">
@@ -381,6 +405,8 @@ const RolesBody = () => {
                   <div key={`userRole${index}`}
                     style={{ cursor: "pointer" }}
                     onClick={() => {
+                      setSaveTitle("Save");
+                      setChangeDetected(false);
                       setSelectedRole(role);
                       setShowEditInput(false);
                       viewRoleAPI(role.id)
@@ -465,7 +491,7 @@ const RolesBody = () => {
             </div>
           </div>
         </div>
-        <div className="col-md-9">
+        <div className="col-md-9" onClick={() => setShowEditInput(false)}>
           <div
             className="bg-white border"
             style={{ borderRadius: "12px", overflow: "hidden" }}
@@ -563,20 +589,31 @@ const RolesBody = () => {
                                 </td>
                               );
                             }
-                            let disabled = false;
-                            if(selectedRole?.id === 1){
-                              disabled = true;
-                            }else if(selectedRole?.id === 2){
-                              disabled = true;
-                            }else if(selectedRole?.id === 3){
-                              disabled = true;
-                            }else if(selectedRole?.id === 4){
-                              disabled = true;
+                            // let disabled = false;
+                            if((selectedRole?.id === 1) || (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4)){
+                              // disabled = true;
+                              if(checked?.id === checkbox){
+                                return(
+                                  <td key={`${screen.name}${checkbox}`} className="text-center">
+                                    <img src="/assets/Icon/graycheckbox.svg" alt="graycheckbox" className="py-1" style={{width: "23px", height: "23px", marginTop: "10px"}}/>
+                                  </td>
+                                )
+                              }else{
+                                <input
+                                  disabled={true}
+                                  style={{ marginTop: "12px" }}
+                                  className="py-1"
+                                  type="checkbox"
+                                  name=""
+                                  checked={(checked?.id === checkbox)}
+                                  id={`${checkbox}`}
+                                />
+                              }
                             }
                             return(
                               <td key={`${screen.name}${checkbox}`} className="text-center">
                                 <input
-                                  disabled={disabled}
+                                  // disabled={disabled}
                                   style={{ marginTop: "12px" }}
                                   className="py-1"
                                   type="checkbox"
@@ -585,7 +622,7 @@ const RolesBody = () => {
                                     const findPermission = permissions.find((item) => {
                                       return item.id === checkbox
                                     })
-                                    console.log("@@@ CLICKED: ", findPermission);
+                                    // console.log("@@@ CLICKED: ", findPermission);
                                     if(findPermission){
                                       let editRoleData: RoleData = Object.assign({}, roleData);
                                       const findRoleDataPermission = editRoleData.permissions.find((findId) => {
@@ -617,30 +654,71 @@ const RolesBody = () => {
                 </table>
               </div>
               <div className="d-flex justify-content-end g-6">
-                <Button variant="light" className="fs-6 lh-lg px-5 border " 
-                  onClick={() => getRolesList(selectedRole?.id)}
-                  disabled={(selectedRole?.id === 1)|| (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4)}
-                >
-                  Cancel
-                </Button>
-                <Button className="primary fs-6 lh-lg px-5" variant="primary"
-                  disabled={(selectedRole?.id === 1)|| (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4)}
-                  onClick={() => {
-                    let permissionString = "";
-                    roleData?.permissions.forEach((item, index) => {
-                      permissionString += `${item.id}${(index < (roleData.permissions.length - 1))? ',' : ''}`
-                    })
-                    const createNewData = {
-                      name: roleData?.name,
-                      permissions: permissionString
-                    }
-                    console.log("@@@ PERMISSION: ", createNewData);
-                    const url = `${roleData?.id}?name=${createNewData.name}&permissions=${createNewData.permissions}`;
-                    updateRoleAPI(url);
-                  }}
-                >
-                  Save
-                </Button>
+                {((selectedRole?.id === 1)|| (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4))? (
+                  <Button variant="light" className="fs-6 lh-lg px-5 border " 
+                    onClick={() => {
+                      setRoleData(reserveRoleData);
+                      setChangeDetected(false);
+                    }}
+                    disabled={true}
+                  >
+                    Cancel
+                  </Button>
+                )
+                :
+                (
+                  <Button variant="light" className="fs-6 lh-lg px-5 border " 
+                    onClick={() => {
+                      const stringifyData = JSON.stringify(reserveRoleData);
+                      setChangeDetected(false);
+                      setRoleData(JSON.parse(stringifyData));
+                    }}
+                    disabled={!changeDetected}
+                  >
+                    Cancel
+                  </Button>
+                )}
+                {((selectedRole?.id === 1)|| (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4))? (
+                  <Button className="primary fs-6 lh-lg px-5" variant="primary"
+                    disabled={true}
+                    onClick={() => {
+                      let permissionString = "";
+                      roleData?.permissions.forEach((item, index) => {
+                        permissionString += `${item.id}${(index < (roleData.permissions.length - 1))? ',' : ''}`
+                      })
+                      const createNewData = {
+                        name: roleData?.name,
+                        permissions: permissionString
+                      }
+                      console.log("@@@ PERMISSION: ", createNewData);
+                      const url = `${roleData?.id}?name=${createNewData.name}&permissions=${createNewData.permissions}`;
+                      updateRoleAPI(url);
+                    }}
+                  >
+                    Save
+                  </Button>
+                )
+                :
+                (
+                  <Button className="primary fs-6 lh-lg px-5" variant="primary"
+                    disabled={!changeDetected}
+                    onClick={() => {
+                      let permissionString = "";
+                      roleData?.permissions.forEach((item, index) => {
+                        permissionString += `${item.id}${(index < (roleData.permissions.length - 1))? ',' : ''}`
+                      })
+                      const createNewData = {
+                        name: roleData?.name,
+                        permissions: permissionString
+                      }
+                      console.log("@@@ PERMISSION: ", createNewData);
+                      const url = `${roleData?.id}?name=${createNewData.name}&permissions=${createNewData.permissions}`;
+                      updateRoleAPI(url);
+                    }}
+                  >
+                    {saveTitle}
+                  </Button>
+                )}
               </div>
             </div>
           </div>

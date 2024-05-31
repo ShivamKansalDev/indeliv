@@ -38,3 +38,25 @@
   .gapp{
     gap: 14px !important;
   }
+
+.line-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+.line-container::before,
+.line-container::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #99D5FF;
+}
+.line-text {
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 10px;
+    color:#0080FC !important;
+    background-color: #ECF7FF; 
+}

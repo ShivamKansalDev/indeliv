@@ -168,12 +168,6 @@ const VehicleBody: React.FC = () => {
       <div key={`${item.id}userbody`} className="employee-card">
         <div className="details">
           <div className="d-flex gap-3">
-            {(item.vehicle_type.toLowerCase() === "car")&& (
-              <img src="/assets/Icon/Car.svg" alt="user_image" />
-            )}
-            {(item.vehicle_type.toLowerCase() === "truck")&& (
-              <img src="/assets/Icon/Truck.svg" alt="user_image" />
-            )}
             {(item.vehicle_type.toLowerCase() === "scooter")&& (
               <img src="/assets/Icon/Scooter.svg" alt="user_image" />
             )}
@@ -183,20 +177,26 @@ const VehicleBody: React.FC = () => {
             {(item.vehicle_type.toLowerCase() === "three-wheeled")&& (
               <img src="/assets/Icon/Three-wheeled.svg" alt="user_image" />
             )}
-            {(item.vehicle_type.toLowerCase() === "refrigerated truck")&& (
+            {(item.name.toLowerCase() === "car")&& (
+              <img src="/assets/Icon/Car.svg" alt="user_image" />
+            )}
+            {(item.name.toLowerCase() === "truck")&& (
+              <img src="/assets/Icon/Truck.svg" alt="user_image" />
+            )}
+            {(item.name.toLowerCase() === "refrigerated truck")&& (
               <img src="/assets/Icon/Refrigerated Truck.svg" alt="user_image" />
             )}
-            {(item.vehicle_type.toLowerCase() === "refrigerated vans")&& (
-              <img src="/assets/Icon/Refrigerated Truck.svg" alt="user_image" />
+            {(item.name.toLowerCase() === "refrigerated van")&& (
+              <img src="/assets/Icon/Refrigerated vans.svg" alt="user_image" />
             )}
-            {(item.vehicle_type.toLowerCase() === "mini truck")&& (
+            {(item.name.toLowerCase() === "mini truck")&& (
               <img src="/assets/Icon/Mini Truck.svg" alt="user_image" />
             )}
-            {(item.vehicle_type.toLowerCase() === "pick-up truck")&& (
+            {(item.name.toLowerCase() === "pick-up truck")&& (
               <img src="/assets/Icon/Pick-up trucks.svg" alt="user_image" />
             )}
-            {(item.vehicle_type.toLowerCase() === "vans")&& (
-              <img src="/assets/Icon/Vans.svg" alt="user_image" />
+            {(item.name.toLowerCase() === "van")&& (
+              <img src="/assets/Icon/Van.svg" alt="user_image" />
             )}
             <div className="name">
               <span className="name_text">{item.vehicle_type}</span>
