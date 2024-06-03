@@ -86,6 +86,8 @@ const InformationModal = (props: any) => {
                 return false;
             }else if(user && (item === "password")){
                 return false;
+            }else if(user && (item === "image")){
+                return false;
             }
             return true
         });
