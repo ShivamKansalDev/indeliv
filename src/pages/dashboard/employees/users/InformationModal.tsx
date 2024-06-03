@@ -173,7 +173,7 @@ const InformationModal = (props: any) => {
                     autoFocus
                     value={userDetails?.first_name}
                     onChange={(e) => {
-                        const regex = /[^A-Za-z]/g;
+                        const regex = /[^A-Za-z0-9,' ']/g;
                         setUserDetails({
                             ...userDetails,
                             first_name: e.target.value.replace(regex, '')
@@ -189,7 +189,7 @@ const InformationModal = (props: any) => {
                         autoFocus
                         value={userDetails?.last_name}
                         onChange={(e) => {
-                            const regex = /[^A-Za-z]/g;
+                            const regex = /[^A-Za-z0-9,' ']/g;
                             setUserDetails({
                                 ...userDetails,
                                 last_name: e.target.value.replace(regex, '')
