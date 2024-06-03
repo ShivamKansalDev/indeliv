@@ -1,4 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
+import _ from "lodash";
 import "../employees/users/employee-detail.scss";
 import VehicleModal from "@/components/vehicleModal/VehicleModal";
 import { Button } from "react-bootstrap";
@@ -85,8 +86,13 @@ const VehicleBody: React.FC = () => {
         }
       }).filter((item) => {
         return item.checked === true
-      })
-      setSelectedVehiclesList(selectedList);
+      });
+      const map1 = _.keyBy(selectedList, 'id');
+      selectedVehiclesList.forEach(item => {
+        map1[item.id] = item;
+      });
+      const updatedArray = _.values(map1);
+      setSelectedVehiclesList(updatedArray);
     }else{
       setCurrentSelection(null)
     }

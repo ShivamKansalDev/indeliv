@@ -20,7 +20,7 @@ interface VehicleTypes{
 interface Vehicle{
   id: number;
   name: string;
-  icon: null|string;
+  icon: null | string;
   category: string;
   created_at: string;
   updated_at: string;
@@ -72,10 +72,15 @@ const ManageVehicleModal = (props : any) => {
         const findIndex = selectedVehiclesList.findIndex((subItem) => subItem.id === item.id)
         return {
           ...item,
-          checked: (findIndex > -1)? true : false 
+          checked: (findIndex > -1)? selectedVehiclesList[findIndex]['checked'] : false 
         }
       })
       setManageVehicle(updateCheck);
+    }else{
+      setManageVehicle([]);
+      setCategoryOne(false);
+      setCategoryTwo(false);
+      setCategoryThree(false);
     }
   }, [showManageModal]);
 
