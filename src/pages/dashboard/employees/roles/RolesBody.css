@@ -4,7 +4,7 @@
     font-size: 14px !important;
  }
 
- .form-control {
+ .abc {
     box-shadow: none !important;
     border-color: #86b7fe !important;
  
@@ -12,5 +12,4 @@
  .form-control:focus-visible {
     box-shadow: none !important;
     border-color: #86b7fe !important;
- 
 }

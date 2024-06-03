@@ -166,7 +166,7 @@ const UserBody: React.FC = () => {
     }
   }
 
-  function renderItem(item: User){
+  function renderItem(item: User){ 
     if(item?.is_deleted){
       return null;
     }
