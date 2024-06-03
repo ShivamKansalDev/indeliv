@@ -324,7 +324,7 @@ const RolesBody = () => {
                             }}
                           >
                             <input
-                              className="form-control mb-1 w-75 border-0 mt-1"
+                              className="form-control abc mb-1 w-75 border-0 mt-1"
                               type="text"
                               placeholder={role?.name}
                               value={editValue}
@@ -454,7 +454,7 @@ const RolesBody = () => {
                 <>
                   <div className="position-relative">
                     <input
-                      className="form-control mb-3"
+                      className="form-control abc mb-3"
                       type="text"
                       placeholder="Role Name"
                       value={inputValue}

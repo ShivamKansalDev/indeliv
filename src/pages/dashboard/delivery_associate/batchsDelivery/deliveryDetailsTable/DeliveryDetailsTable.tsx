@@ -98,7 +98,7 @@ export function BatchStatusDelivery({ batchStatus }: { batchStatus: string }) {
 
     return (
         <span style={currentStyle}
-            className={`badge rounded-pill fw-medium batch-status align-middle batch-status-badge`}><span className="status_delivery">{batchStatus}</span></span>
+            className={`badge rounded-pill fw-medium d-inline-flex justify-content-center flex-column  batch-status align-middle batch-status-badge`}><span className="status_delivery">{batchStatus}</span></span>
     )
 }
 export default function DeliveryDetailsTable({

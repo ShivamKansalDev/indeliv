@@ -105,9 +105,7 @@ const InformationModal = (props: any) => {
     }, [userDetails]);
 
   return (
-    <Modal show={informationOpen} centered dialogClassName="modal-90w" className="information-modal"
-
-    >
+    <Modal show={informationOpen} centered dialogClassName="modal-90w" className="information-modal">
       <div className="p-3" >
         <div className="modal-header mx-2 px-0 pt-0 pb-2 mb-2">
             <p className="mb-0 fw-semibold mx-0">{(user)? "Employees Information" : "Add Employee"}</p>
@@ -133,7 +131,6 @@ const InformationModal = (props: any) => {
                     style={{ display: 'none' }}
                     onChange={handleFileChange}
                 />
-
                 </Form.Group>
 
             </div>
