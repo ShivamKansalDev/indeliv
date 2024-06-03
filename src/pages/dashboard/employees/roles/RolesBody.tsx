@@ -599,15 +599,19 @@ const RolesBody = () => {
                                   </td>
                                 )
                               }else{
-                                <input
-                                  disabled={true}
-                                  style={{ marginTop: "12px" }}
-                                  className="py-1"
-                                  type="checkbox"
-                                  name=""
-                                  checked={(checked?.id === checkbox)}
-                                  id={`${checkbox}`}
-                                />
+                                return(
+                                  <td key={`${screen.name}${checkbox}`} className="text-center">
+                                    <input
+                                      disabled={true}
+                                      style={{ marginTop: "12px" }}
+                                      className="py-1"
+                                      type="checkbox"
+                                      name=""
+                                      checked={(checked?.id === checkbox)}
+                                      id={`${checkbox}`}
+                                    />
+                                  </td>
+                                )
                               }
                             }
                             return(
