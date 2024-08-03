@@ -234,7 +234,7 @@ const ManageVehicleModal = (props : any) => {
           <Button className="edit_cancel_button border_radius_8" variant="light" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" className="generic_apply_button border_radius_8" onClick={() => {
+          <Button variant="primary" className="generic_apply_button border_radius_8" style={{padding:"8px 25px"}} onClick={() => {
             setSelectedVehiclesList(manageVehicle);
             handleClose();
           }}>

@@ -370,7 +370,7 @@ useEffect(() => {
         <div className="row">
         <div className="col-md-5 ">
           <div
-            className="bg-white   border border-radius overflow-y-scroll"
+            className="bg-white   border border-radius "
             style={{}}
           >
 
@@ -419,7 +419,7 @@ useEffect(() => {
 
           {/* //webview */}
             <div
-              className="roleBodyLeft   d-none d-md-block"
+              className= {`${rolesList.length>10 ? "roleBodyLeft d-none d-md-block " : "heightscroll"} `}
             >
               {rolesList.length>0 && rolesList.map((role, index) => {
                 if ((selectedRole) && selectedRole.id === role.id) {
@@ -698,12 +698,11 @@ useEffect(() => {
                         style={{
                           cursor: "pointer", 
                           color:"#0080FC",
-                          background: "rgba(236, 247, 255, 1)",
-                          border: "1px solid rgba(0, 128, 252, 1)",
-                          minWidth:"175px"
+                          borderBottom:"2px solid",
+                          minWidth:"max-content"
 
                         }}
-                        className="d-flex gap-3 justify-content-between align-items-center px-3 rounded py-1 ws" 
+                        className="d-flex gap-3 justify-content-between align-items-center px-3   py-1 ws" 
                         key={`role${role.id}`}
                         // onClick={() => {
                         //   setShowInput(false);
@@ -716,9 +715,9 @@ useEffect(() => {
                           </p>
                           <div className='d-flex gap-1 mt-2 '>
                           <small className="m-0 subTitle-font">
-                            ({role.users}) 
+                            ({role.users} <small>Users</small>) 
                           </small>
-                          <small>Users</small>
+                         
                           </div>
                         </div>
                         {((role?.id === 1) || (role?.id === 2) || (role?.id === 3) || (role?.id === 4)) ? (
@@ -767,7 +766,7 @@ useEffect(() => {
                 }
                 return (
                   <div key={`userRole${index}`}
-                    style={{ cursor: "pointer", minWidth:"190px"  }}
+                    style={{ cursor: "pointer", minWidth:"fit-content"}}
                     onClick={() => {
                       setSaveTitle("Save");
                       setChangeDetected(false);
@@ -782,9 +781,8 @@ useEffect(() => {
                       <p className="m-0 title-font">{role.name}</p>
                       <div className='d-flex gap-1 mt-2'>
                       <small className="m-0 subTitle-font">
-                        ({role.users}) 
-                      </small>
-                      <small>Users</small>
+                            ({role.users} <small>Users</small>) 
+                          </small>
                       </div>
                     </div>
                     {((role?.id === 1) || (role?.id === 2) || (role?.id === 3) || (role?.id === 4)) ? (
@@ -1058,7 +1056,7 @@ useEffect(() => {
                               if(checked?.id === checkbox){
                                 return(
                                   <td key={`${screen.name}${checkbox}`} className="text-center">
-                                    <img src="/assets/Icon/graycheckbox.svg" alt="graycheckbox" className="py-1" style={{width: "23px", height: "23px", marginTop: "10px"}}/>
+                                    <img src="/assets/Icon/graycheckbox.svg" alt="graycheckbox" className="py-1" style={{width: "26px", height: "26px", marginTop: "10px"}}/>
                                   </td>
                                 )
                               }else{
@@ -1066,7 +1064,7 @@ useEffect(() => {
                                   <td key={`${screen.name}${checkbox}`} className="text-center">
                                     <input
                                       disabled={true}
-                                      style={{ marginTop: "12px" }}
+                                      style={{ marginTop: "12px",width: "19px", height: "19px"}}
                                       className="py-1 empty-td"
                                       type="checkbox"
                                       name=""
@@ -1081,7 +1079,7 @@ useEffect(() => {
                               <td key={`${screen.name}${checkbox}`} className="text-center">
                                 <input
                                   disabled={!canEdit}
-                                  style={{ marginTop: "12px" }}
+                                  style={{ marginTop: "12px" ,width:"19px", height:"19px" }}
                                   className="py-1"
                                   type="checkbox"
                                   name=""
@@ -1437,7 +1435,7 @@ useEffect(() => {
                                   <td key={`${screen.name}${checkbox}`} className="text-center w-25">
                                            <div style={{display:"flex", alignItems:"center", justifyContent:"center",gap:"7px"}}>
 
-                                    <img src="/assets/Icon/graycheckbox.svg" alt="graycheckbox" className="py-1" style={{width: "23px", height: "23px"}}/>
+                                    <img src="/assets/Icon/graycheckbox.svg" alt="graycheckbox" className="py-1" style={{width: "26px", height: "26px"}}/>
                                     {(checkboxIndex === 0)? (<div>View</div>) : 
                                       (checkboxIndex === 1)? (<div>Create</div>) : 
                                         (checkboxIndex === 2)? (<div>Edit</div>) : 
@@ -1453,7 +1451,7 @@ useEffect(() => {
                                      <div style={{display:"flex", alignItems:"center", justifyContent:"center",gap:"7px"}}>
                                     <input
                                       disabled={true}
-                                      style={{  }}
+                                      // style={{width: "20px", height: "20px"}}
                                       className="py-1 empty-td"
                                       type="checkbox"
                                       name=""

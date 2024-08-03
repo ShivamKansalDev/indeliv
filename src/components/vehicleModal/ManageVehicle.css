@@ -45,12 +45,19 @@
     width: 100%;
     position: relative;
 }
-.line-container::before,
+.line-container::before{
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #99D5FF;
+  margin-right : 10px;
+}
 .line-container::after {
     content: '';
     flex: 1;
     height: 1px;
     background-color: #99D5FF;
+    margin-left: 10px;
 }
 .line-text {
     padding: 0 10px;

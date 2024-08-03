@@ -1,3 +1,7 @@
+
+
+
+
 .btn-link {
   text-decoration: none !important;
   font-weight: 500 !important;
@@ -21,9 +25,39 @@ overflow-x: scroll;
 width: 500px; */
 
 .roleBodyLeft {
-  height: 550px;
+  height: 576px;
   padding: 10px;
   overflow-y: scroll;
+}
+
+
+.roleBodyLeft::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+.roleBodyLeft::-webkit-scrollbar
+{
+    width: 4px;
+    background-color: #F5F5F5;
+}
+
+.roleBodyLeft::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+
+
+
+
+
+.heightscroll{
+  height: 576px;
+  padding: 10px;
 }
 
 /* Small Devices, Tablets */

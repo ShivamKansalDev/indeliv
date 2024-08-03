@@ -154,7 +154,7 @@ const VehicleModal = (props : any) => {
           </Dropdown.Menu>
         </Dropdown>
 
-        <p className="m-2">License Plate</p>
+        <p className="m-2 mt-3 mb-3">License Plate</p>
         <div className="search-bar-input">
           {/* <input
             // value={searchTxt}
@@ -177,7 +177,7 @@ const VehicleModal = (props : any) => {
               />
         </div>
       </div>
-      <div className="d-flex justify-content-end generic-modal-footer generic-modal-footer2 g-6">
+      <div className="d-flex justify-content-end generic-modal-footer generic-modal-footer4  generic-modal-footer2 g-6">
         <Button variant="default" className="edit_cancel_button edit_cancel_button2 border_radius_8" onClick={handleClose}>
           Cancel
         </Button>
@@ -194,7 +194,7 @@ const VehicleModal = (props : any) => {
           })
           handleClose();
         }}>
-          {(add)? 'Save Changes' : "Apply Changes"}
+          {(add)? 'Save ' : "Apply Changes"}
         </Button>
       </div>
     </Modal>

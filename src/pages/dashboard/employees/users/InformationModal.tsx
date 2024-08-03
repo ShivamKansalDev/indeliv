@@ -157,13 +157,13 @@ const InformationModal = (props: any) => {
     }, [userDetails]);
 
   return (
-    <Modal show={informationOpen} onHide={() => setInformationOpen(!informationOpen)} centered dialogClassName="modal-90w" className="information-modal modal-dialog2 modal-content2">
+    <Modal show={informationOpen} onHide={() => setInformationOpen(!informationOpen)} centered dialog ClassName="modal-90w aaa" className="information-modal modal-dialog2 modal-content2 ">
     <>
       <div className="p-3 dropDownPosition" >
         <div className="modal-header mx-2 px-0 pt-1 pb-3 mb-3 generic-modal-header">
             <p className="mb-0 fw-semibold mx-0 generic_modal_title">{(user)? "Employees Information" : "Add Employee"}</p>
         </div>
-        <div className="container">
+        <div className="container ">
             <div className="flex d-flex mb-3">
                 <div className="me-3" style={{ cursor: 'pointer' }} 
                 onClick={() => setCropOpen(!cropOpen)}
@@ -281,7 +281,7 @@ const InformationModal = (props: any) => {
                     />
                 </div>
                 <div>
-                    <Form.Label>Phone Number <span className="imp">*</span></Form.Label>
+                    <Form.Label className="marginnnTOPP" >Phone Number <span className="imp">*</span></Form.Label>
                     <PhoneInput
                         disabled={(loginUserData.role_id !== 1 && user)? true : false}
                         inputStyle={{
@@ -325,7 +325,7 @@ const InformationModal = (props: any) => {
                     </div>
                 </div>
             </div>
-            <Form.Label>Set Password <span className="imp">{(user)? "" : "*"}</span></Form.Label>
+            <Form.Label className="mt-3">Set Password <span className="imp">{(user)? "" : "*"}</span></Form.Label>
             <div className="flex d-flex">
                 <Form.Control
                     type={passwordToggle ? "text" : "password"}
@@ -344,7 +344,7 @@ const InformationModal = (props: any) => {
 
         </div>
       </div>
-    <div className="d-flex justify-content-end mt-1 modal-footer generic-modal-footer generic-modal-footer2">
+    <div className="d-flex justify-content-end mt-1 modal-footer generic-modal-footer generic-modal-footer4 generic-modal-footer2">
         <Button className="edit_cancel_button edit_cancel_button2 border_radius_8" variant="light" onClick={()=>{ handleCloseModal() }}>
             Cancel
         </Button>

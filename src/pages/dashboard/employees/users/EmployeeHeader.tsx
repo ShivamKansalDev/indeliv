@@ -58,7 +58,7 @@ export default function EmployeeHeader(props: any) {
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 type="search"
-                placeholder="Search By Name or Invoice Number"
+                placeholder="Search Employee or Department"
                 />
             </div>
 

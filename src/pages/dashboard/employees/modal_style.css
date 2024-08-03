@@ -4,6 +4,7 @@
     border-top: 0px !important;
     border-bottom-right-radius: 24px !important;
     border-bottom-left-radius: 24px !important;
+   
 }
 
 .user_image .w_100 {
@@ -28,10 +29,12 @@
     padding: 8px 12px;
     border: 1px solid #eaecf0;
     background-color: #fff;
+    font-size: 14px !important;
 }
 
 .generic_apply_button {
     padding: 8px 12px;
+    font-size: 14px !important;
 }
 
 .delete_button {
@@ -100,9 +103,20 @@
 ;
     }
     .generic-modal-footer {
-        border-bottom-right-radius: 0 !important;
-        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 ;
+        border-bottom-left-radius: 0 ;
     }
+
+.generic-modal-footer3{
+    border-bottom-right-radius: 24px !important;
+    border-bottom-left-radius: 24px !important;
+}
+.generic-modal-footer4{
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+
     .generic_apply_button2{
         width: 47% !important;
     }
@@ -112,5 +126,7 @@
     .phoneInp{
         width: 100% !important;
     }
-    
+    .marginnnTOPP{
+        margin-top: 15px;
+    }
   }

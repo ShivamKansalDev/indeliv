@@ -261,7 +261,7 @@ const VehicleBody: React.FC = () => {
           <div className="d-flex  gap-2">
             <button 
               className="activate " 
-              style={{borderColor:"#EAECF0", color:"#1D2939",fontWeight:"600"}} 
+              style={{borderColor:"#EAECF0", color:"#1D2939",fontWeight:"600", backgroundColor:"white"}} 
               onClick={() => setCurrentSelection(item)}
             >
                 Edit
@@ -306,7 +306,7 @@ const VehicleBody: React.FC = () => {
           </div>
         )}
 
-        <div className="content">
+        <div className="content" style={{padding:"16px 0px"}}>
           {!(debouncedSearch)? (vehiclesList?.map((item: Vehicle): ReactNode => renderItem(item)))
           :
           (
