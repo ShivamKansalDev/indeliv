@@ -1,0 +1,393 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.invoice-detail-page {
+  $radius: 8px;
+  border-radius: $radius;
+
+  .payments-count {
+    @include flex-container(row, flex-start, center);
+    gap: 12px;
+
+    span {
+      @include flex-container(row, center, center);
+      @include square(30px);
+      line-height: 0;
+      font-weight: 500;
+      color: $primary5;
+      background: rgba($primary5, 10%);
+      border-radius: 50%;
+    }
+  }
+
+  .header {
+    background: $gray2;
+    border-radius: $radius $radius 0 0;
+    @include flex-container($justify: space-between, $align: center);
+    padding: 20px;
+
+    .header-left {
+      @include flex-container($justify: center, $align: center);
+      font-weight: 500;
+      gap: 5px;
+
+      .more {
+        @include flex-container($justify: center, $align: center);
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        margin-left: auto;
+        display: none;
+        cursor: pointer;
+        position: relative;
+        background: $gray3;
+
+        &:not(.open) {
+          .more-menu {
+            display: none;
+          }
+        }
+
+        .more-menu {
+          // transform-style: preserve-3d;
+          z-index: 0;
+
+          &::before {
+            z-index: -1;
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: transparent;
+          }
+        }
+
+        svg {
+          color: $gray8;
+        }
+
+        .more-menu {
+          position: absolute;
+          background: white;
+          font-size: 12px;
+          width: 177px;
+          height: 88px;
+          border: 1px solid #f6f6f6;
+          box-shadow: 4px 4px 16px 0px #00000014;
+          line-height: 18px;
+          border-radius: 6px;
+          top: 110%;
+          right: 0;
+          z-index: 2;
+
+          >div {
+            flex: 1;
+            padding: 6px;
+            color: #667085;
+          }
+
+          @include flex-container(column, center, stretch);
+        }
+      }
+
+      .text-12 {
+        color: $base-black;
+      }
+
+      .dash {
+        height: 2px;
+        width: 4px;
+        background: $base-black;
+      }
+    }
+
+    .back-link {
+      @include flex-container($justify: center, $align: center);
+      margin-right: 8px;
+      color: $gray7;
+      cursor: pointer;
+    }
+
+    .header-right {
+      @include flex-container($justify: center, $align: center);
+      gap: 16px;
+    }
+
+    .info-card {
+      height: 70px;
+      @include flex-container(column, center, center);
+      padding: 16px 27.5px;
+      border: 1px solid #eaecf0;
+      border-radius: 8px;
+      background: white;
+      width: 156px;
+
+      .text-14 {
+        color: $gray7;
+      }
+
+      .price {
+        color: $gray9;
+
+        font: {
+          size: 18px;
+          weight: 500;
+        }
+      }
+    }
+  }
+
+  .content {
+    padding: 16px;
+    @include flex-container($justify: space-between, $align: flex-start);
+    gap: 16px;
+
+    .left-container {
+      flex: 2;
+    }
+
+    .right-container {
+      flex: 1;
+    }
+  }
+
+  .history-section {
+    header {
+      color: #1d2939;
+      font-size: 16px;
+    }
+  }
+}
+
+@include respond-to("tablet-landscape") {
+  .invoice-detail-page {
+    .header {
+      flex-direction: column;
+      align-items: stretch;
+      background-color: #fafafb !important;
+      padding: 0;
+
+      .header-left {
+        width: 100%;
+        margin-bottom: 11px;
+
+        .text-12 {
+          font-size: 14px;
+        }
+
+        .more {
+          display: flex;
+        }
+      }
+
+      .header-right {
+        gap: 0;
+        justify-content: space-between;
+        margin-bottom: 27px;
+      }
+
+      .info-card {
+        padding: 12px 7px;
+        width: 30%;
+
+        .price {
+          font-size: 16px;
+        }
+
+        .text-14 {
+          font-size: 12px;
+        }
+      }
+    }
+
+    .content {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 0;
+      gap: 0;
+
+      .payments-section {
+        header {
+          background-color: white;
+          border: 0;
+          font-size: 16px;
+
+          padding: 0 {
+            bottom: 12px;
+          }
+
+          span {
+            font-size: 14px;
+          }
+        }
+
+        main {
+          padding: 0;
+          border: 0;
+        }
+
+        table {
+          border: 0;
+          overflow: auto;
+
+          thead {
+            display: none;
+          }
+
+          tbody {
+            tr {
+              @include flex-container(row, flex-start, flex-start, wrap);
+              border: 1px solid $stock1;
+              border-radius: 8px;
+              padding: 12px;
+
+              &:not(:last-child) {
+                margin-bottom: 16px;
+              }
+            }
+
+            td {
+              border: 0;
+              padding: 0;
+
+              font: {
+                size: 12px;
+                weight: 500;
+              }
+            }
+
+            %first-row {
+              width: 50%;
+              margin-bottom: 6px;
+            }
+
+            .id {
+              @extend %first-row;
+              order: 1;
+
+              &::before {
+                content: "ID# ";
+              }
+            }
+
+            .date {
+              order: 2;
+              @extend %first-row;
+              text-align: right;
+            }
+
+            %small-text {
+              color: $gray6;
+
+              font: {
+                size: 12px;
+                weight: 400;
+              }
+            }
+
+            $payment-width: 47px;
+
+            .associate {
+              order: 3;
+              width: calc(0.7 * (100% - $payment-width));
+              font-size: 14px;
+
+              &::after {
+                content: " (Associate)";
+                @extend %small-text;
+              }
+            }
+
+            .amount {
+              order: 3;
+              width: calc(0.3 * (100% - $payment-width));
+              text-align: right;
+            }
+
+            .payment_method {
+              order: 4;
+              @extend %small-text;
+              color: $gray7;
+              width: $payment-width;
+              text-align: right;
+
+              &::before {
+                content: " (";
+              }
+
+              &::after {
+                content: ")";
+              }
+            }
+          }
+        }
+      }
+
+      .products-section {
+        border: 0;
+
+        main {
+          padding: 0;
+          border: 0;
+
+          table {
+            border-radius: 0;
+            border-top: 0;
+
+            thead {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.payments-section-item {
+  border: 1px solid #EAECF0;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.payments-section-item span {
+  color: #667085;
+  font-weight: 400;
+  font-size: 12px;
+
+  @media screen and (max-width: 360px) {
+    &.display-block {
+      display: block;
+    }
+  }
+}
+
+.payments-section-item p:first-child {
+  // margin-bottom: 10px;
+}
+
+.payments-section-item p.date {
+  text-align: right;
+}
+
+.payments-section-item p.assname {
+  font-size: 14px;
+}
+
+.payments-section-item p {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 17px;
+  color: #210D4A;
+  margin: 0;
+}
+
+.image-icon {
+  background-color: #F8F8F8;
+  border-radius: 50%;
+}

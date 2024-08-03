@@ -1,0 +1,27 @@
+.delete-modal img {
+    border-radius: 0 !important;
+    width: unset !important;
+}
+
+.abc{
+    position: absolute !important;
+    top:-210px !important;
+    left:61px !important;
+    right:52px !important;
+    bottom:-252px !important;
+
+}
+
+.bgcol{
+    background: #201e1ed1 !important;
+}
+
+.modal_Cropperbutton{
+    display: flex;
+    justify-content: end;
+    padding: 23px 0px 0px 10px;
+}
+
+.cropperPadding{
+    padding: 0 80px !important;
+}

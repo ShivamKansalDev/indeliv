@@ -1,0 +1,147 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.logo-layout-component {
+  min-height: 100vh;
+  @include flex-container($align: stretch);
+
+  .titleH1 {
+    font-weight: 600;
+  }
+
+  .btn {
+    --bs-btn-padding-y: 10px;
+  }
+
+  .left-container {
+    flex: 9;
+    background: $gray2;
+    @include flex-container($direction: column, $align: stretch);
+
+    .large-logo {
+      flex: 1;
+      padding: 40px 0;
+      @include flex-container($align: center, $justify: center);
+
+      svg {
+        width: 288px;
+        height: 225px;
+      }
+    }
+
+    .small-logo {
+      >img {
+        margin: {
+          top: 28px;
+          left: 34px;
+        }
+      }
+    }
+  }
+
+  .right-container {
+    flex: 10;
+    padding: 40px 0;
+    @include flex-container($align: center, $justify: center);
+
+    >div {
+      width: 60%;
+      max-width: 415px;
+    }
+  }
+
+  .text14 {
+    color: $gray7;
+    margin-bottom: 24px;
+
+    font: {
+      size: 14px;
+      weight: 400;
+    }
+  }
+
+  .text12 {
+    font-weight: 500;
+  }
+
+  button[type="submit"] {
+    font-weight: 600;
+
+    &:focus {
+      color: $light-blue;
+      background: white;
+    }
+  }
+
+  .password-container {
+    @include flex-container($align: center);
+    gap: 5px;
+
+    span {
+      cursor: pointer;
+    }
+
+    input {
+      flex: 1;
+      border: 0;
+
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
+
+  .label-error {
+    // @include flex-container($direction: column, $align: flex-start);
+  }
+
+  .error-message {
+    @include flex-container(row, flex-start, center);
+    font-size: 14px;
+    color: $error500;
+    margin-left: 5px;
+    line-height: 0;
+    margin-top: 8px;
+    gap: 6px;
+  }
+
+  .field {
+    &.invalid {
+
+      input,
+      select,
+      .password-container {
+        border-color: #fda29b;
+      }
+    }
+  }
+}
+
+@include respond-to("tablet-portrait") {
+  .logo-layout-component {
+    flex-direction: column;
+
+    .left-container {
+      background: inherit;
+      flex: unset;
+
+      .large-logo {
+        padding: 70px 0;
+
+        svg {
+          width: 95px;
+          height: 75px;
+        }
+      }
+    }
+
+    .right-container {
+      padding-top: 0;
+      flex: unset;
+
+      >div {
+        width: 90%;
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+# Specifies what build spec version this file is.
+# This helps AWS CodePipeline parse the file correctly.
+# Keep this at 0.2
+version: 0.2
+## We can listen for specific phases and execute commands per phase.
+phases:
+  # The build server won't have access to our node_modules folder
+  # This is because we have it inside of our .gitignore file
+  # To give our build server access..... we can simply run "npm install"
+
+  pre_build:
+    commands:
+      - echo "${CODEBUILD_BUILD_ARN}"
+  ## Now we want to actually build our React app
+  build:
+    commands:
+      - yarn install
+      - yarn add @craco/craco
+      - yarn build
+
+  post_build:
+    commands:
+      - echo "Uploading build artifacts to S3..."
+      - |
+        if expr "${CODEBUILD_BUILD_ARN}" : ".*build/frontend-development" >/dev/null; then
+          aws s3 sync build/ s3://indeliv-build/development/ --delete
+        fi
+      - |
+        if expr "${CODEBUILD_BUILD_ARN}" : ".*build/frontend-staging" >/dev/null; then
+          aws s3 sync build/ s3://indeliv-build/staging/ --delete
+        fi
+      - |
+        if expr "${CODEBUILD_BUILD_ARN}" : ".*build/frontend-production" >/dev/null; then
+          aws s3 sync build/ s3://indeliv-build/production/ --delete
+        fi
+# Artifacts will specify what files will be uploaded to s3
+# This will include all files within the "build" folder
+artifacts:
+  files:
+    - "appspec.yml"
+    - "scripts/**/*"
+    - "build/**/*"
+  # discard-paths: no
+  # base-directory: build
+cache:
+  paths:
+    - /root/.cache/yarn/**/*

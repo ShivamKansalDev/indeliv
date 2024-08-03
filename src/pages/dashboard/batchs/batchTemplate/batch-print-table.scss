@@ -1,0 +1,116 @@
+.invoice-table {
+  .header-table {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  table {
+    width: calc(80% - 50px);
+    margin: 40px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid black;
+    border-radius: 10px;
+    page-break-inside: auto; // Avoid page breaks inside the table
+
+    th,
+    td {
+      padding: 4px;
+      text-align: left;
+      border: 2px solid transparent; // Keep transparent borders
+      font-size: 14px; // Smaller text size
+    }
+
+    th {
+      background-color: white; // Header background color
+      border-bottom: 2px solid #333; // Line below thead
+    }
+
+    tbody tr {
+      position: relative; // Required for pseudo-elements
+      page-break-inside: avoid; // Avoid page breaks inside rows
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px; // Line thickness
+        background-color: #333; // Darker line color
+        z-index: 1; // Position above background
+      }
+    }
+
+    tbody tr:last-child::after {
+      display: none; // Remove last border line
+    }
+
+    tbody tr {
+      border-bottom: 2px solid #333; // Darker horizontal line for tbody
+    }
+
+    tbody tr:last-child {
+      border-bottom: none; // Remove last bottom border
+    }
+
+    thead tr:first-child th:first-child {
+      border-top-left-radius: 10px;
+    }
+
+    thead tr:first-child th:last-child {
+      border-top-right-radius: 10px;
+    }
+
+    tbody tr:last-child td:first-child {
+      border-bottom-left-radius: 10px;
+    }
+
+    tbody tr:last-child td:last-child {
+      border-bottom-right-radius: 10px;
+    }
+
+    tbody tr:first-child td:first-child {
+      border-top-left-radius: 10px;
+    }
+
+    tbody tr:first-child td:last-child {
+      border-top-right-radius: 10px;
+    }
+  }
+
+  .total {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+
+    text-align: center; // Center text
+    margin-top: 20px; // Add some space above
+    border-radius: 5px; // Optional: add slight rounding
+  }
+}
+
+@media print {
+  .page-break {
+    page-break-before: always; // Forces a page break before the element
+  }
+
+  // Ensure the header stays at the top of each page
+  .header-table {
+    display: table-header-group; // Keep the header at the top of each page
+  }
+
+  // Adjust page margins and paddings
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .invoice-table {
+    margin: 0;
+    padding: 0;
+  }
+}

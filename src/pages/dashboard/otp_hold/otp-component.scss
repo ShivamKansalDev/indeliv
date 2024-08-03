@@ -1,0 +1,124 @@
+.btn-otp {
+    background-color: #0095FF;
+    border: 1px solid #0095FF;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: all 0.5s ease-in-out;
+}
+
+.btn-otp:hover {
+    background-color: #007ed9;
+}
+
+.btn-hold {
+    background-color: #FEF3F2;
+    color: #F97066;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #FECDC9;
+    transition: all 0.5s ease-in-out;
+}
+
+.btn-hold:hover {
+    background-color: #fde5e3;
+}
+
+.otp-input {
+    padding: 9px 12px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    margin-bottom: 6px !important;
+}
+.otp-input::-webkit-outer-spin-button,
+.otp-input::-webkit-inner-spin-button {
+ -webkit-appearance: none;
+ margin: 0;
+}
+.otp-input[type=number] {
+ -moz-appearance: textfield;
+}
+.btn-div {
+    padding: 12px 24px;
+
+    button {
+        font-family: Graphik;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+    }
+}
+
+/* ========media query================ */
+
+@media (max-width: 1399.98px) {}
+
+@media (max-width: 1199.98px) {}
+
+@media (max-width: 1024px) {}
+
+@media (max-width: 991.98px) {}
+
+@media (min-width: 767.98px) {
+    .otp-main {
+        height: 80vh;
+    }
+
+    .otp-component {
+        background: white;
+        border-width: 0px 1px 1px 1px;
+        border-style: solid;
+        border-color: #eaecf0;
+        border-radius: 8px;
+        box-shadow: 2px 0px 4px 0px rgba(0, 0, 0, 0.1019607843);
+        border: 1px solid #e6e8ec;
+        width: 600px;
+        display: inline-block;
+        overflow: hidden;
+    }
+
+    .btn-div {
+        background-color: #F9FAFB;
+        padding: 12px 24px;
+    }
+
+    .btn-hold {
+        padding: 11px;
+    }
+
+    .btn-otp {
+        padding: 11px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .btn-otp {
+        margin: 0 0 20px 0;
+    }
+
+    .btn-div {
+        padding: 10px 0px;
+    }
+
+    .mobile-buyer {
+        padding-top: 20px !important;
+    }
+
+    .otp-component {
+        background: white;
+        width: 100%;
+        display: inline-block;
+    }
+
+}
+
+@media (max-width: 575.98px) {
+    .otp-main {
+        height: auto !important;
+    }
+
+
+}
+
+
+@media (max-width: 425px) {}

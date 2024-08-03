@@ -1,0 +1,540 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.invoice-table-component {
+  // outline: 1px solid $stock1;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+
+  .tooltip-btn {
+    margin-bottom: 2px;
+    position: relative;
+    z-index: 1;
+  }
+
+  input[type="checkbox"] {
+    @include square(20px);
+  }
+
+  .view-detail {
+    display: none;
+
+    font: {
+      size: 12px;
+      weight: 500;
+    }
+  }
+  p {
+    font-size: 12px;
+    color: rgb(33, 13, 74);
+    margin: 0px;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: auto;
+  }
+
+  tr:not(:last-child),
+  thead {
+    border: 1px solid $stock1;
+  }
+
+  th {
+    // display: flex;
+    color: $gray7;
+    //text-transform: capitalize;
+    background-color: $gray2;
+
+    padding: 13px 0 {
+      left: 24px;
+    }
+
+    >span {
+      @include flex-container($align: center);
+      gap: 5px;
+
+      font: {
+        weight: 500;
+        size: 12px;
+      }
+
+      >svg {
+        @include square(16px);
+      }
+    }
+  }
+
+  .loading-row {
+    width: 100%;
+
+    td {
+      width: 100%;
+    }
+
+    svg {
+      margin: 10px auto;
+      display: block;
+      animation: loading 1.2s linear infinite reverse;
+    }
+  }
+
+  // Style loading svg
+  tr {
+
+    // position: relative;
+    // z-index: 100;
+    &.active {
+      background: #e8f2fd !important;
+      border-color: $primary2;
+    }
+
+    td {
+      color: $base-black;
+      font-size: 14px;
+
+      padding: 26px 0 {
+        left: 24px;
+        right: 2px;
+      }
+    }
+
+    .check {
+      padding: 0;
+      // position: relative;
+      pointer-events: all;
+
+      label {
+        cursor: pointer;
+        height: 100%;
+        width: 100%;
+        // position: absolute;
+        top: 0;
+        left: 0;
+
+        padding: 26px 0 {
+          left: 24px;
+        }
+      }
+    }
+
+    .link-wrapper {
+      cursor: pointer;
+      display: contents;
+    }
+  }
+
+  th {
+    position: relative;
+
+    &:not(:first-of-type) {
+      min-width: 112px;
+    }
+
+    &.open {
+      &::before {
+        content: "";
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background: transparent;
+        left: 0;
+        top: 0;
+        z-index: 101;
+      }
+
+      .sorting-options {
+        display: block;
+      }
+    }
+
+    max-width: 16.67%;
+
+    >span:not(.unsorted) {
+      cursor: pointer;
+    }
+
+    .sorting-options {
+      display: none;
+      background: white;
+      top: 36px;
+      left: 8px;
+      background: white;
+      padding: 4px 0;
+      border-radius: 6px;
+      box-shadow: 4px 4px 16px 0px #00000014;
+      border: 1px solid #f6f6f6;
+      transition: 0.8s;
+      position: absolute;
+      z-index: 101;
+
+      div {
+        padding: 10px;
+        cursor: pointer;
+
+        svg:last-child {
+          opacity: 0;
+        }
+
+        &.selected {
+          background: #f5f6f7;
+
+          svg:last-child {
+            opacity: 1;
+          }
+        }
+
+        svg:first-child {
+          margin-right: 27px;
+        }
+      }
+    }
+  }
+}
+
+@include respond-to("tablet-landscape") {
+  .invoice-table-component {
+    outline: 0;
+
+    thead {
+      display: none;
+    }
+
+    tr {
+      font-size: 12px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      pointer-events: none;
+
+      &.active {
+        border-color: $primary2;
+        background: #e8f2fd !important;
+
+        .check>input {
+          border-color: $primary5;
+        }
+
+        td {
+          border-color: white !important;
+          border-right-color: white !important;
+        }
+      }
+
+      &.no-checkbox {
+        .amount {
+          font-weight: 500;
+        }
+
+        .invoice-no {
+          width: 100%;
+        }
+
+        .amount {
+          // padding-bottom: 27px;
+        }
+      }
+
+      .onClick {
+        display: block;
+      }
+
+      %row {
+        // padding-bottom: 6.5px;
+      }
+
+      %first-row {
+        @extend %row;
+        line-height: 16.8px;
+        margin-bottom: 6px;
+        font-weight: 500;
+      }
+
+      input[type="checkbox"] {
+        @include square(16px);
+        border: 1px solid $gray300;
+      }
+
+      .check {
+        @extend %first-row;
+        order: 1;
+        width: 28px;
+        height: 17px;
+
+        label {
+          padding: 0;
+        }
+      }
+
+      .invoice-no {
+        @extend %first-row;
+        order: 2;
+        width: calc(100% - 28px);
+        height: 17px;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+
+        .view-detail {
+          display: unset;
+          pointer-events: all;
+        }
+
+        .mobile-only {
+          @media (max-width: 900px) {
+            display: block;
+            margin-left: 10px;
+            color: #12B76A;
+          }
+        }
+      }
+
+      .desktop-only {
+        @media (min-width: 901px) {
+          display: block;
+        }
+      }
+
+      %second-row {
+        @extend %row;
+        border-bottom: 1px solid $stock1;
+        margin-bottom: 9.5px;
+        padding-bottom: 7.5px;
+        // height: 28px;
+      }
+
+      .buyer {
+        @extend %second-row;
+        flex-wrap: wrap;
+        padding-bottom: 8px !important;
+        margin-bottom: 9.5px;
+        width: 70%;
+        order: 3;
+        font-size: 14px;
+        line-height: 19.6px;
+
+        p {
+          font-size: 12px;
+          color: rgb(33, 13, 74);
+          margin: 0px;
+          width: 200px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          user-select: auto;
+
+          @media (max-width:900px) {
+            width: 280px;
+          }
+
+          @media (max-width:380px) {
+            width: 230px;
+          }
+        }
+      }
+
+      .amount {
+        @extend %second-row;
+        width: 30%;
+        order: 4;
+
+        font: {
+          size: 12px;
+          weight: 400;
+        }
+
+        line-height: 16.8px;
+        @include flex-container(column, center, flex-end);
+      }
+
+      .date {
+        order: 9;
+        max-width: 120px;
+      }
+      .Icon{
+        padding:0px 10px;
+        padding-left: 13px;
+      }
+
+      .company.invoice-company {
+        display: inline-block;
+      }
+
+      .company {
+        white-space: nowrap;
+        overflow: hidden;
+        // display: inline-block !important;
+        text-overflow: ellipsis;
+      }
+
+      $other-cols: company, date, overdue, due;
+
+      @each $col in $other-cols {
+        .#{$col} {
+          @include flex-container(column, flex-start, center);
+          gap: 2px;
+          flex: 1;
+          border-right: 1px solid $stock1;
+          text-align: center;
+          line-height: 16.8px;
+
+          font: {
+            weight: 500;
+            size: 12px;
+          }
+
+          &::before {
+            content: "#{$col}";
+            //text-transform: capitalize;
+            color: $gray7;
+            font-weight: 400;
+            display: block;
+            text-transform: capitalize;
+          }
+        }
+      }
+
+      .overdue {
+        order: 10;
+
+        &::before {
+          content: "Overdue By" !important;
+        }
+      }
+
+      .other:not(.last) {
+        border-right: 1px solid $stock1;
+        padding-right: 3px;
+      }
+
+      // .other.last{
+      //   border-left: 1px solid $stock1;
+      //   padding-left: 3px;
+      // }
+      // .company {
+      //   @include flex-container(column);
+      //   &::before {
+      //     content: "Compnay";
+      //   }
+      // }
+      td {
+        order: 7;
+        padding-left: 0px;
+        padding-right: 0px;
+        align-items: center;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+      }
+    }
+  }
+}
+
+@keyframes loading {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.invoice-batch-span {
+  @media (min-width: 901px) {
+    flex-direction: column;
+  }
+}
+
+.batch-number-span {
+  color: #12B76A;
+
+  @media (max-width: 900px) {
+    margin-left: 16px;
+  }
+
+}
+
+.generic-modal-header {
+  background-color: #F9FAFB;
+  border-bottom: 1px solid #EAECF0
+}
+
+.Model_body {
+  font-family: Graphik;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.6px;
+  text-align: left;
+  color: #210D4A;
+
+  @media (max-width:900px) {
+    max-width: 245px;
+  }
+}
+
+.invoice_modal-body {
+
+  max-height: 500px;
+  overflow-y: auto;
+
+}
+
+.Model-body_border_b {
+  border-bottom: 1px solid #EAECF0;
+}
+
+.Product_model_header {
+  padding: 16px 0 16px 6px;
+  font-family: Graphik;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 19.6px;
+
+
+  .title {
+    color: #0d6efd;
+  }
+
+  .title-font{
+    font-size: 12px;
+  }
+
+  .title-body {
+    color: #210D4A;
+    font-size: 14px;
+  }
+}
+
+.Close_btn {
+  height: 30px;
+  width: 30px;
+  border-radius: 9999px;
+  background-color: #00000033;
+  border: none;
+  position: relative;
+
+  button {
+    position: absolute;
+    top: 74%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.btn-close:focus {
+  box-shadow: none !important;
+}
+
+#deliveries_model {
+    @media (max-width: 767.98px) {
+      margin: auto;
+      position: fixed;
+      top: 50%;
+      width: 90%;
+      margin: 0 auto;
+      transform: translate(-50%, -50%) !important;
+      left: 50% !important;
+      right: 0;
+      bottom: 0;
+    }
+}

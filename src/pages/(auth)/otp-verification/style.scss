@@ -1,0 +1,18 @@
+.otp-verification-page{
+    .otp-container{
+        justify-content: center;
+        gap: 8px;
+    }
+    .otp-input{
+        height: 38px;
+        width: 40px !important;
+        color: #667085;
+        border-radius: 8px;
+        border: 1px solid #E8EAED;
+        margin-bottom: 4px !important;
+
+        &:focus-visible{
+            outline: 0;
+        }
+    }
+}

@@ -1,0 +1,116 @@
+.generic-modal-footer {
+    padding: 24px !important;
+    background-color: #f6f6f6 !important;
+    border-top: 0px !important;
+    border-bottom-right-radius: 24px !important;
+    border-bottom-left-radius: 24px !important;
+}
+
+.user_image .w_100 {
+    width: 100px !important;
+}
+
+.generic-modal-header {
+    border-bottom: 1px solid #eaecf0;
+}
+
+.border_radius_8 {
+    border-radius: 8px;
+}
+
+.generic_cancel_button {
+    padding: 12px;
+    border: 1px solid #eaecf0;
+    background-color: #fff;
+}
+
+.edit_cancel_button {
+    padding: 8px 12px;
+    border: 1px solid #eaecf0;
+    background-color: #fff;
+}
+
+.generic_apply_button {
+    padding: 8px 12px;
+}
+
+.delete_button {
+    background-color: #0080fc;
+    padding: 6px 20px !important;
+    border: none;
+}
+
+.yes_button {
+    background-color: #0080fc;
+    padding: 6px 20px !important;
+    border: none;
+}
+
+.no_button, .yes_button {
+    width: 80px;
+}
+
+.delete-modal img.rounded_image {
+    border-radius: 100% !important;
+}
+
+.generic_modal_title {
+    font-size: 18px;
+}
+
+.deactivate-modal img {
+    border-radius: 100% !important;
+    width: 100px;
+}
+ 
+.newLoaderAnimation {
+  margin: 10px auto;
+  display: block;
+  animation: loading 1.2s linear infinite reverse;
+}
+
+.addEmployeee{
+    background: #E1EFFE;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    padding:16px 16px 0px 0px
+
+}
+
+
+  /* Small Devices, Tablets */
+  @media only screen and (max-width : 575px) {
+    .modal-dialog2{
+        margin: 0 !important;
+        padding-top: 50px !important;  
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius:0 !important;
+        padding-left:0px !important;
+    }
+    .modal.show .modal-dialog{
+        margin: 0 !important;
+    }
+    .modal-content2 {
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius:0 !important
+    }
+    .generic-modal-footer2{
+        justify-content: space-between !important;
+        background-color: #E1EFFE !important;
+;
+    }
+    .generic-modal-footer {
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+    .generic_apply_button2{
+        width: 47% !important;
+    }
+    .edit_cancel_button2{
+        width: 47% !important;
+    }
+    .phoneInp{
+        width: 100% !important;
+    }
+    
+  }

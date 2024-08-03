@@ -1,0 +1,349 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.invoices-list-component {
+  ul {
+    padding: 0;
+  }
+
+  @include flex-container(column);
+
+  .nav-header {
+    @include flex-container(row, $justify: space-between, $align: center);
+    padding: 0px 20px 0 20px;
+    background: #f9fafb;
+    border-bottom: 1px solid #e6e8ec;
+    border-radius: 8px 8px 0 0;
+    flex-wrap: nowrap;
+  }
+
+  .nav-links {
+    @include flex-container(row, $justify: flex-start, $align: center);
+    gap: 32px;
+
+    .active {
+      border-bottom: solid 2px $light-blue;
+
+      .navbar-link {
+        color: #0080fc !important;
+      }
+    }
+
+    .navbar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #767676;
+      padding: 20px 4px;
+      cursor: pointer;
+
+      font: {
+        weight: 500;
+        size: 14px;
+      }
+
+      line-height: 20px;
+    }
+  }
+
+  .invoice-right-bar {
+    @include flex-container(row, $justify: flex-end, $align: stretch);
+    padding: 0px;
+    gap: 10px;
+    flex-grow: 0;
+    height: 36px;
+
+    @media (max-width:900px) {
+      justify-content: start;
+    }
+  }
+
+  .search-bar-input {
+    background: white;
+    @include flex-container(row, $justify: center, $align: center);
+    gap: 12px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    padding: 8px;
+    input {
+      border: 0;
+      min-width: 100px;
+      padding: 0 !important;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .navbar {
+    border: solid 1px $border-color;
+    border-bottom: 1px solid #eaecf0;
+    padding: 0px 20px 0px 20px;
+    background: #e6e8ec;
+    border-radius: 8px 8px 0px 0px;
+  }
+
+  .invoices-list-content {
+    padding: 16px 20px;
+    width: 100%;
+  }
+
+  .invoice-create-batch {
+    border-radius: 8px;
+    @include flex-container(row, $justify: center, $align: center);
+    gap: 5px;
+    border: 0;
+    background: $light-blue;
+    padding: 9px 16px;
+    // min-width: 151px;
+    font-weight: 600;
+
+    >span {
+      letter-spacing: 0;
+      width: 88px;
+    }
+
+    img {
+      width: 16px;
+      margin-right: 3px;
+    }
+
+    font: {
+      size: 14px;
+      weight: 600 !important;
+    }
+
+    color: white;
+
+    .selected-count {
+      @include flex-container(row, center, center);
+      margin-right: 3px;
+      background: $primary1;
+      border-radius: 50%;
+      color: $primary-color;
+      min-width: 20px;
+      min-height: 20px;
+      padding: 3px;
+
+      span {
+        line-height: 0;
+        display: block;
+      }
+    }
+  }
+}
+
+.date-range-picker {
+  position: relative;
+  white-space: nowrap;
+  z-index: 10;
+
+  @media (max-width:900px) {
+    order: 3;
+  }
+
+  .Desktop_Date_Picker {
+    @media (max-width:900px) {
+      display: none;
+    }
+  }
+
+  .Mobile_Date_Picker {
+
+    display: none;
+
+    @media (max-width:900px) {
+      display: block;
+      width: 44px;
+      height: 44px;
+      gap: 10px;
+      background-color: #0080FC;
+      border-radius: 8px;
+      border: 0;
+    }
+
+    svg {
+      color: #fff !important;
+      stroke: #fff !important;
+    }
+  }
+
+  button.btn {
+    color: $gray6;
+    background-color: white;
+    font-size: 14px;
+    border: 2px solid $gray4;
+
+    padding: {
+      top: 0.275rem;
+      bottom: 0.275rem;
+    }
+
+    span {
+      vertical-align: bottom;
+
+      padding: {
+        left: 6px;
+        right: 6px;
+      }
+    }
+
+    :hover {
+      background-color: transparent !important;
+    }
+  }
+
+  .btn {
+    .payment-drp-btn {
+      display: inline-flex;
+      align-items: center;
+      column-gap: 4px;
+      padding: 0px 5px 0px;
+
+      span {
+        padding: 0px;
+      }
+    }
+  }
+}
+
+@include respond-to("tablet-landscape") {
+  .invoices-list-component {
+    font-size: 12px;
+
+    .invoice-right-bar {
+      background: #fafafd;
+      height: 44px;
+    }
+
+    .nav-header {
+      @include flex-container(column-reverse,
+        $justify: flex-start,
+        $align: stretch);
+        padding: 0;
+        background: white;
+        border: 0;
+      }
+
+    .nav-links {
+      gap: 0;
+
+      .navbar-link {
+        padding-bottom: 16px;
+        margin-top: 4px;
+        font-size: 12px;
+      }
+
+      >a {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        border-bottom: 1px solid $base-gray;
+      }
+    }
+
+    .invoice-create-batch {
+      $bottom: 32px;
+      position: fixed;
+      bottom: $bottom;
+      z-index: 10;
+      left: 50%;
+      transform: translateX(-50%);
+      transform-style: preserve-3d;
+      width: calc(100vw - 2 * 16px);
+      max-width: 400px;
+      border-radius: 4px;
+      height: 36px;
+
+      &::after {
+        content: "";
+        position: fixed;
+        background: #e1effe;
+        margin: 0 auto;
+        width: 100vw;
+        left: 50%;
+        bottom: -$bottom;
+        z-index: -1;
+        transform: translateZ(-1px) translateX(-50%);
+        height: 88px;
+        border-radius: 16px 16px 0px 0px;
+      }
+    }
+
+    .search-bar-input {
+      width: 100%;
+      justify-content: flex-start;
+      border-radius: 4px;
+      padding: 12px;
+      max-width: 220px;
+
+      @media (max-width:900px) {
+        max-width: 100%;
+      }
+
+      &,
+      &>input {
+        background: $gray4;
+        font-size: 16px;
+        min-width: 100px;
+        display: flex;
+        flex-grow: 1;
+
+        &::placeholder {
+          font-size: 12px;
+        }
+      }
+
+      >img {
+        // opacity: 0;
+        display: none;
+      }
+    }
+
+    .invoices-list-content {
+      padding-right: 0;
+      padding-left: 0;
+      padding-top: 24px;
+    }
+  }
+}
+
+.delete_btn {
+  button {
+    width: 38px;
+    height: 36px;
+    padding: 0 0px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 8px;
+    background-color: transparent;
+    border: 1px solid #D0D5DD;
+
+    @media (max-width:900px) {
+      order: 2;
+      width: 44px;
+      height: 44px;
+    }
+  }
+
+  @media (max-width:900px) {
+    order: 2;
+  }
+}
+
+.invoice_quantity {
+  width: 20px;
+  height: 20px;
+  gap: 0px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  @media (max-width:900px) {
+    background: #F2F4F7;
+  }
+}

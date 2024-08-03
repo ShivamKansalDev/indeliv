@@ -1,0 +1,203 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.header-component {
+  --bs-navbar-padding-x: 32px;
+  --bs-navbar-padding-y: 17px;
+  padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
+  border-bottom: 1px solid #eaecf0;
+  height: 64px;
+
+  .header {
+    color: white;
+    background-color: #ffffff;
+    padding: 12px 32px 12px 32px;
+    border-bottom: solid 1px #eaecf0;
+  }
+
+  .user-container {
+    position: relative;
+    background: white;
+
+    >div {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      background: white;
+      top: 0;
+      left: 0;
+      z-index: 4;
+    }
+
+    .logout-btn {
+      transform: translateZ(-1);
+      z-index: 3;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transition: 0.5s;
+      border: 0;
+      background: white;
+      color: $gray7;
+      border-radius: 6px;
+      text-align: left;
+      padding: 10px;
+      border: 1px solid $stock1;
+
+      // border-top: 0;
+      &:hover {
+        background: $gray4;
+      }
+    }
+
+    .logout-arrow {
+      transition: 0.5s;
+    }
+
+    &.lg-open {
+      &::before {
+        content: "";
+        background: transparent;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        z-index: 1;
+        transform: translateZ(-1);
+      }
+
+      // >div {
+      //   // transform-style: preserve-3d;
+      // }
+
+      .logout-arrow {
+        transform: rotate(180deg);
+      }
+
+      svg {
+        transform: rotate(180deg);
+
+        path {
+          stroke: #0080fc;
+        }
+      }
+
+      .logout-btn {
+        top: 115%;
+        // z-index: 4;
+      }
+    }
+  }
+
+  .user-avatar {
+    height: 40px;
+    /* Adjust based on your preference */
+    width: 40px;
+    border-radius: 50%;
+    /* This makes the image round */
+  }
+
+  .user-info {
+    text-align: left;
+    // padding: 2px 0;
+    margin-right: 4px;
+
+    .user-name {
+      font: {
+        weight: 500;
+        size: 14px;
+      }
+
+      color: black;
+    }
+
+    .user-organization {
+      color: #767676;
+      font-size: 12px;
+      max-width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    span {
+      display: block;
+    }
+  }
+}
+
+@include respond-to("tablet-landscape") {
+  .header-component {
+    $background: #f8fafe;
+    --bs-navbar-padding-x: 0;
+    --bs-navbar-padding-y: 0;
+    height: 75px;
+    // max-width: 280px - 2 * 16px;
+    max-width: 250px;
+    // margin: 0 16px;
+    background-color: $background;
+    flex-direction: column;
+    align-items: stretch !important;
+    justify-content: flex-start;
+    border: 0;
+
+    &.lg-open {
+      height: 124px;
+    }
+
+    .navbar-brand {
+      display: none;
+    }
+
+    .user-container {
+      height: 100%;
+      width: 90%;
+      padding-top: 16px;
+      @include flex-container(column, flex-start, stretch);
+      margin: 0 16px;
+      border-bottom: 1px solid $stock1;
+      background-color: $background;
+
+      >div {
+        background-color: $background;
+
+        img:last-child {
+          display: inline-block;
+          margin-left: auto;
+        }
+      }
+
+      .logout-btn {
+        border: 0;
+        height: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        @include flex-container($align: center);
+        gap: 10px;
+        color: $primary5;
+        background: $background;
+        font-size: 14px;
+
+        &::before {
+          content: "";
+          @include square(20px);
+          display: block;
+          background-image: url("../../../../assets/svgs/logout.svg");
+        }
+      }
+
+      &.lg-open {
+        .logout-btn {
+          top: 72%;
+          // bottom: -5px;
+        }
+      }
+    }
+  }
+}

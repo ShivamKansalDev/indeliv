@@ -1,0 +1,22 @@
+.bgClass {
+    /* color: var(--bs-dropdown-link-hover-color); */
+    background-color: #c0d9ff !important;
+  }
+
+  .dropdown-item {
+    white-space: normal !important;
+  }
+
+  .wspace {
+    white-space: normal !important;
+  }
+
+  .dropDownPosition .custom-dropdown-menu.dropdown-menu.show {
+    transform: translate(30rem, -28px) !important;
+}
+
+@media only screen and (max-width : 768px) {
+  .dropDownPosition .custom-dropdown-menu.dropdown-menu.show {
+    transform: translate(0px, 36px) !important;
+}
+}

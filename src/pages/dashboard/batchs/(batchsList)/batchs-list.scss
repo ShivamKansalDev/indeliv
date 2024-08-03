@@ -1,0 +1,245 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.batchs-list-component {
+    ul {
+        padding: 0;
+    }
+
+    @include flex-container(column);
+
+    .nav-header {
+        @include flex-container(row, $justify: space-between, $align: center);
+        padding: 0px 20px;
+        background: #f9fafb;
+        border-bottom: 1px solid #e6e8ec;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .nav-links {
+        @include flex-container(row, $justify: flex-start, $align: center);
+        gap: 32px;
+
+        .active {
+            border-bottom: solid 2px $light-blue;
+
+            .navbar-link {
+                color: #0080fc !important;
+            }
+        }
+
+        .navbar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #767676;
+            padding: 20px 4px;
+            cursor: pointer;
+
+            font: {
+                weight: 500;
+                size: 14px;
+            }
+
+            line-height: 20px;
+        }
+    }
+
+    .right-bar {
+        @include flex-container(row, $justify: flex-end, $align: stretch);
+
+        padding: 0px;
+        gap: 16px;
+        flex-grow: 0;
+        height: 36px;
+    }
+
+    .search-bar-input {
+        overflow: hidden;
+        background: white;
+        @include flex-container(row, $justify: center, $align: center);
+        gap: 12px;
+        border: 1px solid $border-color;
+        border-radius: 8px;
+
+        padding: 8px;
+
+        input {
+            border: 0;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    .navbar {
+        border: solid 1px $border-color;
+        border-bottom: 1px solid #eaecf0;
+        padding: 0px 20px 0px 20px;
+        background: #e6e8ec;
+        border-radius: 8px 8px 0px 0px;
+    }
+
+    .batchs-list-content {
+        padding: 16px 20px;
+        width: 100%;
+        overflow: hidden;
+        overflow-x: auto;
+    }
+
+    .create-batch {
+        border-radius: 8px;
+        @include flex-container(row, $justify: center, $align: center);
+        gap: 5px;
+        border: 0;
+        background: $light-blue;
+        padding: 10px 16px;
+        // min-width: 151px;
+        font-weight: 500;
+
+        >span {
+            letter-spacing: 0;
+            width: 88px;
+        }
+
+        img {
+            width: 16px;
+            margin-right: 3px;
+        }
+
+        font: {
+            size: 14px;
+            weight: 500 !important;
+        }
+
+        color: white;
+
+        .selected-count {
+            @include flex-container(row, center, center);
+            margin-right: 3px;
+            background: $primary1;
+            border-radius: 50%;
+            color: $primary-color;
+            min-width: 20px;
+            min-height: 20px;
+            padding: 3px;
+
+            span {
+                line-height: 0;
+                display: block;
+            }
+        }
+    }
+}
+
+@include respond-to("tablet-landscape") {
+    .batchs-list-component {
+        font-size: 12px;
+
+        .right-bar {
+            height: 44px;
+        }
+
+        .nav-header {
+            @include flex-container(column-reverse,
+                $justify: flex-start,
+                $align: stretch);
+            padding: 0;
+            background: white;
+            border: 0;
+        }
+
+        .nav-links {
+            gap: 0;
+
+            .navbar-link {
+                padding-bottom: 16px;
+                margin-top: 4px;
+                font-size: 14px;
+            }
+
+            >a {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                border-bottom: 1px solid $base-gray;
+            }
+        }
+
+        .create-batch {
+            $bottom: 32px;
+            position: fixed;
+            bottom: $bottom;
+            z-index: 10;
+            left: 50%;
+            transform: translateX(-50%);
+            transform-style: preserve-3d;
+            width: calc(100vw - 2 * 16px);
+            max-width: 400px;
+            border-radius: 4px;
+            height: 36px;
+
+            &::after {
+                content: "";
+                position: fixed;
+                background: #e1effe;
+                margin: 0 auto;
+                width: 100vw;
+                left: 50%;
+                bottom: -$bottom;
+                z-index: -1;
+                transform: translateZ(-1px) translateX(-50%);
+                height: 88px;
+                border-radius: 16px 16px 0px 0px;
+            }
+        }
+
+        .search-bar-input {
+            width: 100%;
+            justify-content: flex-start;
+            border-radius: 4px;
+
+            padding: 12px;
+
+            input {
+                border: 0;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            &,
+            &>input {
+                background: $gray4;
+                min-width: 220px;
+
+                &::placeholder {
+                    font-size: 12px;
+                }
+            }
+
+            >img {
+                // opacity: 0;
+                display: none;
+            }
+        }
+
+        .batchs-list-content {
+            padding-right: 0;
+            padding-left: 0;
+            padding-top: 24px;
+        }
+    }
+}
+
+.search-bar-text {
+    font-size: 14px;
+    padding: 0 !important;
+    width: calc(100% - 20px);
+}
+
+.search-icon {
+    // filter: invert(46%) sepia(30%) saturate(245%) hue-rotate(182deg) brightness(90%) contrast(99%);
+}

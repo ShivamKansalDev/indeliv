@@ -1,0 +1,47 @@
+.btn-link {
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+}
+
+.abc {
+  box-shadow: none !important;
+  border-color: #86b7fe !important;
+}
+.form-control:focus-visible {
+  box-shadow: none !important;
+  border-color: #86b7fe !important;
+}
+
+/* min-height: auto;
+max-height: 550px;
+padding: 10px;
+display: flex;
+overflow-x: scroll;
+width: 500px; */
+
+.roleBodyLeft {
+  height: 550px;
+  padding: 10px;
+  overflow-y: scroll;
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 575px) {
+  .roleBodyLeft {
+    width: 500px;
+    height: auto;
+    overflow-x: scroll;
+    display: flex;
+  }
+  .hideHead{
+    display: none !important;
+  }
+.empty-td{
+  width: 23px;
+  padding: 0;
+  border: none; /* Optionally remove border if not needed */
+  overflow: hidden;
+}
+
+}

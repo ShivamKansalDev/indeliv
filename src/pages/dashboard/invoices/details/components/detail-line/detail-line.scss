@@ -1,0 +1,27 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.detail-line-component {
+  @include flex-container(row, space-between, center);
+  width: 100%;
+  padding: 12px 0;
+  border-bottom: 1px solid $stock1;
+  .text-details-value {
+    a {
+      font-size: 14px;
+      line-height: 150%;
+      letter-spacing: 0.3px;
+      text-decoration-line: underline;
+      color: $success8;
+    }
+  }
+
+  &:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+
+    >span {
+      color: #4bb543
+    }
+  }
+}
