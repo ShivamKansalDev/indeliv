@@ -419,7 +419,8 @@ useEffect(() => {
 
           {/* //webview */}
             <div
-              className= {`${rolesList.length>10 ? "roleBodyLeft d-none d-md-block " : "heightscroll"} `}
+              // className= {`${rolesList.length>10 ? "roleBodyLeft d-none d-md-block " : "heightscroll"} `}
+              className= "roleBodyLeft d-none d-md-block"
             >
               {rolesList.length>0 && rolesList.map((role, index) => {
                 if ((selectedRole) && selectedRole.id === role.id) {
@@ -618,7 +619,7 @@ useEffect(() => {
 
             {/* phone view */}
             <div
-              className=" roleBodyLeft  d-md-none"
+              className=" roleBodyLeft  d-md-none "
             >
               {rolesList.length>0 && rolesList.map((role, index) => {
                 if ((selectedRole) && selectedRole.id === role.id) {
@@ -1278,7 +1279,7 @@ useEffect(() => {
              
                      {/* mobile screen */}
 
-                     <div className="table-responsive bg-white d-block d-md-none "
+                     <div className="table-responsive bg-white d-block d-md-none"
                 style={{ minHeight: "535px", maxHeight: "535px",}}
               >
                 <table className="table  border ">
