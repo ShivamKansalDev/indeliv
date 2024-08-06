@@ -12,6 +12,10 @@ import { User } from "../users/UserBody";
 import { LoginUserContext } from "@/App";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import RolesModalPhone from "./RolesModalPhone";
+import OffcanvasMobile from "@/components/OffcanvasMobile";
+import { ReactComponent as List } from "@/assets/svgs/list.svg";
+import { useSetOpenNav } from "@pages/dashboard";
+ 
 
 export interface Role {
   id: number;
@@ -88,11 +92,13 @@ const RolesBody = () => {
   const [canCreate, setCanCreate] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const [canDelete, setCanDelete] = useState(false);
+  const { setOpenNav } = useSetOpenNav();  
+  const [canManage, setCanManage] = useState(false);
 
   useEffect(() => {
     if (context?.loginUserData) {
         const data = context?.loginUserData?.role?.permissions;
-        const filteredData = data.filter((item: any) => item.id === 12);
+        const filteredData = data.filter((item: any) => item.id === 16);
         if (filteredData.length > 0) {
             setCanDelete(true);
         } else {
@@ -105,7 +111,7 @@ const RolesBody = () => {
 useEffect(() => {
     if (context?.loginUserData) {
         const data = context?.loginUserData?.role?.permissions;
-        const filteredData = data.filter((item: any) => item.id === 11);
+        const filteredData = data.filter((item: any) => item.id === 15);
         if (filteredData.length > 0) {
             setCanEdit(true);
         } else {
@@ -117,7 +123,7 @@ useEffect(() => {
 useEffect(() => {
   if (context?.loginUserData) {
       const data = context?.loginUserData?.role?.permissions;
-      const filteredData = data.filter((item: any) => item.id === 10);
+      const filteredData = data.filter((item: any) => item.id === 14);
       if (filteredData.length > 0) {
           setCanCreate(true);
       } else {
@@ -348,6 +354,9 @@ useEffect(() => {
     }
   }
 
+
+  
+
   // console.log(rolesList)
 
   return (
@@ -359,6 +368,20 @@ useEffect(() => {
         }
       }}
     >
+
+            <div className="py-2 mb-2">
+                        <div className="mobile-only">
+                          
+                              <List
+                                className="burger"
+                                onClick={() => setOpenNav(true)}
+                              />
+                        
+                        </div>
+                      </div>
+
+
+
       <DeleteRoleModal
         deleteModalOpen={deleteModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
@@ -384,6 +407,7 @@ useEffect(() => {
                     <h5 className="head-font">Roles</h5>
                    
 
+                    {(canCreate && canEdit && canDelete) && (
                         <button 
                             className="btn  d-block d-md-none"
                             style={{color: "#0080FC", fontWeight:"500"}}
@@ -393,7 +417,7 @@ useEffect(() => {
                           >
                             Manage
                           </button> 
-
+                    )}
 
                       <button
                             // className="btn btn-primary w-100 mx-auto"
@@ -419,7 +443,6 @@ useEffect(() => {
 
           {/* //webview */}
             <div
-              // className= {`${rolesList.length>10 ? "roleBodyLeft d-none d-md-block " : "heightscroll"} `}
               className= "roleBodyLeft d-none d-md-block"
             >
               {rolesList.length>0 && rolesList.map((role, index) => {
@@ -619,7 +642,7 @@ useEffect(() => {
 
             {/* phone view */}
             <div
-              className=" roleBodyLeft  d-md-none "
+              className=" roleBodyLeft  d-md-none"
             >
               {rolesList.length>0 && rolesList.map((role, index) => {
                 if ((selectedRole) && selectedRole.id === role.id) {
@@ -820,6 +843,13 @@ useEffect(() => {
                 );
               })}
             </div>
+
+
+  
+
+
+
+            
 
           </div>
         </div>
@@ -1120,7 +1150,12 @@ useEffect(() => {
                                           // console.log("^^^ PERMISSION NAME: ", editRoleData)
                                           setRoleData({
                                             ...roleData,
-                                            ...editRoleData
+                                            ...editRoleData,
+                                            permissions: editRoleData.permissions.filter((item,     index, self) =>
+                                              index === self.findIndex((t) => (
+                                                  t.id === item.id && t.name === item.name
+                                              ))
+                                            )
                                           });
                                         }else{
                                           editRoleData.permissions.push(findPermission);
@@ -1135,7 +1170,12 @@ useEffect(() => {
                                           })
                                           setRoleData({
                                             ...roleData,
-                                            ...editRoleData                                            
+                                            ...editRoleData,
+                                            permissions: editRoleData.permissions.filter((item,     index, self) =>
+                                              index === self.findIndex((t) => (
+                                                  t.id === item.id && t.name === item.name
+                                              ))
+                                            )                                          
                                           })
                                         }
                                         // editRoleData.permissions = editPermissionsData
@@ -1279,7 +1319,7 @@ useEffect(() => {
              
                      {/* mobile screen */}
 
-                     <div className="table-responsive bg-white d-block d-md-none"
+                     <div className="table-responsive bg-white d-block d-md-none "
                 style={{ minHeight: "535px", maxHeight: "535px",}}
               >
                 <table className="table  border ">
@@ -1514,7 +1554,12 @@ useEffect(() => {
                                           // console.log("^^^ PERMISSION NAME: ", editRoleData)
                                           setRoleData({
                                             ...roleData,
-                                            ...editRoleData
+                                            ...editRoleData,
+                                            permissions: editRoleData.permissions.filter((item,     index, self) =>
+                                              index === self.findIndex((t) => (
+                                                  t.id === item.id && t.name === item.name
+                                              ))
+                                            )
                                           });
                                         }else{
                                           editRoleData.permissions.push(findPermission);
@@ -1529,7 +1574,12 @@ useEffect(() => {
                                           })
                                           setRoleData({
                                             ...roleData,
-                                            ...editRoleData                                            
+                                            ...editRoleData,
+                                            permissions: editRoleData.permissions.filter((item,     index, self) =>
+                                              index === self.findIndex((t) => (
+                                                  t.id === item.id && t.name === item.name
+                                              ))
+                                            )                                           
                                           })
                                         }
                                         // editRoleData.permissions = editPermissionsData

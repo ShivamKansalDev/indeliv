@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./RolesModalPhone.css";
 import { Button, Dropdown, Form, Modal } from "react-bootstrap";
-import { createRole, updateRole, viewRole } from "@/api/roles";
+import { createRole, deleteRole, updateRole, viewRole } from "@/api/roles";
 import { getRoles } from "@/api/users";
 import { Role } from "./RolesBody";
 import { LoginUserContext } from "@/App";
 import _ from "lodash";
+import DeleteRoleModal from "./DeleteRoleModal";
 
 interface RoleData {
   id: number;
@@ -38,12 +39,41 @@ const RolesModalPhone = (props: any) => {
   const [saveTitle, setSaveTitle] = useState<string>("Save");
   const [changeDetected, setChangeDetected] = useState<boolean>(false);
 
+  const [canEdit, setCanEdit] = useState(false);
+  const [canDelete, setCanDelete] = useState(false);
 
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const handleSearchChange = (e: any) => { 
     const searchTerm = e.target.value;
     setSearchItem(searchTerm)
   }
+
+  useEffect(() => {
+    if (context?.loginUserData) {
+        const data = context?.loginUserData?.role?.permissions;
+        const filteredData = data.filter((item: any) => item.id === 15);
+        if (filteredData.length > 0) {
+            setCanEdit(true);
+        } else {
+          setCanEdit(false);
+        }
+    }
+}, [context]);
+  
+
+useEffect(() => {
+  if (context?.loginUserData) {
+      const data = context?.loginUserData?.role?.permissions;
+      const filteredData = data.filter((item: any) => item.id === 16);
+      if (filteredData.length > 0) {
+          setCanDelete(true);
+      } else {
+          setCanDelete(false);
+      }
+  }
+}, [context]);
+
   
   const searchData = (listofRoles : Role[]) =>{
     if(Array.isArray(listofRoles)){
@@ -110,6 +140,25 @@ const RolesModalPhone = (props: any) => {
     getRolesList();
   }, []);
 
+
+
+  const deleteRoleHandler = async()=>{
+    try{
+      if(selectedRole?.id){
+        setDeleteModalOpen(!deleteModalOpen);
+        const response = await deleteRole(selectedRole?.id);
+        setSelectedRole(null);
+        getRolesList();
+      }
+    } catch(error: any) {
+      if(error?.response?.status === 401){
+        alert("Users already exist in this role. Please remove them before deleting.");
+      }
+      console.log("Delete role error: ", error)
+    }
+  }
+
+
   async function getRolesList(id: number | null = null) {
     try {
       setLoading(true); // Set loading to true before making API call
@@ -153,7 +202,7 @@ const RolesModalPhone = (props: any) => {
   useEffect(() => {
     if (context?.loginUserData) {
       const data = context?.loginUserData?.role?.permissions;
-      const filteredData = data.filter((item: any) => item.id === 10);
+      const filteredData = data.filter((item: any) => item.id === 14);
       if (filteredData.length > 0) {
         setCanCreate(true);
       } else {
@@ -204,6 +253,10 @@ const RolesModalPhone = (props: any) => {
     }
   }
 
+
+
+
+
   const lookForChanges = () => {
     // console.log("PREV DATA: ", reserveRoleData, "\n\nCURRENT DATA: ", roleData);
     if(!_.isEqual(reserveRoleData, roleData)){
@@ -228,6 +281,17 @@ const RolesModalPhone = (props: any) => {
   };
   console.log(rolesList,'rolesList')
   return (
+
+    <div 
+      className="container-fluid px-0" 
+      onClick={() => {
+        if(showEditInput){
+          // setShowEditInput(false)
+        }
+      }}
+    >
+
+
     <div className="">
       <Modal
         show={roleModalOpen}
@@ -396,7 +460,7 @@ const RolesModalPhone = (props: any) => {
                </div>
 
 
-          <div className="vehicle-model d-flex gap-3 py-3 flex-wrap p-3">
+          {/* <div className="vehicle-model d-flex gap-3 py-3 flex-wrap p-3">
               
           {searchData(rolesList).length > 0 &&
           searchData(rolesList).map((role: Role, index: number) => {
@@ -454,43 +518,239 @@ const RolesModalPhone = (props: any) => {
                                 }
                               }
                               return item;
-                            })
-                            // console.log("@@@ CLICKED: ", newRoleList);
+                            }) 
                             setRolesList(newRoleList);
                           }}
                           style={{ right: "15px" }}
-                        >
-                          {/* <img src="/assets/Icon/close-circle.svg" alt="clear" /> */}
+                        > 
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                         <path d="M3.33337 12.6665L12.6666 3.33325" stroke="#667085" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                         <path d="M12.6666 12.6668L3.33337 3.3335" stroke="#667085" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
                         </button>
-                      )}
-                      {/* <button
-                        className="position-absolute top-50  translate-middle-y btn btn-link p-0 m-0"
-                        onClick={() => {
-                          editRole(index);
-                        }}
-                        disabled={editValue? false : true}
-                        style={{ right: "15px" }}
-                      >
-                        <span className="text-primary ">Save</span>
-                      </button> */}
+                      )} 
                     </div>
                   </>
                 )}
               </div>
             );
           })}
-        </div>
+           </div> */}
+
+
+              <div
+              className= "roleBodyLeft flexClass  d-md-none"
+            >
+
+          
+                  {searchData(rolesList).length > 0 &&   searchData(rolesList).map((role: Role, index: number) => {
+                if ((selectedRole) && selectedRole.id === role.id) {
+                  return (
+                    <>
+                    <div key={`userRole${index}`}>
+
+            <div className="">
+                      {showInput && (
+                        <>
+                          <div className="position-relative ">
+                            <input
+                              className="form-control mb-3"
+                              type="text"
+                              placeholder="Role Name"
+                              value={inputValue}
+                              onChange={handleInputChange}
+                            />
+                            {inputValue && (
+                              <button
+                                className="position-absolute top-50  translate-middle-y btn btn-link p-0 m-0"
+                                onClick={() => setInputValue("")}
+                                style={{ right: "15px" }}
+                              >
+                                <img src="/assets/Icon/close-circle.svg" alt="clear" />
+                              </button>
+                            )}
+                          </div>
+                        </>
+                      )}
+                      {(canCreate) && (              
+                        showInput ? (
+                          <button
+                            className="btn btn-primary w-100 mx-auto mb-3"
+                            onClick={handleAddRole}
+                          >
+                            {inputValue.trim() === "" ? "Close" : "Save"}
+                          </button>
+                        ) : (
+                        ""
+                        )
+                      )}
+                    </div>
+
+
+                      {(showEditInput && (role.id !== 1) && (role.id !== 2) && (role.id !== 3) && (role.id !== 4)) && (
+                        <>
+                          <div
+                            className="position-relative "
+                            style={{
+                              border: "1px solid rgb(0, 128, 252)",
+                              borderRadius: "7px",
+                              marginBottom: "5px",
+                            }}
+                          >
+                            <input
+                              className="form-control mb-1 w-75 border-0 mt-1"
+                              type="text"
+                              placeholder={role?.name}
+                              value={editValue ? editValue : role?.name}
+                              onChange={(e) => setEditValue(e.target.value)}
+                            />
+                            <button
+                              className="position-absolute top-50  translate-middle-y btn btn-link p-0 m-0"
+                              onClick={() => {
+                                editRole(index);
+                              }}
+                              disabled={!editValue.trimStart()}
+                              style={{ right: "15px" }}
+                            >
+                              <span className="text-primary ">Save</span>
+                            </button>
+                          </div>
+                        </>
+                      )}
+
+                      <div
+                        style={{
+                          cursor: "pointer", 
+                          color:"#0080FC",
+                          background: "rgba(236, 247, 255, 1)",
+                          border: "1px solid rgba(0, 128, 252, 1)",
+
+                        }}
+                        // bg-light text-secondary border border-light shadow-sm
+                        className="d-flex gap-3 justify-content-between align-items-center px-3 rounded py-1  bg-light text-secondary border border-light shadow-sm "
+                        key={`role${role.id}`}
+                        // onClick={() => {
+                        //   setShowInput(false);
+                        //   setShowEditInput(!showEditInput);
+                        // }}
+                      >
+                        <div className="py-2 lh-1" key={`role${role.id}`}  >
+                          <p className="m-0 title-font ">
+                            {role.name}
+                          </p>
+                          <small className="m-0 subTitle-font">
+                            ({role.users}) Users
+                          </small>
+                        </div>
+                        {((role?.id === 1) || (role?.id === 2) || (role?.id === 3) || (role?.id === 4)) ? (
+                          null
+                        )
+                        :
+                        (
+                          <div className="">
+                            <ul className="666 list-unstyled lh-lg d-flex gap-2 m-0">
+                              {canEdit && (
+                                <li
+                                  onClick={(e) => {
+                                    // e.stopPropagation();
+                                    handleEditClick();
+                                  }}
+                                >
+                                  <img
+                                    // src="/assets/Icon/Edit-White.svg"
+                                   src="/assets/Icon/Edit.svg"  
+                                    className=""
+                                    alt="edit"
+                                  />
+                                </li>
+                              )}
+                              {canDelete && (
+                                <li
+                                  onClick={(e) => {
+                                    // e.stopPropagation();
+                                    setDeleteModalOpen(!deleteModalOpen);
+                                  }}
+                                >
+                                  {/* <img
+                                    src="/assets/Icon/trash-white.svg"
+                                    alt="trash"
+                                  /> */}
+
+                              <img src="/assets/Icon/trash.svg" alt="trash" />
+                                </li>
+                              )}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                     
+                    </>
+                  );
+                }
+                return (
+                  <div key={`userRole${index}`}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setSaveTitle("Save");
+                      setChangeDetected(false);
+                      setSelectedRole(role);
+                      setShowEditInput(false);
+                      viewRoleAPI(role.id)
+                    }}
+                    className="d-flex gap-3 justify-content-between align-items-center px-3 py-1  bg-light text-secondary border border-light shadow-sm"
+                  >
+                        
+                    <div className="py-2 lh-1" key={`role${role.id}`}>
+                      <p className="m-0 title-font">{role.name}</p>
+                      <small className="m-0 subTitle-font">
+                        ({role.users}) Users
+                      </small>
+                    </div>
+                    {((role?.id === 1) || (role?.id === 2) || (role?.id === 3) || (role?.id === 4)) ? (
+                      null
+                    )
+                    :
+                    (
+                    <div className="">
+                      <ul className="list-unstyled lh-lg d-flex gap-2 m-0 ">
+                        {canEdit && (
+                          <li
+                            onClick={(e) => {
+                              // e.stopPropagation();
+                              handleEditClick();
+                            }}
+                          >
+                            <img src="/assets/Icon/Edit.svg" alt="edit" />
+                          </li>
+                        )}
+                        {(canDelete) && (
+                          <li
+                            onClick={(e) => {
+                              // e.stopPropagation();
+                              setDeleteModalOpen(!deleteModalOpen);
+                            }}
+                          >
+                            <img src="/assets/Icon/trash.svg" alt="trash" />
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+         
+
+
 
         </div>
 
         </>
         )}
 
-        <div className="d-flex justify-content-end generic-modal-footer generic-modal-footer2 g-6">
+        <div className="d-flex justify-content-end generic-modal-footer generic-modal-footer2  g-6">
                       {add ? (
                 <>
                   <Button
@@ -526,28 +786,41 @@ const RolesModalPhone = (props: any) => {
                   )}
                 </>
               ) : (
-                <Button
-                  variant="primary"
-                  className="generic_apply_button border_radius_8 w-100"
-                  onClick={() => {
-                    console.log("@@@ CLICKED: ");
-                    const findEmpty = rolesList.find((item) => item.name === "");
-                    if (findEmpty) {
-                      return;
-                    }
-                    const findIndex = rolesList.findIndex((item) => item.id === selectedRole?.id);
-                    if (findIndex > -1) {
-                      editRole(findIndex);
-                    }
-                    setAdd(true);
-                  }}
-                >
-                  {"Save"}
-                </Button>
+                // <Button
+                //   variant="primary"
+                //   className="generic_apply_button border_radius_8 w-100"
+                //   onClick={() => {
+                //     console.log("@@@ CLICKED: ");
+                //     const findEmpty = rolesList.find((item) => item.name === "");
+                //     if (findEmpty) {
+                //       return;
+                //     }
+                //     const findIndex = rolesList.findIndex((item) => item.id === selectedRole?.id);
+                //     if (findIndex > -1) {
+                //       editRole(findIndex);
+                //     }
+                //     setAdd(true);
+                //   }}
+                // >
+                //   {"Save"}
+                // </Button>
+
+                <div className=""></div>
               )}
 
         </div>
       </Modal>
+
+      <DeleteRoleModal
+        deleteModalOpen={deleteModalOpen}
+        setDeleteModalOpen={setDeleteModalOpen}
+        role={selectedRole}
+        deleteRoleHandler={deleteRoleHandler}
+      />
+    </div>
+
+
+
     </div>
   );
 };

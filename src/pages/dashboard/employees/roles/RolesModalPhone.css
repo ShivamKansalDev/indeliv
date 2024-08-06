@@ -72,4 +72,15 @@
   row-gap: 10px;            
  } */
 
+.flexClass{
+
+  display: grid ;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+  row-gap: 20px;    
   }
+
+  .generic-modal-footer2 .bgNone{
+    background-color: none !important;
+  }
+}
