@@ -445,12 +445,8 @@ useEffect(() => {
             <div
               className= "roleBodyLeft d-none d-md-block"
             >
-              {rolesList.length>0 && rolesList.map((role, index) => {
-                if ((selectedRole) && selectedRole.id === role.id) {
-                  return (
-                    <div key={`userRole${index}`}>
 
-            <div className="">
+                  <div className="">
                       {showInput && (
                         <>
                           <div className="position-relative ">
@@ -486,6 +482,13 @@ useEffect(() => {
                         )
                       )}
                     </div>
+
+              {rolesList.length>0 && rolesList.map((role, index) => {
+                if ((selectedRole) && selectedRole.id === role.id) {
+                  return (
+                    <div key={`userRole${index}`}>
+
+                 
 
 
                       {(showEditInput) && (
@@ -556,11 +559,12 @@ useEffect(() => {
                                     handleEditClick();
                                   }}
                                 >
+                                  {/* // src="/assets/Icon/Edit-White.svg" */}
                                   <img
-                                    // src="/assets/Icon/Edit-White.svg"
                                    src="/assets/Icon/Edit.svg"  
                                     className=""
                                     alt="edit"
+                                    style={{width:"20px", height:"20px"}}
                                   />
                                 </li>
                               )}
@@ -576,7 +580,7 @@ useEffect(() => {
                                     alt="trash"
                                   /> */}
 
-                              <img src="/assets/Icon/trash.svg" alt="trash" />
+                              <img src="/assets/Icon/trash.svg" alt="trash"    style={{width:"20px", height:"20px"}} />
                                 </li>
                               )}
                             </ul>
@@ -619,7 +623,7 @@ useEffect(() => {
                               handleEditClick();
                             }}
                           >
-                            <img src="/assets/Icon/Edit.svg" alt="edit" />
+                            <img src="/assets/Icon/Edit.svg" alt="edit"    style={{width:"20px", height:"20px"}} />
                           </li>
                         )}
                         {(canDelete) && (
@@ -629,7 +633,7 @@ useEffect(() => {
                               setDeleteModalOpen(!deleteModalOpen);
                             }}
                           >
-                            <img src="/assets/Icon/trash.svg" alt="trash" />
+                            <img src="/assets/Icon/trash.svg" alt="trash"    style={{width:"20px", height:"20px"}} />
                           </li>
                         )}
                       </ul>
@@ -845,7 +849,6 @@ useEffect(() => {
             </div>
 
 
-  
 
 
 
@@ -858,11 +861,16 @@ useEffect(() => {
             className="bg-white border"
             style={{ borderRadius: "12px", overflow: "hidden" }}
           >
+
+
             <div
               className="p-3 pb-1 border-bottom"
               style={{ backgroundColor: "#F9FAFB", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px" }}
             >
               
+              
+
+
 
               <h5 className="head-font  d-none d-md-block">{selectedRole?.name || "--"}</h5>
               <h5 className="head-font d-block d-md-none">{ selectedRole?.name   || "--"}
@@ -871,83 +879,85 @@ useEffect(() => {
                       ({selectedRole?.users || "0"}) Users
                     </small>
                       </h5>
-           
-                  
 
-              {(canEdit) && (
-                <div className="d-none d-md-flex justify-content-end g-6 ">
-                  {((selectedRole?.id === 1)|| (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4))? (
-                    <Button variant="light" className="fs-6 lh-lg px-5 border"  
-                      onClick={() => {
-                        setRoleData(reserveRoleData);
-                        setChangeDetected(false);
-                      }}
-                      disabled={true}
-                    >
-                      Cancel
-                    </Button>
-                  )
-                  :
-                  (
-                    <Button variant="light" className="fs-6 lh-lg px-5 border "  
-                      onClick={() => {
-                        const stringifyData = JSON.stringify(reserveRoleData);
-                        setChangeDetected(false);
-                        setRoleData(JSON.parse(stringifyData));
-                      }}
-                      disabled={!changeDetected}
-                    >
-                      Cancel
-                    </Button>
-                  )}
-                  {((selectedRole?.id === 1)|| (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4))? (
-                    <Button className="primary fs-6 lh-lg px-5" variant="primary"
-                      disabled={true}
-                      onClick={() => {
-                        let permissionString = "";
-                        roleData?.permissions.forEach((item, index) => {
-                          permissionString += `${item.id}${(index < (roleData.permissions.length - 1))? ',' : ''}`
-                        })
-                        const createNewData = {
-                          name: roleData?.name,
-                          permissions: permissionString
-                        }
-                        console.log("@@@ PERMISSION: ", createNewData);
-                        const url = `${roleData?.id}?name=${createNewData.name}&permissions=${createNewData.permissions}`;
-                        updateRoleAPI(url);
-                      }}
-                    >
-                      Save
-                    </Button>
-                  )
-                  :
-                  (
-                    <Button className="primary fs-6 lh-lg px-5" variant="primary" 
-                      disabled={!changeDetected}
-                      onClick={() => {
-                        let permissionString = "";
-                        roleData?.permissions.forEach((item, index) => {
-                          permissionString += `${item.id}${(index < (roleData.permissions.length - 1))? ',' : ''}`
-                        })
-                        const createNewData = {
-                          name: roleData?.name,
-                          permissions: permissionString
-                        }
-                        console.log("@@@ PERMISSION: ", createNewData);
-                        const url = `${roleData?.id}?name=${createNewData.name}&permissions=${createNewData.permissions}`;
-                        updateRoleAPI(url);
-                      }}
-                    >
-                      {saveTitle}
-                    </Button>
-                  )}
-                </div>
-              )}
+                {(canEdit) && (
+                    <div className="d-none d-md-flex justify-content-end g-6 ">
+                      {((selectedRole?.id === 1)|| (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4))? (
+                        <Button variant="light" className="border" style={{height:"42px", width:"133px"}}  
+                          onClick={() => {
+                            setRoleData(reserveRoleData);
+                            setChangeDetected(false);
+                          }}
+                          disabled={true}
+                        >
+                          Cancel
+                        </Button>
+                      )
+                      :
+                      (
+                        <Button variant="light" className="border" style={{height:"42px", width:"133px"}}  
+                          onClick={() => {
+                            const stringifyData = JSON.stringify(reserveRoleData);
+                            setChangeDetected(false);
+                            setRoleData(JSON.parse(stringifyData));
+                          }}
+                          disabled={!changeDetected}
+                        >
+                          Cancel
+                        </Button>
+                      )}
+                      {((selectedRole?.id === 1)|| (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4))? (
+                        <Button className="primary"  style={{height:"42px", width:"133px"}}  variant="primary"
+                          disabled={true}
+                          onClick={() => {
+                            let permissionString = "";
+                            roleData?.permissions.forEach((item, index) => {
+                              permissionString += `${item.id}${(index < (roleData.permissions.length - 1))? ',' : ''}`
+                            })
+                            const createNewData = {
+                              name: roleData?.name,
+                              permissions: permissionString
+                            }
+                            console.log("@@@ PERMISSION: ", createNewData);
+                            const url = `${roleData?.id}?name=${createNewData.name}&permissions=${createNewData.permissions}`;
+                            updateRoleAPI(url);
+                          }}
+                        >
+                          Save
+                        </Button>
+                      )
+                      :
+                      (
+                        <Button className="primary"  style={{height:"42px", width:"133px"}}  variant="primary" 
+                          disabled={!changeDetected}
+                          onClick={() => {
+                            let permissionString = "";
+                            roleData?.permissions.forEach((item, index) => {
+                              permissionString += `${item.id}${(index < (roleData.permissions.length - 1))? ',' : ''}`
+                            })
+                            const createNewData = {
+                              name: roleData?.name,
+                              permissions: permissionString
+                            }
+                            console.log("@@@ PERMISSION: ", createNewData);
+                            const url = `${roleData?.id}?name=${createNewData.name}&permissions=${createNewData.permissions}`;
+                            updateRoleAPI(url);
+                          }}
+                        >
+                          {saveTitle}
+                        </Button>
+                      )}
+                    </div>
+                  )}  
+
+            
             </div>
 
             <div
               className="overflow-y-scroll p-3 bg-pure-white"
             >
+
+              
               {/* webscreen code */}
               <div className="table-responsive bg-white d-none d-md-block"
                 style={{ minHeight: "535px", maxHeight: "535px"}}
@@ -1727,34 +1737,8 @@ useEffect(() => {
                 </div>
                      )}
 
-              </div>
+                   </div>
              
-
-
-
-                      {/* <div>
-                        <p>Invoivces</p>
-                        <div className="d-flex justify-content-between">
-                        <div className="d-flex gap-3 align-content-center ">
-                          <input type="checkbox" /> 
-                          <p>View</p>
-                        </div>
-                        <div className="d-flex gap-3 align-content-center ">
-                          <input type="checkbox" /> 
-                          <p>Edit</p>
-                        </div>
-                        <div className="d-flex gap-3 align-content-center ">
-                          <input type="checkbox" /> 
-                          <p>Create</p>
-                        </div>
-                        <div className="d-flex gap-3 align-content-center ">
-                          <input type="checkbox" /> 
-                          <p>Delete</p>
-                        </div>
-                        </div>
-                      </div> */}
-
-                 
 
             </div>
           </div>

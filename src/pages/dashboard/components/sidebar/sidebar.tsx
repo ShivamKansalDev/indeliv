@@ -12,10 +12,11 @@ interface SidebarProps {
 }
 
 
-export default function SideBar({ setOpenNav }: SidebarProps) {
+export default function SideBar({ setOpenNav, }: SidebarProps) {
   const context = useContext(LoginUserContext);
   const [userData, setUserData] = useState<any>({});
   const [selectedEmployee, setSelectedEmployee] = useState<boolean>(false);
+  
   useEffect(() => {
     // console.log("data changed", data);
     // console.log(context?.loginUserData, 'auth')
@@ -161,7 +162,7 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
                           src={menu?.icon(location.pathname.startsWith("/dashboard/employees") ? true : false)}
                           alt={menu?.name}
                         />
-                        <span>{menu?.name}</span>
+                        <span style={{fontSize:"16px", fontWeight:"500"}}>{menu?.name}</span>
                       </div>
                       <img
                         style={{transform: (!selectedEmployee && !location.pathname.startsWith(menu.link)) ? 'rotate(0deg)' : (selectedEmployee && location.pathname.startsWith(menu.link))? 'rotate(0deg)' : 'rotate(180deg)' }} 
@@ -171,10 +172,9 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
                     </Link>
 
                   <div className="d-flex align-items-start justify-content-end" style={{gap:"12px"}} >
-                  
 
-                  {(selectedEmployee && (menu.name === "Employees")) && (<img  src='/assets/Icon/Union.svg' alt='union'/> )}
-                <div style={{width:"70%"}}>
+                  {(selectedEmployee && (menu.name === "Employees")) && (<img  src='/assets/Icon/Union.svg' alt='union' style={{height:"63px"}} /> )}
+                <div style={{width:"70%"}} >
                     {(selectedEmployee && (menu.name === "Employees")) && (
                       (Array.isArray(menu?.screens)) && menu?.screens?.map((screen: any) => {
                         if(!screen?.hasAccess){
@@ -187,11 +187,11 @@ export default function SideBar({ setOpenNav }: SidebarProps) {
 
                             <div style={{ 
                                 marginTop: screen.name === 'Roles' ? '-7px' : '10px' 
-                              }}  key={screen?.id} >
+                              }}  key={screen?.id} onClick={() => setOpenNav?.(false)} >
                               <p style={{ 
                               backgroundColor: location.pathname.includes(screen?.name?.toLowerCase()) ? "#ECF7FF" : 'transparent', 
                               color: location.pathname.includes(screen?.name?.toLowerCase()) ? "#0080FC" : "#767676",
-                              padding: "5px", borderRadius: "5px"}}>{screen?.name}</p>
+                              padding: "5px", borderRadius: "5px",fontSize:"14px",fontWeight:450}}>{screen?.name}</p>
                             </div>
                           </Link>
                         );

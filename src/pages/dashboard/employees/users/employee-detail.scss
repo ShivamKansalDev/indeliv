@@ -56,7 +56,7 @@
   justify-content: space-around;
   gap: 3px;
   border-radius: 10px;
-  border: 2px solid #E6E8EC;
+  border: 1px solid #E6E8EC;
   .details img{
     border-radius: 10px;
   }
@@ -64,7 +64,8 @@
     width: 100%;
     font-size: 13px;
     display: flex;
-    align-items: center;
+    // align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     padding: 10px 0 10px 10px;
     // gap: 10px;
@@ -75,23 +76,24 @@
       .name_text {
         font-size: 14px;
         font-weight: 600;
+        color: #1D2939 !important;
       }
     }
     .suspended {
       color: orange;
       // padding: 10px 20px;
       padding: 10px;
-      margin: 20px -1px;
-      border-right: 2px solid orange;
+      // margin: 20px -1px;
+      border-right: 1px solid orange;
       background: rgb(255,255,255);
       background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,165,0,0.5) 100%);
       
     }
     .active {
       color: #12B76A;
-      margin: 20px -1px;
+      // margin: 20px -1px;
       padding: 10px 20px;
-      border-right: 2px solid #12B76A;
+      border-right: 1px solid #12B76A;
       background: rgb(255,255,255);
       background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(18,183,106,0.5) 100%);
 
@@ -119,25 +121,28 @@
     background-color: white;
     color: black;
     font-weight: 500;
+    height:36px
   }
   .options button.delete{
     border: none;
    background: rgba(238, 106, 95, 0.08);
     color: #EE6A5F;
     font-weight: 500;
+    height:38px
   }
   .options button.activate{
     background:rgba(255, 239, 209, 1);
    border: 1px solid rgba(255, 239, 209, 1);
     color:rgba(253, 176, 34, 1);
-    ;
     font-weight: 500;
+    height:36px
   }
   .options button.deactivate{
     background: #D3FAE1; 
     border: 1px solid #D3FAE1;
     color: #12B76A;
     font-weight: 500;
+    height:36px
   }
 
   .employee_image{

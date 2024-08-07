@@ -339,11 +339,11 @@ useEffect(() => {
               <span className="name_text">{item.name}</span>
               <div className="d-flex gap-2 gap_employee_number"> 
                 <img src="/assets/Icon/Phone Number.svg" alt="phone number" />
-                <span>+{item.phone}</span>
+                <span style={{color:"#667085"}}>+{item.phone}</span>
               </div>
               <div className="d-flex gap-2 gap_employee_number"> 
                 <img src="/assets/Icon/Manager.svg" alt="role"  className="employee_number"/>
-                <span className="truncate-text">{item.role_name}</span>
+                <span style={{color:"#667085"}} className="truncate-text">{item.role_name}</span>
               </div>
             </div>
           </div>
