@@ -112,30 +112,47 @@ const VehicleModal = (props : any) => {
 
 
         <Modal.Header closeButton className="modal-header mx-2 px-0 pt-1 pb-3 mb-3 generic-modal-header">
-          <Modal.Title className="generic_modal_title">{add? 'Add Vehicle' : 'Edit Vehicle'}</Modal.Title>
+          <Modal.Title className="generic_modal_title" style={{fontWeight:"600"}}>{add? 'Add Vehicle' : 'Edit Vehicle'}</Modal.Title>
         </Modal.Header>
-        <div className=" d-flex justify-content-between">
-          <p className="p-1">Vehicle Type</p>
-          <p className="fw-bold" style={{ color: "#0080FC", cursor: "pointer" }} onClick={() => setShowManageModal()}>
+        <div className="d-flex justify-content-between">
+          <p className="p-1" style={{fontSize:"14px", fontWeight:"400"}}>Vehicle Type</p>
+          <p className="fw-bold" style={{ color: "#0080FC", cursor: "pointer", fontSize: "14px", fontWeight: "500" }} onClick={() => setShowManageModal()}>
             Manage
           </p>
         </div>
 
-        <Dropdown onSelect={handleSelect}>
+        <Dropdown onSelect={handleSelect} >
           <Dropdown.Toggle
             variant="secondary"
             id="dropdown-basic"
-            className="custom-dropdown-toggle res"
+            className="custom-dropdown-toggle res too" 
           >
             {selectedOption}
+            <svg
+                    className="logout-arrow"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.5999 7.4585L11.1666 12.8918C10.5249 13.5335 9.4749 13.5335 8.83324 12.8918L3.3999 7.4585"
+                      stroke="#667085"
+                      stroke-width="1.5"
+                      stroke-miterlimit="10"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
           </Dropdown.Toggle>
 
           <Dropdown.Menu className="custom-dropdown-menu">
             {(selectedOption) && (
                 <div className="d-flex justify-content-between position-relative">
 
-                <Dropdown.Item key={'selectRole1'} className={"bgClass"} eventKey={selectedOption}>{selectedOption}</Dropdown.Item>
-                <div className="position-absolute top-0 end-0 p-1">
+                <Dropdown.Item key={'selectRole1'}        style={{color:"#0080FC",fontWeight:"500",fontSize:"14px"}} className={"bgClass"} eventKey={selectedOption}>{selectedOption}</Dropdown.Item>
+                <div className="position-absolute top-0 end-0" >
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="9" viewBox="0 0 12 9" fill="none"> <path d="M1.33325 5.4165L3.99992 8.08317L10.6666 1.4165" stroke="#0095FF" stroke-width="1.50035" stroke-linecap="round" stroke-linejoin="round"/> </svg>
                 </div>
                 </div>
@@ -148,26 +165,27 @@ const VehicleModal = (props : any) => {
                 return null;
               }
               return (
-                <Dropdown.Item key={`type${vehicle.id}`} eventKey={vehicle.name}>{vehicle.name}</Dropdown.Item>
+                <Dropdown.Item key={`type${vehicle.id}`}        style={{color:"rgb(102, 112, 133)", fontWeight:"400",fontSize:"14px"}} eventKey={vehicle.name}>{vehicle.name}</Dropdown.Item>
               );
             })}
           </Dropdown.Menu>
         </Dropdown>
 
-        <p className="m-2 mt-3 mb-3">License Plate</p>
+        <p className="m-2 mt-3 mb-3" style={{fontSize:"14px", fontWeight:"400"}}>License Plate</p>
         <div className="search-bar-input">
-          {/* <input
-            // value={searchTxt}
-            // onChange={(e) => setSearchTxt(e.target.value)}
-            type="search"
-            placeholder="UK07TA9074"
-            className="w-100 p-2 bor"
-          /> */}
+            {/* <input
+              // value={searchTxt}
+              // onChange={(e) => setSearchTxt(e.target.value)}
+              type="search"
+              placeholder="UK07TA9074"
+              className="w-100 p-2 bor"
+            /> */}
 
-{/* <Form.Label>Email address</Form.Label> */}
+         {/* <Form.Label>Email address</Form.Label> */}
               <Form.Control
                 type="text"
                 value={licensePlate}
+                style={{color:"rgb(102, 112, 133)"}}
                 placeholder="XXXXXXXXX"
                 autoFocus
                 onChange={(e) => {

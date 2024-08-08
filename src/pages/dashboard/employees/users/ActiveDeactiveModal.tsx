@@ -26,7 +26,10 @@ const ActiveDeactiveModal = (props: any) => {
         </div>
 
         <div className="flex d-flex justify-content-center my-3">
-          <h6>{user?.is_active ? "Are you sure you want to deactivate" : "Are you sure you want to activate"} {user?.name}?</h6>
+          <h6>{user?.is_active ? "Are you sure you want to deactivate" : "Are you sure you want to activate"}
+            
+          <p style={{textAlign:"center"}}>{user?.name}?</p>
+             </h6>
         </div>
 
       </div>

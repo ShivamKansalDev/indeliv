@@ -23,7 +23,7 @@ width: 500px; */
 
 .roleBodyLeft {
   height: 576px;
-  padding: 10px;
+  padding: 18px;
   overflow-y: scroll;
 }
 
@@ -71,6 +71,14 @@ width: 500px; */
   padding: 0;
   border: none; /* Optionally remove border if not needed */
   overflow: hidden;
+}
+
+.adad{
+  margin-bottom: 0.5rem !important;
+  padding: 0.5rem 0rem !important;
+}
+.marginTOp{
+  margin-top: 20px;
 }
 
 }

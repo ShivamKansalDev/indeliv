@@ -60,10 +60,10 @@
     margin-left: 10px;
 }
 .line-text {
-    padding: 0 10px;
-    font-size: 16px;
+    padding: 8px 16px;
+    font-size: 14px;
     font-weight: 500;
-    border-radius: 10px;
+    border-radius: 100px;
     color:#0080FC !important;
     background-color: #ECF7FF; 
 }

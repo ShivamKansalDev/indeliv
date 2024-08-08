@@ -197,61 +197,62 @@ const VehicleBody: React.FC = () => {
     return (
       <div key={`${item.id}userbody`} className="employee-card">
         <div className="details">
-          <div className="d-flex gap-3" >
+          <div className="d-flex gap-3 align-items-center" >
             {(item.vehicle_type.toLowerCase() === "scooter")&& (
-              <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px"}} className="px-3 py-2">
+              <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px" ,width:"80px", height:"80px" }} className="d-flex align-items-center justify-content-center px-3 py-2">
                 <img src="/assets/Icon/Scooter.svg" alt="user_image" />
+              
               </div>
             )}
             {(item.vehicle_type.toLowerCase() === "motor bike")&& (
-                <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px"}} className="px-3 py-2">
+                   <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px" ,width:"80px", height:"80px" }} className="d-flex align-items-center justify-content-center px-3 py-2">
               <img src="/assets/Icon/Motor Bike.svg" alt="user_image" />
               </div>
             )}
             {(item.vehicle_type.toLowerCase() === "three-wheeled")&& (
-                <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px"}} className="px-3 py-2">
+                   <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px" ,width:"80px", height:"80px" }} className="d-flex align-items-center justify-content-center px-3 py-2">
               <img src="/assets/Icon/Three-wheeled.svg" alt="user_image" />
               </div>
             )}
             {(item.vehicle_type.toLowerCase() === "car")&& (
-                <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px"}} className="px-3 py-2">
+                   <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px" ,width:"80px", height:"80px" }} className="d-flex align-items-center justify-content-center px-3 py-2">
               <img src="/assets/Icon/Car.svg" alt="user_image" />
             </div>
             )}
             {(item.vehicle_type.toLowerCase() === "truck")&& (
-                <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px"}} className="px-3 py-2">
+                   <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px" ,width:"80px", height:"80px" }} className="d-flex align-items-center justify-content-center px-3 py-2">
               <img src="/assets/Icon/Truck.svg" alt="user_image" />
             </div>
             )}
             {(item.vehicle_type.toLowerCase() === "refrigerated truck")&& (
-                <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px"}} className="px-3 py-2">
+                   <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px" ,width:"80px", height:"80px" }} className="d-flex align-items-center justify-content-center px-3 py-2">
               <img src="/assets/Icon/Refrigerated Truck.svg" alt="user_image" />
             </div>
             )}
             {(item.vehicle_type.toLowerCase() === "refrigerated van")&& (
-                <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px"}} className="px-3 py-2">
+                   <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px" ,width:"80px", height:"80px" }} className="d-flex align-items-center justify-content-center px-3 py-2">
               <img src="/assets/Icon/Refrigerated vans.svg" alt="user_image" />
             </div>
             )}
             {(item.vehicle_type.toLowerCase() === "mini truck")&& (
-                <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px"}} className="px-3 py-2">
+                   <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px" ,width:"80px", height:"80px" }} className="d-flex align-items-center justify-content-center px-3 py-2">
               <img src="/assets/Icon/Mini Truck.svg" alt="user_image" />
             </div>
             )}
             {(item.vehicle_type.toLowerCase() === "pick-up truck")&& (
-                <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px"}} className="px-3 py-2">
+                   <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px" ,width:"80px", height:"80px" }} className="d-flex align-items-center justify-content-center px-3 py-2">
               <img src="/assets/Icon/Pick-up trucks.svg" alt="user_image" />
             </div>
             )}
             {(item.vehicle_type.toLowerCase() === "van")&& (
-                <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px"}} className="px-3 py-2">
+                   <div style={{boxShadow: "0px 0px 24px 4px #0D99FF14 inset", borderRadius:"8px" ,width:"80px", height:"80px" }} className="d-flex align-items-center justify-content-center px-3 py-2">
               <img src="/assets/Icon/Van.svg" alt="user_image" />
             </div>
             )}
             <div className="name">
-              <span className="name_text">{item.vehicle_type}</span>
-              <div className="d-flex gap-2">
-                License Plate: <span>{item.name}</span>
+              <span className="name_text" style={{fontWeight:"500px", fontSize:"16px"}}>{item.vehicle_type}</span>
+              <div className="d-flex gap-2" style={{color: "rgb(102, 112, 133)"}}>
+                License Plate: <span >{item.name}</span>
               </div>
             </div>
           </div>
@@ -261,14 +262,14 @@ const VehicleBody: React.FC = () => {
           <div className="d-flex  gap-2">
             <button 
               className="activate " 
-              style={{borderColor:"#EAECF0", color:"#1D2939",fontWeight:"600", backgroundColor:"white"}} 
+              style={{borderColor:"#EAECF0", color:"#1D2939",fontWeight:"600", backgroundColor:"white", width:"59px", height:"36px"}} 
               onClick={() => setCurrentSelection(item)}
             >
                 Edit
             </button>
             <button
               className="delete"
-              style={{ fontWeight: "600", backgroundColor: "#EE6A5F/8%" }}
+              style={{ fontWeight: "600", backgroundColor: "#EE6A5F/8%" ,width:"77px", height:"36px"}}
               onClick={()=>{
                 setDeleteSelection(item);
               }}
@@ -300,13 +301,12 @@ const VehicleBody: React.FC = () => {
         {loading && (
           <div className="d-flex justify-content-center mt-4">
             <div className="loading-row newLoaderAnimation" >
-              
               <NewLoader cols={5} />
             </div>
           </div>
         )}
 
-        <div className="content" style={{padding:"16px 0px"}}>
+        <div className="content" style={{padding:"16px"}}>
           {!(debouncedSearch)? (vehiclesList?.map((item: Vehicle): ReactNode => renderItem(item)))
           :
           (

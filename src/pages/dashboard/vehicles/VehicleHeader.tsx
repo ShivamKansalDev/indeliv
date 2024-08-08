@@ -40,7 +40,7 @@ export default function VehicleHeader(props: any) {
           onClick={() => setSearchText("")}
           className="nav-links d-flex justify-content-between align-items-center w-md-100 g-0  m-0 text-12"
         >
-            <span className="navbar-link">Vehicles</span>
+            <span className="navbar-link" style={{fontSize:"18px"}}>Vehicles</span>
         </div>
         <div className="employee-right-bar">
             <div className="search-bar-input">

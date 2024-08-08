@@ -369,7 +369,7 @@ useEffect(() => {
       }}
     >
 
-            <div className="py-2 mb-2">
+                <div className="adad">
                         <div className="mobile-only">
                           
                               <List
@@ -391,20 +391,20 @@ useEffect(() => {
       {/* <div className="row d-none d-md-block"> */}
       <div className="  ">
         <div className="row">
-        <div className="col-md-5 ">
+        <div className="col-md-4 ">
           <div
-            className="bg-white   border border-radius "
-            style={{}}
+            className="bg-white border-radius "
+            style={{border:"1px solid white"}}
           >
 
       
            <div
-              className="p-3 pb-1 border-bottom"
+              className="p-3 pb-1 "
               style={{ backgroundColor: "#F9FAFB" }}
             >
             
-              <div style={{display: "flex", justifyContent: "space-between", alignItems:"center" }}>
-                    <h5 className="head-font">Roles</h5>
+              <div style={{display: "flex", justifyContent: "space-between", alignItems:"flex-end" }}>
+                    <h5 className="head-font" style={{color:"#667085"}}>Roles</h5>
                    
 
                     {(canCreate && canEdit && canDelete) && (
@@ -456,6 +456,7 @@ useEffect(() => {
                               placeholder="Role Name"
                               value={inputValue}
                               onChange={handleInputChange}
+                              style={{border: "1px solid rgb(0, 128, 252)"}}
                             />
                             {inputValue && (
                               <button
@@ -487,9 +488,6 @@ useEffect(() => {
                 if ((selectedRole) && selectedRole.id === role.id) {
                   return (
                     <div key={`userRole${index}`}>
-
-                 
-
 
                       {(showEditInput) && (
                         <>
@@ -528,20 +526,22 @@ useEffect(() => {
                           color:"#0080FC",
                           background: "rgba(236, 247, 255, 1)",
                           border: "1px solid rgba(0, 128, 252, 1)",
+                          height:"44px",
+                          padding:"12px 16px 12px 16px"
 
                         }}
-                        className="d-flex gap-3 justify-content-between align-items-center px-3 rounded py-1 "
+                        className="d-flex gap-3 justify-content-between align-items-center  rounded   "
                         key={`role${role.id}`}
                         // onClick={() => {
                         //   setShowInput(false);
                         //   setShowEditInput(!showEditInput);
                         // }}
                       >
-                        <div className="py-2 lh-1" key={`role${role.id}`} style={{display:"flex", justifyContent:"center", alignItems:"baseline", gap:"7px"}}>
-                          <p className="m-0 title-font ">
+                        <div className="" key={`role${role.id}`} style={{display:"flex", justifyContent:"center", alignItems:"baseline", gap:"7px"}}>
+                          <p className="m-0 title-font" style={{color:"#667085"}}>
                             {role.name}
                           </p>
-                          <small className="m-0 subTitle-font">
+                          <small className="m-0 subTitle-font" style={{color:"#667085"}}>
                             ({role.users}) Users
                           </small>
                         </div>
@@ -592,7 +592,7 @@ useEffect(() => {
                 }
                 return (
                   <div key={`userRole${index}`}
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer", padding:"12px 16px 12px 16px" }}
                     onClick={() => {
                       setSaveTitle("Save");
                       setChangeDetected(false);
@@ -600,12 +600,12 @@ useEffect(() => {
                       setShowEditInput(false);
                       viewRoleAPI(role.id)
                     }}
-                    className="d-flex gap-3 justify-content-between align-items-center px-3 py-1"
+                    className="d-flex gap-3 justify-content-between align-items-center   "
                   >
                         
-                    <div className="py-2 lh-1" key={`role${role.id}`} style={{display:"flex", justifyContent:"center", alignItems:"baseline", gap:"7px"}}>
-                      <p className="m-0 title-font">{role.name}</p>
-                      <small className="m-0 subTitle-font">
+                    <div className="" key={`role${role.id}`} style={{display:"flex", justifyContent:"center", alignItems:"baseline", gap:"7px"}}>
+                      <p className="m-0 title-font" style={{color:"#667085"}}>{role.name}</p>
+                      <small className="m-0 subTitle-font" style={{color:"#667085"}}>
                         ({role.users}) Users
                       </small>
                     </div>
@@ -738,11 +738,11 @@ useEffect(() => {
                         // }}
                       >
                         <div className="py-2 lh-1" key={`role${role.id}`} >
-                          <p className="m-0 title-font ">
+                          <p className="m-0 title-font" style={{color:"#0080FC"}}>
                             {role.name}
                           </p>
                           <div className='d-flex gap-1 mt-2 '>
-                          <small className="m-0 subTitle-font">
+                          <small className="m-0 subTitle-font" style={{color:"#0080FC"}}>
                             ({role.users} <small>Users</small>) 
                           </small>
                          
@@ -806,9 +806,9 @@ useEffect(() => {
                   >
                         
                     <div className="py-2 lh-1" key={`role${role.id}`} >
-                      <p className="m-0 title-font">{role.name}</p>
+                      <p className="m-0 title-font" style={{color:"#667085"}}>{role.name}</p>
                       <div className='d-flex gap-1 mt-2'>
-                      <small className="m-0 subTitle-font">
+                      <small className="m-0 subTitle-font" style={{color:"#667085"}}>
                             ({role.users} <small>Users</small>) 
                           </small>
                       </div>
@@ -847,33 +847,24 @@ useEffect(() => {
                 );
               })}
             </div>
-
-
-
-
-
-            
+   
 
           </div>
         </div>
-        <div className="col-md-7 marginTOp" onClick={() => setShowEditInput(false)}>
+        <div className="col-md-8 marginTOp" onClick={() => setShowEditInput(false)}>
           <div
-            className="bg-white border"
-            style={{ borderRadius: "12px", overflow: "hidden" }}
+            className="bg-white  "
+            style={{ borderRadius: "12px", overflow: "hidden", border:"1px solid white" , boxShadow:"2px 0px 4px 0px rgba(0, 0, 0, 0.1);"}}
           >
 
 
             <div
-              className="p-3 pb-1 border-bottom"
-              style={{ backgroundColor: "#F9FAFB", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px" }}
+              className="  "
+              style={{ backgroundColor: "#F9FAFB", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px" , padding:"10px 20px"}}
             >
-              
-              
 
-
-
-              <h5 className="head-font  d-none d-md-block">{selectedRole?.name || "--"}</h5>
-              <h5 className="head-font d-block d-md-none">{ selectedRole?.name   || "--"}
+              <h5 className="head-font  d-none d-md-block" style={{color:"#667085", marginBottom:"unset"}}>{selectedRole?.name || "--"}</h5>
+              <h5 className="head-font d-block d-md-none" style={{color:"#667085", marginBottom:"unset"}} >{ selectedRole?.name   || "--"}
 
                       <small className="m-0 subTitle-font" style={{}}>
                       ({selectedRole?.users || "0"}) Users
@@ -962,297 +953,299 @@ useEffect(() => {
               <div className="table-responsive bg-white d-none d-md-block"
                 style={{ minHeight: "535px", maxHeight: "535px"}}
               >
-                <table className="table  border ">
-                  <thead style={{ backgroundColor: "#F9FAFB" }} className="hideHead">
-                    
-                    <tr>
+                <div style={{ border: "1px solid #EAECF0 ", borderRadius: "8px"}}>
+                  <table className="table">
+                    <thead style={{ backgroundColor: "#F9FAFB" }} className="hideHead">
+                      
+                      <tr>
 
-                      <th style={{ backgroundColor: "#F9FAFB" }} scope="col">
-                        
-                        <p
-                          className="m-0 py-1"
-                          style={{ fontSize: "14px", fontWeight: "normal" }}
+                        <th style={{ backgroundColor: "#F9FAFB" , width: "209px"}} scope="col" >
+                          
+                          <p
+                            className="m-0 py-1"
+                            style={{ fontSize: "12px", fontWeight: 500, color:"#667085", padding:"12px 24px"}}
+                          >
+                            Module
+                          </p>
+                        </th>
+                        <th
+                          className="text-center"
+                          style={{ backgroundColor: "#F9FAFB" }}
+                          scope="col"
                         >
-                          Module
-                        </p>
-                      </th>
-                      <th
-                        className="text-center"
-                        style={{ backgroundColor: "#F9FAFB" }}
-                        scope="col"
-                      >
-                        <p
-                          className="m-0 py-1"
-                          style={{ fontSize: "14px", fontWeight: "normal" }}
+                          <p
+                            className="m-0 py-1"
+                            style={{ fontSize: "12px", fontWeight: 500, color:"#667085", padding:"12px 24px"}}
+                          >
+                            View
+                          </p>
+                        </th>
+                        <th
+                          className="text-center"
+                          style={{ backgroundColor: "#F9FAFB" }}
+                          scope="col"
                         >
-                          View
-                        </p>
-                      </th>
-                      <th
-                        className="text-center"
-                        style={{ backgroundColor: "#F9FAFB" }}
-                        scope="col"
-                      >
-                        <p
-                          className="m-0 py-1"
-                          style={{ fontSize: "14px", fontWeight: "normal" }}
+                          <p
+                            className="m-0 py-1"
+                            style={{ fontSize: "12px", fontWeight: 500, color:"#667085", padding:"12px 24px"}}
+                          >
+                            Create
+                          </p>
+                        </th>
+                        <th
+                          className="text-center"
+                          style={{ backgroundColor: "#F9FAFB" }}
+                          scope="col"
                         >
-                          Create
-                        </p>
-                      </th>
-                      <th
-                        className="text-center"
-                        style={{ backgroundColor: "#F9FAFB" }}
-                        scope="col"
-                      >
-                        <p
-                          className="m-0 py-1"
-                          style={{ fontSize: "14px", fontWeight: "normal" }}
+                          <p
+                            className="m-0 py-1"
+                            style={{ fontSize: "12px", fontWeight: 500, color:"#667085", padding:"12px 24px"}}
+                          >
+                            Edit
+                          </p>
+                        </th>
+                        <th
+                          className="text-center"
+                          style={{ backgroundColor: "#F9FAFB" }}
+                          scope="col"
                         >
-                          Edit
-                        </p>
-                      </th>
-                      <th
-                        className="text-center"
-                        style={{ backgroundColor: "#F9FAFB" }}
-                        scope="col"
-                      >
-                        <p
-                          className="m-0 py-1"
-                          style={{ fontSize: "14px", fontWeight: "normal" }}
-                        >
-                          Delete
-                        </p>
-                      </th>
-                    </tr>
-                    
-                  </thead>
-                  <tbody>
+                          <p
+                            className="m-0 py-1"
+                            style={{ fontSize: "12px", fontWeight: 500, color:"#667085", padding:"12px 24px"}}
+                          >
+                            Delete
+                          </p>
+                        </th>
+                      </tr>
+                      
+                    </thead>
+                    <tbody>
 
- 
-{/* 
-                        {!loading && (
-                                      <td className="d-flex justify-content-center">
-                                        <td className="loading-row newLoaderAnimation" >
-                                          <NewLoader cols={5} />
+  
+  {/* 
+                          {!loading && (
+                                        <td className="d-flex justify-content-center">
+                                          <td className="loading-row newLoaderAnimation" >
+                                            <NewLoader cols={5} />
+                                          </td>
                                         </td>
-                                      </td>
-                         )}  */}
+                          )}  */}
 
 
 
 
 
-                    {rolesScreen.map((screen) => {
+                      {rolesScreen.map((screen) => {
 
 
-                        {!loading && (
-                          <td className="d-flex justify-content-center">
-                            <td className="loading-row newLoaderAnimation" >
-                              <NewLoader cols={5} />
+                          {!loading && (
+                            <td className="d-flex justify-content-center">
+                              <td className="loading-row newLoaderAnimation" >
+                                <NewLoader cols={5} />
+                              </td>
                             </td>
-                          </td>
-             )} 
+              )} 
 
-    
+      
 
-                      return (
-                        <tr key={`${screen.id}`} className="">
-                          <td className="" scope="row">
-                            <p style={{}} className="my-1 py-1">
-                              {screen?.name}
-                            </p>
-                          </td>
-                         
-                     
-                          {screen.permissions.map((checkbox) => {
-                            const checked = roleData?.permissions.find((subId) => {
-                              return subId.id === checkbox;
-                            })
-                            // {{console.log(checked,"checked")}}
-                            if((screen.name.toLowerCase() === "invoices") && (checkbox === 2) || (checkbox === 3)){
-                              return (
-                                <td key={`${screen.name}${checkbox}`} className="text-center  ">
-                                  <div className="py-1" style={{ marginTop: "12px" }}/>
-                                </td>
-                              );
-                            } 
-                            if((screen.name.toLowerCase() === "audit-log") && (checkbox === 38) || (checkbox === 39) || (checkbox === 40)){
-                              return (
-                                <td key={`${screen.name}${checkbox}`} className="text-center">
-                                  <div className="py-1" style={{ marginTop: "12px" }}/>
-                                </td>
-                              );
-                            }
-                            if((screen.name.toLowerCase() === "sms-log") && (checkbox === 42) || (checkbox === 43) ||   (checkbox === 44)){
-                              return (
-                                <td key={`${screen.name}${checkbox}`} className="text-center">
-                                  <div className="py-1" style={{ marginTop: "12px" }}/>
-                                </td>
-                              );
-                            }
-                            // let disabled = false;
-                            if((selectedRole?.id === 1) || (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4)){
-                              // disabled = true;
-                              if(checked?.id === checkbox){
-                                return(
-                                  <td key={`${screen.name}${checkbox}`} className="text-center">
-                                    <img src="/assets/Icon/graycheckbox.svg" alt="graycheckbox" className="py-1" style={{width: "26px", height: "26px", marginTop: "10px"}}/>
+                        return (
+                          <tr key={`${screen.id}`} className="">
+                            <td className="" scope="row" style={{padding:"16px 24px 16px 24px"}}>
+                              <p style={{}} className="my-1">
+                                {screen?.name}
+                              </p>
+                            </td>
+                          
+                      
+                            {screen.permissions.map((checkbox) => {
+                              const checked = roleData?.permissions.find((subId) => {
+                                return subId.id === checkbox;
+                              })
+                              // {{console.log(checked,"checked")}}
+                              if((screen.name.toLowerCase() === "invoices") && (checkbox === 2) || (checkbox === 3)){
+                                return (
+                                  <td key={`${screen.name}${checkbox}`} className="text-center  ">
+                                    <div className="py-1" style={{ marginTop: "12px" }}/>
                                   </td>
-                                )
-                              }else{
-                                return(
+                                );
+                              } 
+                              if((screen.name.toLowerCase() === "audit-log") && (checkbox === 38) || (checkbox === 39) || (checkbox === 40)){
+                                return (
                                   <td key={`${screen.name}${checkbox}`} className="text-center">
-                                    <input
-                                      disabled={true}
-                                      style={{ marginTop: "12px",width: "19px", height: "19px"}}
-                                      className="py-1 empty-td"
-                                      type="checkbox"
-                                      name=""
-                                      checked={(checked?.id === checkbox)}
-                                      id={`${checkbox}`}
-                                    />
+                                    <div className="py-1" style={{ marginTop: "12px" }}/>
                                   </td>
-                                )
+                                );
                               }
-                            }
-                            return(
-                              <td key={`${screen.name}${checkbox}`} className="text-center">
-                                <input
-                                  disabled={!canEdit}
-                                  style={{ marginTop: "12px" ,width:"19px", height:"19px" }}
-                                  className="py-1"
-                                  type="checkbox"
-                                  name=""
-                                  onChange={() => {
-                                    const findPermission = permissions.find((item) => {
-                                      return item.id === checkbox
-                                    })
-                                    // console.log("@@@ CLICKED: ", findPermission);
-                                    if(findPermission){
-                                      let editRoleData: RoleData = Object.assign({}, roleData);
-                                      const findRoleDataPermission = editRoleData.permissions.find((findId) => {
-                                        return findId.id === findPermission.id
+                              if((screen.name.toLowerCase() === "sms-log") && (checkbox === 42) || (checkbox === 43) ||   (checkbox === 44)){
+                                return (
+                                  <td key={`${screen.name}${checkbox}`} className="text-center">
+                                    <div className="py-1" style={{ marginTop: "12px" }}/>
+                                  </td>
+                                );
+                              }
+                              // let disabled = false;
+                              if((selectedRole?.id === 1) || (selectedRole?.id === 2) || (selectedRole?.id === 3) || (selectedRole?.id === 4)){
+                                // disabled = true;
+                                if(checked?.id === checkbox){
+                                  return(
+                                    <td key={`${screen.name}${checkbox}`} className="text-center">
+                                      <img src="/assets/Icon/graycheckbox.svg" alt="graycheckbox" className="py-1" style={{width: "26px", height: "26px", marginTop: "10px"}}/>
+                                    </td>
+                                  )
+                                }else{
+                                  return(
+                                    <td key={`${screen.name}${checkbox}`} className="text-center">
+                                      <input
+                                        disabled={true}
+                                        style={{ marginTop: "12px",width: "19px", height: "19px"}}
+                                        className="py-1 empty-td"
+                                        type="checkbox"
+                                        name=""
+                                        checked={(checked?.id === checkbox)}
+                                        id={`${checkbox}`}
+                                      />
+                                    </td>
+                                  )
+                                }
+                              }
+                              return(
+                                <td key={`${screen.name}${checkbox}`} className="text-center">
+                                  <input
+                                    disabled={!canEdit}
+                                    style={{ marginTop: "12px" ,width:"19px", height:"19px" }}
+                                    className="py-1"
+                                    type="checkbox"
+                                    name=""
+                                    onChange={() => {
+                                      const findPermission = permissions.find((item) => {
+                                        return item.id === checkbox
                                       })
-                                      
-                                      if(!findRoleDataPermission){
-                                        console.log("@@@ CHECKED: ", findPermission);
-                                        const permissionName = findPermission.name.split("_");
-                                        (permissionName.length > 2)? permissionName.splice((permissionName.length - 1), 1) : permissionName.splice((permissionName.length - 1), 1);
-                                        // console.log("^^^ PERMISSION NAME: ", permissionName.join("_"))
-                                        const allSimilarPermissions = permissions.filter((item) => {
-                                          return item.name.includes(permissionName.join("_"))
-                                        })
-                                        let editPermissionsData = editRoleData.permissions.map((item) => item);
-                                        if(findPermission?.name.includes("delete")){
-                                          editPermissionsData = editPermissionsData.concat(allSimilarPermissions).filter((item,     index, self) =>
-                                              index === self.findIndex((t) => (
-                                                  t.id === item.id && t.name === item.name
-                                              ))
-                                          );
-                                          setRoleData({
-                                            ...roleData,
-                                            ...editRoleData,
-                                            permissions: editPermissionsData
-                                          })
-                                        }else if(findPermission?.name.includes("view")){
-                                          editRoleData.permissions.push(findPermission);
-                                          // console.log("^^^ PERMISSION NAME: ", editRoleData)
-                                          setRoleData({
-                                            ...roleData,
-                                            ...editRoleData,
-                                            permissions: editRoleData.permissions.filter((item,     index, self) =>
-                                              index === self.findIndex((t) => (
-                                                  t.id === item.id && t.name === item.name
-                                              ))
-                                            )
-                                          });
-                                        }else{
-                                          editRoleData.permissions.push(findPermission);
-                                          const newPermissions = allSimilarPermissions.filter((item) => {
-                                            if(item?.name.includes("delete") || item?.name.includes(findPermission?.name)){
-                                              return false;
-                                            }
-                                            return true;
-                                          });
-                                          newPermissions.forEach((item) => {
-                                            editRoleData.permissions.push(item);
-                                          })
-                                          setRoleData({
-                                            ...roleData,
-                                            ...editRoleData,
-                                            permissions: editRoleData.permissions.filter((item,     index, self) =>
-                                              index === self.findIndex((t) => (
-                                                  t.id === item.id && t.name === item.name
-                                              ))
-                                            )                                          
-                                          })
-                                        }
-                                        // editRoleData.permissions = editPermissionsData
-                                        // console.log("@@@ SIMILAR PERMISSION: ", editRoleData, "\n\n", editPermissionsData);
-                                      }else{
-                                        const findPermissionIndex = editRoleData.permissions.findIndex((findId) => {
+                                      // console.log("@@@ CLICKED: ", findPermission);
+                                      if(findPermission){
+                                        let editRoleData: RoleData = Object.assign({}, roleData);
+                                        const findRoleDataPermission = editRoleData.permissions.find((findId) => {
                                           return findId.id === findPermission.id
                                         })
-                                        if(findPermissionIndex > -1){
-                                          const uncheckPermission = editRoleData.permissions[findPermissionIndex];
-                                          if(uncheckPermission?.name.includes("view")){
-                                            const permissionName = uncheckPermission.name.split("_");
-                                            (permissionName.length > 2)? permissionName.splice((permissionName.length - 1), 1) : permissionName.splice((permissionName.length - 1), 1);
-                                            let editPermissionsData = editRoleData.permissions.map((item) => item).filter((item) => !item.name?.includes(permissionName.join("_")));
-                                            console.log("@@@ CHECK ALL: ", editPermissionsData);
+                                        
+                                        if(!findRoleDataPermission){
+                                          console.log("@@@ CHECKED: ", findPermission);
+                                          const permissionName = findPermission.name.split("_");
+                                          (permissionName.length > 2)? permissionName.splice((permissionName.length - 1), 1) : permissionName.splice((permissionName.length - 1), 1);
+                                          // console.log("^^^ PERMISSION NAME: ", permissionName.join("_"))
+                                          const allSimilarPermissions = permissions.filter((item) => {
+                                            return item.name.includes(permissionName.join("_"))
+                                          })
+                                          let editPermissionsData = editRoleData.permissions.map((item) => item);
+                                          if(findPermission?.name.includes("delete")){
+                                            editPermissionsData = editPermissionsData.concat(allSimilarPermissions).filter((item,     index, self) =>
+                                                index === self.findIndex((t) => (
+                                                    t.id === item.id && t.name === item.name
+                                                ))
+                                            );
                                             setRoleData({
                                               ...roleData,
                                               ...editRoleData,
                                               permissions: editPermissionsData
                                             })
-                                          }else if(uncheckPermission?.name.includes("delete") || uncheckPermission?.name.includes("edit")){
-                                            editRoleData.permissions = editRoleData.permissions.filter((item) => item.id !== uncheckPermission.id);
-                                            setRoleData(editRoleData);
-                                          }else{
-                                            const permissionName = uncheckPermission.name.split("_");
-                                            (permissionName.length > 2)? permissionName.splice((permissionName.length - 1), 1) : permissionName.splice((permissionName.length - 1), 1);
-                                            const allSimilarPermissions = permissions.filter((item) => {
-                                              return item.name.includes(permissionName.join("_"))
-                                            })
-                                            const onlyViewPermission = allSimilarPermissions.find((item) => item.name.includes("view"));
-                                            const newPermissions = editRoleData.permissions.map((item) => item).filter((item) => {
-                                              if(item.name?.includes(permissionName.join("_"))){
-                                                if(item?.id === onlyViewPermission?.id){
-                                                  return true;
-                                                }else{
-                                                  return false;
-                                                }
-                                              }else{
-                                                return item;
-                                              }
-                                            });
+                                          }else if(findPermission?.name.includes("view")){
+                                            editRoleData.permissions.push(findPermission);
+                                            // console.log("^^^ PERMISSION NAME: ", editRoleData)
                                             setRoleData({
                                               ...roleData,
                                               ...editRoleData,
-                                              permissions: newPermissions
+                                              permissions: editRoleData.permissions.filter((item,     index, self) =>
+                                                index === self.findIndex((t) => (
+                                                    t.id === item.id && t.name === item.name
+                                                ))
+                                              )
                                             });
+                                          }else{
+                                            editRoleData.permissions.push(findPermission);
+                                            const newPermissions = allSimilarPermissions.filter((item) => {
+                                              if(item?.name.includes("delete") || item?.name.includes(findPermission?.name)){
+                                                return false;
+                                              }
+                                              return true;
+                                            });
+                                            newPermissions.forEach((item) => {
+                                              editRoleData.permissions.push(item);
+                                            })
+                                            setRoleData({
+                                              ...roleData,
+                                              ...editRoleData,
+                                              permissions: editRoleData.permissions.filter((item,     index, self) =>
+                                                index === self.findIndex((t) => (
+                                                    t.id === item.id && t.name === item.name
+                                                ))
+                                              )                                          
+                                            })
                                           }
-                                          // editRoleData.permissions.splice(findPermissionIndex, 1)
+                                          // editRoleData.permissions = editPermissionsData
+                                          // console.log("@@@ SIMILAR PERMISSION: ", editRoleData, "\n\n", editPermissionsData);
+                                        }else{
+                                          const findPermissionIndex = editRoleData.permissions.findIndex((findId) => {
+                                            return findId.id === findPermission.id
+                                          })
+                                          if(findPermissionIndex > -1){
+                                            const uncheckPermission = editRoleData.permissions[findPermissionIndex];
+                                            if(uncheckPermission?.name.includes("view")){
+                                              const permissionName = uncheckPermission.name.split("_");
+                                              (permissionName.length > 2)? permissionName.splice((permissionName.length - 1), 1) : permissionName.splice((permissionName.length - 1), 1);
+                                              let editPermissionsData = editRoleData.permissions.map((item) => item).filter((item) => !item.name?.includes(permissionName.join("_")));
+                                              console.log("@@@ CHECK ALL: ", editPermissionsData);
+                                              setRoleData({
+                                                ...roleData,
+                                                ...editRoleData,
+                                                permissions: editPermissionsData
+                                              })
+                                            }else if(uncheckPermission?.name.includes("delete") || uncheckPermission?.name.includes("edit")){
+                                              editRoleData.permissions = editRoleData.permissions.filter((item) => item.id !== uncheckPermission.id);
+                                              setRoleData(editRoleData);
+                                            }else{
+                                              const permissionName = uncheckPermission.name.split("_");
+                                              (permissionName.length > 2)? permissionName.splice((permissionName.length - 1), 1) : permissionName.splice((permissionName.length - 1), 1);
+                                              const allSimilarPermissions = permissions.filter((item) => {
+                                                return item.name.includes(permissionName.join("_"))
+                                              })
+                                              const onlyViewPermission = allSimilarPermissions.find((item) => item.name.includes("view"));
+                                              const newPermissions = editRoleData.permissions.map((item) => item).filter((item) => {
+                                                if(item.name?.includes(permissionName.join("_"))){
+                                                  if(item?.id === onlyViewPermission?.id){
+                                                    return true;
+                                                  }else{
+                                                    return false;
+                                                  }
+                                                }else{
+                                                  return item;
+                                                }
+                                              });
+                                              setRoleData({
+                                                ...roleData,
+                                                ...editRoleData,
+                                                permissions: newPermissions
+                                              });
+                                            }
+                                            // editRoleData.permissions.splice(findPermissionIndex, 1)
+                                          }
                                         }
                                       }
-                                    }
-                                  }}
-                                  checked={(checked?.id === checkbox)}
-                                  id={`${checkbox}`}
-                                />
-                              </td>
-                            )
-                          })}
-                   
-                         
-                        </tr>
-                      );
-                    })}
-
+                                    }}
+                                    checked={(checked?.id === checkbox)}
+                                    id={`${checkbox}`}
+                                  />
+                                </td>
+                              )
+                            })}
                     
-                  </tbody>
-                </table>
+                          
+                          </tr>
+                        );
+                      })}
+
+                      
+                    </tbody>
+                  </table>
+                </div>
 
 
                 {(canEdit) && (

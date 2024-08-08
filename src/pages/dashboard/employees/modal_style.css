@@ -20,21 +20,25 @@
 }
 
 .generic_cancel_button {
-    padding: 12px;
+    padding: 10px 16px;
     border: 1px solid #eaecf0;
     background-color: #fff;
+    width: 88px !important;
+    height: 42px !important;
 }
 
 .edit_cancel_button {
-    padding: 8px 12px;
+    padding: 10px 16px;
     border: 1px solid #eaecf0;
     background-color: #fff;
     font-size: 14px !important;
+    font-weight: 600;
 }
 
 .generic_apply_button {
-    padding: 8px 12px;
+    padding: 10px 16px;
     font-size: 14px !important;
+    font-weight: 600;
 }
 
 .delete_button {
@@ -45,8 +49,10 @@
 
 .yes_button {
     background-color: #0080fc;
-    padding: 6px 20px !important;
+    padding: 10px 16px !important;
     border: none;
+    width: 88px !important;
+    height: 42px !important;
 }
 
 .no_button, .yes_button {
@@ -58,7 +64,7 @@
 }
 
 .generic_modal_title {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .deactivate-modal img {
